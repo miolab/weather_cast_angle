@@ -35,3 +35,8 @@ weather_cast_angle-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# OS
+.DS_Store
+
+# Others
+.vscode/
