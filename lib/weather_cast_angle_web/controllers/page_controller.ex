@@ -4,6 +4,15 @@ defmodule WeatherCastAngleWeb.PageController do
   def home(conn, _params) do
     # The home page is often custom made,
     # so skip the default app layout.
-    render(conn, :home, layout: false)
+
+    # TODO: WIP
+    response = "-- Sample responses --"
+
+    render(
+      conn,
+      :home,
+      response: response,
+      layout: false
+    )
   end
 end
