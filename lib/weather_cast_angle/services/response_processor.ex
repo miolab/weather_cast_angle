@@ -29,13 +29,61 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
     text |> String.split("\n", trim: true)
   end
 
-  @spec parse_date(String.t()) :: String.t()
+  @spec parse_tide_data(String.t()) :: %{
+          hourly_tide_levels: [integer()],
+          target_date: String.t(),
+          location_code: String.t(),
+          high_tide: [{integer(), integer()}],
+          low_tide: [{integer(), integer()}]
+        }
   @doc """
-  Convert date string "YYMMDD" to "YYYY-MM-DD" format.
+  Parses a given string representing tide data and returns a map with detailed tide information.
+
+  The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
   """
-  def parse_date(date_string) do
-    # TODO: 6桁数値文字列のバリデーション追加する
+  def parse_tide_data(string) do
+    string = String.replace(string, " ", "0")
+
+    hourly_tide_levels = String.slice(string, 0, 72) |> parse_hourly_tide_levels()
+    date = String.slice(string, 72, 6) |> parse_date()
+    location_code = String.slice(string, 78, 2)
+    high_tide = String.slice(string, 80, 28) |> parse_tide_times_and_levels()
+    low_tide = String.slice(string, 108, 28) |> parse_tide_times_and_levels()
+
+    %{
+      hourly_tide_levels: hourly_tide_levels,
+      target_date: date,
+      location_code: location_code,
+      high_tide: high_tide,
+      low_tide: low_tide
+    }
+  end
+
+  defp parse_hourly_tide_levels(string_sliced) do
+    # Parse hourly tide levels.
+    string_sliced
+    |> String.graphemes()
+    |> Enum.chunk_every(3)
+    |> Enum.map(&String.to_integer(Enum.join(&1)))
+  end
+
+  defp parse_tide_times_and_levels(string_sliced) do
+    # Parse string to high and low tide times and tide levels.
+    string_sliced
+    |> String.graphemes()
+    |> Enum.chunk_every(7)
+    |> Enum.map(fn chunk ->
+      {
+        Enum.slice(chunk, 0, 4) |> Enum.join(""),
+        Enum.slice(chunk, 4, 3) |> Enum.join("")
+      }
+    end)
+  end
+
+  defp parse_date(date_string) do
+    # Convert date string "YYMMDD" to "YYYY-MM-DD" format.
     date_string = String.replace(date_string, " ", "0")
+    # TODO: 6桁数値文字列のバリデーション追加する
 
     year =
       String.slice(date_string, 0, 2)
