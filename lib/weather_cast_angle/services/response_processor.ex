@@ -24,10 +24,11 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
   This function takes a single string as input and divides it at each newline character.
   The result is an array of strings, where each element corresponds to a line from the input string.
   """
-  def parsed_lines_array(text) do
-    # TODO: カラ文字の扱い あとで検討
+  def parsed_lines_array(text) when text !== "" do
     text |> String.split("\n", trim: true)
   end
+
+  def parsed_lines_array(text) when text === "", do: [""]
 
   @spec parse_tide_data(String.t()) :: %{
           hourly_tide_levels: [integer()],
@@ -83,7 +84,6 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
   defp parse_date(date_string) do
     # Convert date string "YYMMDD" to "YYYY-MM-DD" format.
     date_string = String.replace(date_string, " ", "0")
-    # TODO: 6桁数値文字列のバリデーション追加する
 
     year =
       String.slice(date_string, 0, 2)

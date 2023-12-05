@@ -22,4 +22,8 @@ defmodule WeatherCastAngle.Services.ResponseProcessor.ParsedLinesArrayTest do
              "sample report single line"
            ]
   end
+
+  test "When input string is empty, returns a list containing only empty string." do
+    assert WeatherCastAngle.Services.ResponseProcessor.parsed_lines_array("") == [""]
+  end
 end
