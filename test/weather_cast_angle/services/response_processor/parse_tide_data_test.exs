@@ -36,8 +36,8 @@ defmodule WeatherCastAngle.Services.ResponseProcessor.ParseTideDataTest do
       ],
       location_code: "AB",
       target_date: "2023-01-01",
-      high_tide: [{"0432", "152"}, {"1642", "167"}, {"9999", "999"}, {"9999", "999"}],
-      low_tide: [{"1027", "088"}, {"2338", "048"}, {"9999", "999"}, {"9999", "999"}]
+      high_tide: [{"04:32", 152}, {"16:42", 167}, {"99:99", 999}, {"99:99", 999}],
+      low_tide: [{"10:27", 088}, {"23:38", 048}, {"99:99", 999}, {"99:99", 999}]
     }
 
     assert actual == expected
