@@ -4,7 +4,7 @@ defmodule WeatherCastAngle.Services.ResponseProcessor.ParseTideDataTest do
   test "Parses tide data correctly" do
     actual =
       WeatherCastAngle.Services.ResponseProcessor.parse_tide_data(
-        " 76 99123141151152143129112 97 89 89100118139156165167160145121 93 68 5123 1 1AB 4321521642167999999999999991027 882338 4899999999999999"
+        " 76 99123141151152143129112 97 89 -1100118139156165167160145121 93 68 5123 1 1AB 4321521642167999999999999991027-102338 4899999999999999"
       )
 
     expected = %{
@@ -20,7 +20,7 @@ defmodule WeatherCastAngle.Services.ResponseProcessor.ParseTideDataTest do
         112,
         97,
         89,
-        89,
+        -1,
         100,
         118,
         139,
@@ -37,7 +37,7 @@ defmodule WeatherCastAngle.Services.ResponseProcessor.ParseTideDataTest do
       location_code: "AB",
       target_date: "2023-01-01",
       high_tide: [{"04:32", 152}, {"16:42", 167}, {"99:99", 999}, {"99:99", 999}],
-      low_tide: [{"10:27", 088}, {"23:38", 048}, {"99:99", 999}, {"99:99", 999}]
+      low_tide: [{"10:27", -10}, {"23:38", 48}, {"99:99", 999}, {"99:99", 999}]
     }
 
     assert actual == expected

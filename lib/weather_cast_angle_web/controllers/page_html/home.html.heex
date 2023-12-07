@@ -59,6 +59,18 @@
             <%= tide_level %>
           <% end %>
         </p>
+        <p>
+          High Tide |
+          <%= for {time, level} <- res.high_tide do %>
+            <%= time %> -> <%= level %> |
+          <% end %>
+        </p>
+        <p>
+          Low Tide |
+          <%= for {time, level} <- res.low_tide do %>
+            <%= time %> -> <%= level %> |
+          <% end %>
+        </p>
       </div>
     <% end %>
 
