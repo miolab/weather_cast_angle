@@ -1,0 +1,147 @@
+name: Elixir Code Check CI
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    name: Setup OTP ${{ matrix.otp-version }} / Elixir ${{ matrix.elixir-version }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        otp-version: ['26.x']
+        elixir-version: [1.15.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Init setup
+        run: echo "Init setup..."
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp-version }}
+          elixir-version: ${{ matrix.elixir-version }}
+      - name: Cache
+        id: cache-elixir
+        uses: actions/cache@v3
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-${{ hashFiles('mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-
+      - name: Install dependencies
+        if: steps.cache-elixir.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+      - name: Compile Dependencies
+        run: mix deps.compile --only-deps
+
+  mix-test:
+    name: Mix Test
+    needs: setup
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        otp-version: ['26.x']
+        elixir-version: [1.15.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp-version }}
+          elixir-version: ${{ matrix.elixir-version }}
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        id: cache-elixir
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-${{ hashFiles('mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Compile Dependencies
+        run: mix deps.compile --only-deps
+      - name: Mix Test
+        run: mix test
+
+  mix-dialyzer:
+    name: Mix Dialyzer
+    needs: setup
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        otp-version: ['26.x']
+        elixir-version: [1.15.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp-version }}
+          elixir-version: ${{ matrix.elixir-version }}
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        id: cache-elixir
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-${{ hashFiles('mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Compile Dependencies
+        run: mix deps.compile --only-deps
+      - name: Run mix dialyzer
+        run: mix dialyzer
+
+  mix-format:
+    name: Mix Format Check
+    needs: setup
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        otp-version: ['26.x']
+        elixir-version: [1.15.x]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up OTP and Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ matrix.otp-version }}
+          elixir-version: ${{ matrix.elixir-version }}
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        id: cache-elixir
+        with:
+          path: |
+            deps
+            _build
+            priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-${{ hashFiles('mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp-version }}-${{ matrix.elixir-version }}-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Compile Dependencies
+        run: mix deps.compile --only-deps
+      - name: Mix Format Check
+        run: mix format --check-formatted

@@ -2,7 +2,9 @@ defmodule WeatherCastAngleWeb.ErrorJSONTest do
   use WeatherCastAngleWeb.ConnCase, async: true
 
   test "renders 404" do
-    assert WeatherCastAngleWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
+    assert WeatherCastAngleWeb.ErrorJSON.render("404.json", %{}) == %{
+             errors: %{detail: "Not Found"}
+           }
   end
 
   test "renders 500" do
