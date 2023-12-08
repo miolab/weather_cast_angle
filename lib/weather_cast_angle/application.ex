@@ -9,7 +9,8 @@ defmodule WeatherCastAngle.Application do
   def start(_type, _args) do
     children = [
       WeatherCastAngleWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:weather_cast_angle, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:weather_cast_angle, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: WeatherCastAngle.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: WeatherCastAngle.Finch},
