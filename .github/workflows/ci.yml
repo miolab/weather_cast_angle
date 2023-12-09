@@ -1,4 +1,4 @@
-name: Elixir Code Check CI
+name: Mix Test, Mix Dialyzer, Mix Format Check CI
 
 on: push
 
