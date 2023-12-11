@@ -47,33 +47,36 @@
       />
     </svg>
 
-    <%!-- TODO: WIP --%>
-    <%= for res <- @response do %>
-      <div style="margin-bottom: 10px;">
-        <p>
-          Date | <%= res.target_date %>
-        </p>
-        <p>
-          Hourly tide levels (from 0 to 23 o'clock) |
-          <%= for tide_level <- res.hourly_tide_levels do %>
-            <%= tide_level %>
-          <% end %>
-        </p>
-        <p>
-          High Tide |
-          <%= for {time, level} <- res.high_tide do %>
-            <%= time %> -> <%= level %> |
-          <% end %>
-        </p>
-        <p>
-          Low Tide |
-          <%= for {time, level} <- res.low_tide do %>
-            <%= time %> -> <%= level %> |
-          <% end %>
-        </p>
-      </div>
-    <% end %>
+    <div style="margin-bottom: 10px;">
+      <canvas
+        class="chart-area"
+        data-tide-levels={@response.hourly_tide_levels |> Jason.encode!()}
+      >
+      </canvas>
+      <p class="date" data-date={@response.target_date}>
+        Date | <%= @response.target_date %>
+      </p>
+      <p>
+        Hourly tide levels (from 0 to 23 o'clock) |
+        <%= for tide_level <- @response.hourly_tide_levels do %>
+          <%= tide_level %>
+        <% end %>
+      </p>
+      <p>
+        High Tide |
+        <%= for {time, level} <- @response.high_tide do %>
+          <%= time %> -> <%= level %> |
+        <% end %>
+      </p>
+      <p>
+        Low Tide |
+        <%= for {time, level} <- @response.low_tide do %>
+          <%= time %> -> <%= level %> |
+        <% end %>
+      </p>
+    </div>
 
+    <%!-- TODO: 後で消す --%>
     <h1 class="text-brand mt-10 flex items-center text-sm font-semibold leading-6">
       Phoenix Framework
       <small class="bg-brand/5 text-[0.8125rem] ml-3 rounded-full px-2 font-medium leading-6">

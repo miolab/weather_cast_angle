@@ -1,5 +1,7 @@
 # WeatherCastAngle
 
+![example workflow](https://github.com/miolab/weather_cast_angle/actions/workflows/ci.yml/badge.svg)
+
 ## Overview
 
 This app is specifically designed to provide comprehensive information on tide levels, wind, weather, and more to help a fishing plan. :fish:
