@@ -1,4 +1,4 @@
-name: Mix Test, Mix Dialyzer, Mix Format Check CI
+name: Elixir CI
 
 on: push
 
@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        otp-version: ['26.x']
+        otp-version: ["26.x"]
         elixir-version: [1.15.x]
     runs-on: ${{ matrix.os }}
     steps:
@@ -50,7 +50,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        otp-version: ['26.x']
+        otp-version: ["26.x"]
         elixir-version: [1.15.x]
     runs-on: ${{ matrix.os }}
     steps:
@@ -84,7 +84,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        otp-version: ['26.x']
+        otp-version: ["26.x"]
         elixir-version: [1.15.x]
     runs-on: ${{ matrix.os }}
     steps:
@@ -118,7 +118,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        otp-version: ['26.x']
+        otp-version: ["26.x"]
         elixir-version: [1.15.x]
     runs-on: ${{ matrix.os }}
     steps:
