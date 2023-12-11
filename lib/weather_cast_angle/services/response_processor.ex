@@ -1,7 +1,18 @@
 defmodule WeatherCastAngle.Services.ResponseProcessor do
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
-  @spec get_response_body(pos_integer, String.t()) :: [String.t()]
+  @doc """
+  HTTP GET request and and return response body.
+  """
+  @spec get_response_body(pos_integer, String.t()) :: %{
+          String.t() => %{
+            hourly_tide_levels: [integer()],
+            target_date: String.t(),
+            location_code: String.t(),
+            high_tide: [{String.t(), integer()}],
+            low_tide: [{String.t(), integer()}]
+          }
+        }
   def get_response_body(year, location_code) do
     url = @target_url <> "#{year}/#{location_code}.txt"
     res = HTTPoison.get(url)
@@ -11,6 +22,7 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
         response_body
         |> parsed_lines_array()
         |> Enum.map(&parse_tide_data/1)
+        |> Enum.reduce(%{}, &Map.put(&2, &1.target_date, &1))
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         # TODO: エラー時にどう振る舞うかをちゃんと書く
@@ -18,19 +30,24 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
     end
   end
 
-  @spec parsed_lines_array(String.t()) :: [String.t()]
   @doc """
   Splits a given string into an array of strings, each representing a line.
 
   This function takes a single string as input and divides it at each newline character.
   The result is an array of strings, where each element corresponds to a line from the input string.
   """
+  @spec parsed_lines_array(String.t()) :: [String.t()]
   def parsed_lines_array(text) when text !== "" do
     text |> String.split("\n", trim: true)
   end
 
   def parsed_lines_array(text) when text === "", do: [""]
 
+  @doc """
+  Parses a given string representing tide data and returns a map with detailed tide information.
+
+  The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
+  """
   @spec parse_tide_data(String.t()) :: %{
           hourly_tide_levels: [integer()],
           target_date: String.t(),
@@ -38,11 +55,6 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
           high_tide: [{String.t(), integer()}],
           low_tide: [{String.t(), integer()}]
         }
-  @doc """
-  Parses a given string representing tide data and returns a map with detailed tide information.
-
-  The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
-  """
   def parse_tide_data(string) do
     hourly_tide_levels = String.slice(string, 0, 72) |> parse_hourly_tide_levels()
     date = String.slice(string, 72, 6) |> parse_date()
