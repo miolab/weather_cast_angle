@@ -1,16 +1,19 @@
 import Chart from "chart.js/auto";
 
 export function renderChart() {
-  const ctx = document.getElementById("chartArea");
+  const chartArea = document.querySelector(".chart-area");
+  const tideLevels = JSON.parse(chartArea.dataset.tideLevels);
 
-  new Chart(ctx, {
+  const date = document.querySelector(".date").dataset.date;
+
+  new Chart(chartArea, {
     type: "bar",
     data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      labels: Array.from({ length: 24 }, (_, i) => i.toString()),
       datasets: [
         {
-          label: "# of Votes",
-          data: [12, 19, 3, 5, 2, 3],
+          label: `${date} Tide Levels`,
+          data: tideLevels,
           borderWidth: 1,
         },
       ],
