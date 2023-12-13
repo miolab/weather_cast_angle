@@ -49,6 +49,8 @@ defmodule WeatherCastAngle.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:httpoison, "~> 2.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:tzdata, "~> 1.1"},
+      {:timex, "~> 3.7"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false}
     ]
