@@ -2,15 +2,14 @@ defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
   def home(conn, _params) do
-    # TODO: show today as default using timex
-    target_date = "2023-08-23"
+    current_date = WeatherCastAngle.Services.DaytimeProcessor.get_current_date_string()
 
-    response_map = fetch_response_map(target_date, "MO")
+    response_map = fetch_response_map(current_date, "MO")
 
     render(
       conn,
       :home,
-      response: response_map[target_date],
+      response: response_map[current_date],
       layout: false
     )
   end
