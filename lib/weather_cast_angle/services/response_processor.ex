@@ -57,7 +57,11 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
         }
   def parse_tide_data(string) do
     hourly_tide_levels = String.slice(string, 0, 72) |> parse_hourly_tide_levels()
-    date = String.slice(string, 72, 6) |> convert_date_format()
+
+    date =
+      String.slice(string, 72, 6)
+      |> WeatherCastAngle.Services.DaytimeProcessor.convert_date_format()
+
     location_code = String.slice(string, 78, 2)
     high_tide = String.slice(string, 80, 28) |> parse_tide_times_and_levels()
     low_tide = String.slice(string, 108, 28) |> parse_tide_times_and_levels()
@@ -77,21 +81,6 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
     |> String.graphemes()
     |> Enum.chunk_every(3)
     |> Enum.map(&(&1 |> Enum.join() |> String.trim() |> String.to_integer()))
-  end
-
-  defp convert_date_format(date_string) do
-    # Convert date string "YYMMDD" to "YYYY-MM-DD" format.
-    date_string = String.replace(date_string, " ", "0")
-
-    year =
-      String.slice(date_string, 0, 2)
-      |> String.to_integer()
-      |> Kernel.+(2000)
-
-    month = String.slice(date_string, 2, 2)
-    day = String.slice(date_string, 4, 2)
-
-    "#{year}-#{month}-#{day}"
   end
 
   defp parse_tide_times_and_levels(string_sliced) do
