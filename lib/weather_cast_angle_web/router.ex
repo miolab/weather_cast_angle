@@ -18,6 +18,7 @@ defmodule WeatherCastAngleWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/tide_data", PageController, :tide_data
   end
 
   # Other scopes may use custom stacks.
