@@ -53,7 +53,8 @@ defmodule WeatherCastAngle.MixProject do
       {:timex, "~> 3.7"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mimic, "~> 1.7", only: :test},
-      {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false}
+      {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:git_hooks, "~> 0.7.3", only: [:dev], runtime: false}
     ]
   end
 
