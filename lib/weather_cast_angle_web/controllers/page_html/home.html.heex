@@ -54,9 +54,19 @@
         type="date"
         name="input_date"
         value={@response.target_date}
-        min="2013-01-01"
+        min="2015-01-01"
         max="2024-12-31"
       />
+      <select name="input_location_code" class="ml-3">
+        <%= for location_code <- @location_code_array do %>
+          <option
+            value={location_code}
+            selected={if location_code == @selected_location_code, do: "selected"}
+          >
+            <%= location_code %>
+          </option>
+        <% end %>
+      </select>
       <button
         type="submit"
         class="mx-3 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -73,6 +83,9 @@
       </canvas>
       <p class="date" data-date={@response.target_date}>
         Date | <%= @response.target_date %>
+      </p>
+      <p class="location-code" data-location-code={@response.location_code}>
+        Location Code | <%= @response.location_code %>
       </p>
       <p>
         Hourly tide levels (from 0 to 23 o'clock) |
