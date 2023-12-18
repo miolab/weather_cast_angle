@@ -5,6 +5,8 @@ export function renderChart() {
   const tideLevels = JSON.parse(chartArea.dataset.tideLevels);
 
   const date = document.querySelector(".date").dataset.date;
+  const locationCode =
+    document.querySelector(".location-code").dataset.locationCode;
 
   new Chart(chartArea, {
     type: "bar",
@@ -12,7 +14,7 @@ export function renderChart() {
       labels: Array.from({ length: 24 }, (_, i) => i.toString()),
       datasets: [
         {
-          label: `${date} Tide Levels`,
+          label: `${date} ${locationCode} Tide Levels`,
           data: tideLevels,
           borderWidth: 1,
         },
