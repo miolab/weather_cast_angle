@@ -1,5 +1,7 @@
 FROM elixir:1.15.7-slim
 
+RUN apt-get update && apt-get install -y git inotify-tools
+
 WORKDIR /app
 
 COPY mix.exs mix.lock ./
