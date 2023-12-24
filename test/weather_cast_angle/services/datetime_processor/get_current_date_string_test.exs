@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.DaytimeProcessor.GetCurrentDateStringTest do
+defmodule WeatherCastAngle.Services.DatetimeProcessor.GetCurrentDateStringTest do
   use ExUnit.Case
   use Mimic
 
@@ -9,7 +9,7 @@ defmodule WeatherCastAngle.Services.DaytimeProcessor.GetCurrentDateStringTest do
       fn "Asia/Tokyo" -> DateTime.from_naive!(~N[2023-01-01 12:00:00], "Asia/Tokyo") end
     )
 
-    assert WeatherCastAngle.Services.DaytimeProcessor.get_current_date_string() ==
+    assert WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string() ==
              "2023-01-01"
   end
 end
