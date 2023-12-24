@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.ResponseProcessor do
+defmodule WeatherCastAngle.Services.TideDataHandler do
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
   @doc """
