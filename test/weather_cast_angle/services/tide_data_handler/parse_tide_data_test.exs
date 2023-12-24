@@ -1,9 +1,9 @@
-defmodule WeatherCastAngle.Services.ResponseProcessor.ParseTideDataTest do
+defmodule WeatherCastAngle.Services.TideDataHandler.ParseTideDataTest do
   use ExUnit.Case
 
   test "Parses tide data correctly" do
     actual =
-      WeatherCastAngle.Services.ResponseProcessor.parse_tide_data(
+      WeatherCastAngle.Services.TideDataHandler.parse_tide_data(
         " 76 99123141151152143129112 97 89 -1100118139156165167160145121 93 68 5123 1 1AB 4321521642167999999999999991027-102338 4899999999999999"
       )
 

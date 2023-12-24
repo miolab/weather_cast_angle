@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.ResponseProcessor do
+defmodule WeatherCastAngle.Services.TideDataHandler do
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
   @doc """
@@ -60,7 +60,7 @@ defmodule WeatherCastAngle.Services.ResponseProcessor do
 
     date =
       String.slice(string, 72, 6)
-      |> WeatherCastAngle.Services.DaytimeProcessor.convert_date_format()
+      |> WeatherCastAngle.Services.DatetimeProcessor.convert_date_format()
 
     location_code = String.slice(string, 78, 2)
     high_tide = String.slice(string, 80, 28) |> parse_tide_times_and_levels()

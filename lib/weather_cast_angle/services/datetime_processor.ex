@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.DaytimeProcessor do
+defmodule WeatherCastAngle.Services.DatetimeProcessor do
   @doc """
   Get current date and return the YYYY-MM-DD formatted date string.
   """
