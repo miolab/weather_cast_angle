@@ -67,4 +67,28 @@ defmodule WeatherCastAngle.Utils.Locations do
     location_array()
     |> Enum.map(fn {_, value} -> value[:tide_location_code] end)
   end
+
+  @doc """
+  Return location map by input location name.
+  """
+  @spec return_selected_location_map(String.t()) :: %{
+          tide_location_code: String.t(),
+          latitude: float(),
+          longitude: float()
+        }
+  def return_selected_location_map(location_name) do
+    location_array()
+    |> Enum.find(
+      {
+        "",
+        %{
+          tide_location_code: "",
+          latitude: 0.0,
+          longitude: 0.0
+        }
+      },
+      fn {key, _} -> key == location_name end
+    )
+    |> elem(1)
+  end
 end
