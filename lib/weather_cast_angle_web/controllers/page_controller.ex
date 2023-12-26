@@ -1,20 +1,20 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
-  @location_code_array ["MO", "K5", "TK"]
+  @tide_location_codes WeatherCastAngle.Utils.Locations.tide_location_codes()
 
   def home(conn, _params) do
     current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
 
-    default_location_code = @location_code_array |> hd
-    response_map = fetch_response_map(current_date, default_location_code)
+    default_tide_location_code = WeatherCastAngle.Utils.Locations.default_tide_location_code()
+    response_map = fetch_response_map(current_date, default_tide_location_code)
 
     render(
       conn,
       :home,
       response: response_map[current_date],
-      location_code_array: @location_code_array,
-      selected_location_code: default_location_code,
+      tide_location_codes: @tide_location_codes,
+      selected_tide_location_code: default_tide_location_code,
       layout: false
     )
   end
@@ -29,8 +29,8 @@ defmodule WeatherCastAngleWeb.PageController do
       conn,
       :home,
       response: response_map[input_date],
-      location_code_array: @location_code_array,
-      selected_location_code: input_location_code,
+      tide_location_codes: @tide_location_codes,
+      selected_tide_location_code: input_location_code,
       layout: false
     )
   end
