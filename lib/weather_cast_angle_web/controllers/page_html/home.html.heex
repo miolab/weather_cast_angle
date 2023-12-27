@@ -81,6 +81,13 @@
         data-tide-levels={@tide_response.hourly_tide_levels |> Jason.encode!()}
       >
       </canvas>
+    </div>
+
+    <div>
+      <%= @current_weather_response |> Jason.encode!() %>
+    </div>
+
+    <div>
       <p class="date" data-date={@tide_response.target_date}>
         Date | <%= @tide_response.target_date %>
       </p>
