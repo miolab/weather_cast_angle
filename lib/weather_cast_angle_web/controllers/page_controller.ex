@@ -1,46 +1,59 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
-  @location_code_array ["MO", "K5", "TK"]
+  @location_names WeatherCastAngle.Utils.Locations.location_names()
 
   def home(conn, _params) do
-    current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
+    location_name = WeatherCastAngle.Utils.Locations.default_location_name()
 
-    default_location_code = @location_code_array |> hd
-    response_map = fetch_response_map(current_date, default_location_code)
+    current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
+    default_tide_location_code = WeatherCastAngle.Utils.Locations.default_tide_location_code()
+
+    tide_response_map = fetch_tide_response_map(current_date, default_tide_location_code)
+
+    current_weather_response_map = fetch_current_weather_response_map(location_name)
 
     render(
       conn,
       :home,
-      response: response_map[current_date],
-      location_code_array: @location_code_array,
-      selected_location_code: default_location_code,
+      tide_response: tide_response_map[current_date],
+      current_weather_response: current_weather_response_map,
+      selected_location: location_name,
+      location_names: @location_names,
       layout: false
     )
   end
 
   def tide_data(conn, %{
         "input_date" => input_date,
-        "input_location_code" => input_location_code
+        "location_name" => location_name
       }) do
-    response_map = fetch_response_map(input_date, input_location_code)
+    tide_location_code = WeatherCastAngle.Utils.Locations.get_location_code_by_name(location_name)
+    tide_response_map = fetch_tide_response_map(input_date, tide_location_code)
+
+    current_weather_response_map = fetch_current_weather_response_map(location_name)
 
     render(
       conn,
       :home,
-      response: response_map[input_date],
-      location_code_array: @location_code_array,
-      selected_location_code: input_location_code,
+      tide_response: tide_response_map[input_date],
+      current_weather_response: current_weather_response_map,
+      selected_location: location_name,
+      location_names: @location_names,
       layout: false
     )
   end
 
-  defp fetch_response_map(date_string, location_code) do
+  defp fetch_tide_response_map(date_string, location_code) do
     [year | _] = String.split(date_string, "-")
 
     WeatherCastAngle.Services.TideDataHandler.get_response_body(
       String.to_integer(year),
       location_code
     )
+  end
+
+  defp fetch_current_weather_response_map(location_name) do
+    WeatherCastAngle.Services.WeatherDataHandler.get_current_weather_data(location_name)
   end
 end
