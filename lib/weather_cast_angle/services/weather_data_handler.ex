@@ -1,11 +1,17 @@
 defmodule WeatherCastAngle.Services.WeatherDataHandler do
-  @target_url "https://api.openweathermap.org/data/2.5/weather"
+  def get_current_weather_data(location_name) do
+    current_weather_url = "https://api.openweathermap.org/data/2.5/weather"
 
-  def get_response_body() do
+    # TODO: location_name が location_names に含まれるか保証するため assertion 入れる。含まれなかったら default_name の情報を返して、default のレンダリングをするのでよい。リダイレクトする方針も検討
+    location_map = WeatherCastAngle.Utils.Locations.return_selected_location_map(location_name)
+
     res =
-      HTTPoison.get(@target_url, [],
+      HTTPoison.get(current_weather_url, [],
         params: %{
-          q: "London,uk",
+          lat: location_map |> Map.get(:latitude) |> Float.to_string(),
+          lon: location_map |> Map.get(:longitude) |> Float.to_string(),
+          # exclude: "hourly,daily",
+          lang: "ja",
           APPID: open_weather_api_key()
         }
       )
