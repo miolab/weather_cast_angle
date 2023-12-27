@@ -60,7 +60,16 @@ defmodule WeatherCastAngle.Utils.Locations do
   end
 
   @doc """
-  Location codes array.
+  Location names array.
+  """
+  @spec location_names :: [String.t()]
+  def location_names() do
+    location_array()
+    |> Enum.map(fn {key, _} -> key end)
+  end
+
+  @doc """
+  Tide location codes array.
   """
   @spec tide_location_codes :: [String.t()]
   def tide_location_codes() do

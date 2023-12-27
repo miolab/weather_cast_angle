@@ -57,13 +57,13 @@
         min="2015-01-01"
         max="2024-12-31"
       />
-      <select name="input_location_code" class="ml-3">
-        <%= for location_code <- @tide_location_codes do %>
+      <select name="location_name" class="ml-3">
+        <%= for location_name <- @location_names do %>
           <option
-            value={location_code}
-            selected={if location_code == @selected_tide_location_code, do: "selected"}
+            value={location_name}
+            selected={if location_name == @selected_location, do: "selected"}
           >
-            <%= location_code %>
+            <%= location_name %>
           </option>
         <% end %>
       </select>

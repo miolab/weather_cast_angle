@@ -1,36 +1,37 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
-  @tide_location_codes WeatherCastAngle.Utils.Locations.tide_location_codes()
+  @location_names WeatherCastAngle.Utils.Locations.location_names()
 
   def home(conn, _params) do
     current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
-
     default_tide_location_code = WeatherCastAngle.Utils.Locations.default_tide_location_code()
+
     response_map = fetch_response_map(current_date, default_tide_location_code)
 
     render(
       conn,
       :home,
       response: response_map[current_date],
-      tide_location_codes: @tide_location_codes,
-      selected_tide_location_code: default_tide_location_code,
+      selected_location: WeatherCastAngle.Utils.Locations.default_location_name(),
+      location_names: @location_names,
       layout: false
     )
   end
 
   def tide_data(conn, %{
         "input_date" => input_date,
-        "input_location_code" => input_location_code
+        "location_name" => location_name
       }) do
-    response_map = fetch_response_map(input_date, input_location_code)
+    tide_location_code = WeatherCastAngle.Utils.Locations.get_location_code_by_name(location_name)
+    response_map = fetch_response_map(input_date, tide_location_code)
 
     render(
       conn,
       :home,
       response: response_map[input_date],
-      tide_location_codes: @tide_location_codes,
-      selected_tide_location_code: input_location_code,
+      selected_location: location_name,
+      location_names: @location_names,
       layout: false
     )
   end
