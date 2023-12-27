@@ -1,13 +1,5 @@
 defmodule WeatherCastAngle.Services.DatetimeProcessor do
   @doc """
-  Get current date and return the YYYY-MM-DD formatted date string.
-  """
-  @spec get_current_date_string() :: String.t()
-  def get_current_date_string() do
-    Timex.format!(get_current_date(), "{YYYY}-{0M}-{0D}")
-  end
-
-  @doc """
   Convert date string "YYMMDD" to "YYYY-MM-DD" format.
   If a single-byte space is retained, it is filled with `0`.
   """
@@ -24,6 +16,14 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
     day = String.slice(date_string, 4, 2)
 
     "#{year}-#{month}-#{day}"
+  end
+
+  @doc """
+  Get current date and return the YYYY-MM-DD formatted date string.
+  """
+  @spec get_current_date_string() :: String.t()
+  def get_current_date_string() do
+    Timex.format!(get_current_date(), "{YYYY}-{0M}-{0D}")
   end
 
   defp get_current_date() do

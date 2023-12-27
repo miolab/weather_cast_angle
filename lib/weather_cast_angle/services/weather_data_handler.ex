@@ -10,7 +10,6 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
         params: %{
           lat: location_map |> Map.get(:latitude) |> Float.to_string(),
           lon: location_map |> Map.get(:longitude) |> Float.to_string(),
-          # exclude: "hourly,daily",
           lang: "ja",
           APPID: open_weather_api_key()
         }
