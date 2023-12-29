@@ -21,10 +21,37 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
         |> Jason.decode!()
 
       {:error, %HTTPoison.Error{reason: reason}} ->
-        # TODO: エラー時にどう振る舞うかをちゃんと書く
-        ["Error: " <> to_string(reason)]
+        %{"Error" => reason}
     end
   end
+
+  @doc """
+  Extracts and transforms specific weather data from a given map.
+  """
+  @spec extract_current_weather(map()) :: %{
+          weather_description: String.t(),
+          weather_main: String.t(),
+          wind_speed: float(),
+          main_temp: float(),
+          main_humidity: integer()
+        }
+  def extract_current_weather(current_weather_response_map) do
+    weather_map = current_weather_response_map["weather"] |> List.first()
+
+    %{
+      weather_description: weather_map |> Map.get("description"),
+      weather_main: weather_map |> Map.get("main"),
+      wind_speed: current_weather_response_map["wind"]["speed"],
+      main_temp: current_weather_response_map["main"]["temp"] |> kelvin_to_celsius_temperature(),
+      main_humidity: current_weather_response_map["main"]["humidity"]
+    }
+  end
+
+  @doc """
+  Converts a temperature from Kelvin to Celsius.
+  """
+  @spec kelvin_to_celsius_temperature(float()) :: float()
+  def kelvin_to_celsius_temperature(kelvin), do: (kelvin - 273.15) |> Float.round(1)
 
   defp open_weather_api_key(), do: System.get_env("OPEN_WEATHER_API_KEY")
 end
