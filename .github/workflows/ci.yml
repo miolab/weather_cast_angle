@@ -12,7 +12,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         otp-version: ["26.x"]
-        elixir-version: [1.15.x]
+        elixir-version: ["1.16.x", "1.15.x"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Init setup
@@ -51,7 +51,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         otp-version: ["26.x"]
-        elixir-version: [1.15.x]
+        elixir-version: ["1.16.x", "1.15.x"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -85,7 +85,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         otp-version: ["26.x"]
-        elixir-version: [1.15.x]
+        elixir-version: ["1.16.x", "1.15.x"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -119,7 +119,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         otp-version: ["26.x"]
-        elixir-version: [1.15.x]
+        elixir-version: ["1.16.x", "1.15.x"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
