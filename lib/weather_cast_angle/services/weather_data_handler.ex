@@ -29,6 +29,7 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
   Extracts and transforms specific weather data from a given map.
   """
   @spec extract_current_weather(map()) :: %{
+          dt: String.t(),
           weather_description: String.t(),
           weather_main: String.t(),
           wind_speed: float(),
@@ -39,6 +40,9 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
     weather_map = current_weather_response_map["weather"] |> List.first()
 
     %{
+      dt:
+        current_weather_response_map["dt"]
+        |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
       weather_description: weather_map |> Map.get("description"),
       weather_main: weather_map |> Map.get("main"),
       wind_speed: current_weather_response_map["wind"]["speed"],
