@@ -36,18 +36,47 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
           main_temp: float(),
           main_humidity: integer()
         }
-  def extract_current_weather(current_weather_response_map) do
-    weather_map = current_weather_response_map["weather"] |> List.first()
+  def extract_current_weather(current_weather_response_map)
+      when is_map_key(current_weather_response_map, "Error"),
+      do: _extract_current_weather_default()
 
+  def extract_current_weather(current_weather_response_map) do
+    required_keys = ["dt", "main", "wind", "weather"]
+
+    cond do
+      does_any_key_missing(current_weather_response_map, required_keys) ->
+        _extract_current_weather_default()
+
+      true ->
+        weather_map =
+          current_weather_response_map["weather"] |> List.first()
+
+        %{
+          dt:
+            current_weather_response_map["dt"]
+            |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
+          weather_description: weather_map |> Map.get("description"),
+          weather_main: weather_map |> Map.get("main"),
+          wind_speed: current_weather_response_map["wind"]["speed"],
+          main_temp:
+            current_weather_response_map["main"]["temp"] |> kelvin_to_celsius_temperature(),
+          main_humidity: current_weather_response_map["main"]["humidity"]
+        }
+    end
+  end
+
+  defp does_any_key_missing(map, keys) do
+    Enum.any?(keys, fn key -> !Map.has_key?(map, key) end)
+  end
+
+  defp _extract_current_weather_default() do
     %{
-      dt:
-        current_weather_response_map["dt"]
-        |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
-      weather_description: weather_map |> Map.get("description"),
-      weather_main: weather_map |> Map.get("main"),
-      wind_speed: current_weather_response_map["wind"]["speed"],
-      main_temp: current_weather_response_map["main"]["temp"] |> kelvin_to_celsius_temperature(),
-      main_humidity: current_weather_response_map["main"]["humidity"]
+      dt: "",
+      weather_description: "",
+      weather_main: "",
+      wind_speed: 0.0,
+      main_temp: 0.0,
+      main_humidity: 0
     }
   end
 
