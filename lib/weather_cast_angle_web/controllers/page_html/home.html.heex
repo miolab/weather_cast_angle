@@ -83,6 +83,15 @@
       </canvas>
     </div>
 
+    <div class="my-2">
+      <p>
+        <%= @current_weather_map.dt %>時現在の天気: <%= @current_weather_map.weather_description %> | <%= @current_weather_map.weather_main %>
+      </p>
+      <p>風速: <%= @current_weather_map.wind_speed %></p>
+      <p>温度: <%= @current_weather_map.main_temp %></p>
+      <p>湿度: <%= @current_weather_map.main_humidity %></p>
+    </div>
+
     <div>
       <%= @current_weather_response |> Jason.encode!() %>
     </div>

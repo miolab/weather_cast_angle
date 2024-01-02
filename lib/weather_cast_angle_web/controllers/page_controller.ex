@@ -13,11 +13,16 @@ defmodule WeatherCastAngleWeb.PageController do
 
     current_weather_response_map = fetch_current_weather_response_map(location_name)
 
+    current_weather_map =
+      current_weather_response_map
+      |> WeatherCastAngle.Services.WeatherDataHandler.extract_current_weather()
+
     render(
       conn,
       :home,
       tide_response: tide_response_map[current_date],
       current_weather_response: current_weather_response_map,
+      current_weather_map: current_weather_map,
       selected_location: location_name,
       location_names: @location_names,
       layout: false
@@ -33,11 +38,16 @@ defmodule WeatherCastAngleWeb.PageController do
 
     current_weather_response_map = fetch_current_weather_response_map(location_name)
 
+    current_weather_map =
+      current_weather_response_map
+      |> WeatherCastAngle.Services.WeatherDataHandler.extract_current_weather()
+
     render(
       conn,
       :home,
       tide_response: tide_response_map[input_date],
       current_weather_response: current_weather_response_map,
+      current_weather_map: current_weather_map,
       selected_location: location_name,
       location_names: @location_names,
       layout: false

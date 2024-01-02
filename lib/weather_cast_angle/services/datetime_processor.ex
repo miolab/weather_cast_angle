@@ -1,10 +1,19 @@
 defmodule WeatherCastAngle.Services.DatetimeProcessor do
-  @doc """
-  Get current date and return the YYYY-MM-DD formatted date string.
+  @moduledoc """
+  Provides functions for processing datetime.
+  This module mainly uses Asia/Tokyo timezone.
   """
-  @spec get_current_date_string() :: String.t()
-  def get_current_date_string() do
-    Timex.format!(get_current_date(), "{YYYY}-{0M}-{0D}")
+  @asia_tokyo_timezone "Asia/Tokyo"
+
+  @doc """
+  Convert UNIX UTC timestamp to JST "yyyy-mm-dd HH" formatted datetime string.
+  """
+  @spec convert_unix_to_datetime_string(integer()) :: String.t()
+  def convert_unix_to_datetime_string(unix_utc) do
+    unix_utc
+    |> Timex.from_unix()
+    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> Timex.format!("{YYYY}-{0M}-{0D} {h24}")
   end
 
   @doc """
@@ -26,7 +35,15 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
     "#{year}-#{month}-#{day}"
   end
 
+  @doc """
+  Get current "Asia/Tokyo" date and return the YYYY-MM-DD formatted date string.
+  """
+  @spec get_current_date_string() :: String.t()
+  def get_current_date_string() do
+    Timex.format!(get_current_date(), "{YYYY}-{0M}-{0D}")
+  end
+
   defp get_current_date() do
-    Timex.now("Asia/Tokyo")
+    Timex.now(@asia_tokyo_timezone)
   end
 end
