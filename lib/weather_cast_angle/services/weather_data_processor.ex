@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.WeatherDataHandler do
+defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   def get_current_weather_data(location_name) do
     current_weather_url = "https://api.openweathermap.org/data/2.5/weather"
 

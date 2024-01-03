@@ -15,7 +15,7 @@ defmodule WeatherCastAngleWeb.PageController do
 
     current_weather_map =
       current_weather_response_map
-      |> WeatherCastAngle.Services.WeatherDataHandler.extract_current_weather()
+      |> WeatherCastAngle.Services.WeatherDataProcessor.extract_current_weather()
 
     render(
       conn,
@@ -40,7 +40,7 @@ defmodule WeatherCastAngleWeb.PageController do
 
     current_weather_map =
       current_weather_response_map
-      |> WeatherCastAngle.Services.WeatherDataHandler.extract_current_weather()
+      |> WeatherCastAngle.Services.WeatherDataProcessor.extract_current_weather()
 
     render(
       conn,
@@ -64,6 +64,6 @@ defmodule WeatherCastAngleWeb.PageController do
   end
 
   defp fetch_current_weather_response_map(location_name) do
-    WeatherCastAngle.Services.WeatherDataHandler.get_current_weather_data(location_name)
+    WeatherCastAngle.Services.WeatherDataProcessor.get_current_weather_data(location_name)
   end
 end
