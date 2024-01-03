@@ -5,23 +5,33 @@ defmodule WeatherCastAngle.Services.WeatherDataHandler do
     # TODO: location_name が location_names に含まれるか保証するため assertion 入れる。含まれなかったら default_name の情報を返して、default のレンダリングをするのでよい。リダイレクトする方針も検討
     location_map = WeatherCastAngle.Utils.Locations.get_location_map_by_name(location_name)
 
-    res =
-      HTTPoison.get(current_weather_url, [],
-        params: %{
-          lat: location_map |> Map.get(:latitude) |> Float.to_string(),
-          lon: location_map |> Map.get(:longitude) |> Float.to_string(),
-          lang: "ja",
-          APPID: open_weather_api_key()
-        }
-      )
+    cache_key = location_name <> "_current_weather"
+    cached_value = WeatherCastAngle.Cache.get_cache(cache_key)
 
-    case res do
-      {:ok, %HTTPoison.Response{body: response_body}} ->
-        response_body
-        |> Jason.decode!()
+    case cached_value do
+      nil ->
+        res =
+          HTTPoison.get(current_weather_url, [],
+            params: %{
+              lat: location_map |> Map.get(:latitude) |> Float.to_string(),
+              lon: location_map |> Map.get(:longitude) |> Float.to_string(),
+              lang: "ja",
+              APPID: open_weather_api_key()
+            }
+          )
 
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        %{"Error" => reason}
+        case res do
+          {:ok, %HTTPoison.Response{body: response_body}} ->
+            WeatherCastAngle.Cache.put_cache(cache_key, response_body)
+
+            response_body |> Jason.decode!()
+
+          {:error, %HTTPoison.Error{reason: reason}} ->
+            %{"Error" => reason}
+        end
+
+      _ ->
+        cached_value |> Jason.decode!()
     end
   end
 

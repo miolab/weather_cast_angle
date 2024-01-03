@@ -17,7 +17,9 @@ defmodule WeatherCastAngle.Application do
       # Start a worker by calling: WeatherCastAngle.Worker.start_link(arg)
       # {WeatherCastAngle.Worker, arg},
       # Start to serve requests, typically the last entry
-      WeatherCastAngleWeb.Endpoint
+      WeatherCastAngleWeb.Endpoint,
+      # Use cache
+      {Cachex, name: :common_cache}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
