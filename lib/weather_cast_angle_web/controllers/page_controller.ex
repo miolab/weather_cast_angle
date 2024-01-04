@@ -58,8 +58,7 @@ defmodule WeatherCastAngleWeb.PageController do
   end
 
   defp _current_weather_map(location_name) do
-    WeatherCastAngle.Services.WeatherCurrentDataHandler.get_current_weather_data(location_name)
-    |> WeatherCastAngle.Services.WeatherCurrentDataHandler.extract_current_weather()
+    WeatherCastAngle.Services.WeatherCurrentDataHandler.extract_current_weather(location_name)
   end
 
   # TODO: あとで消す

@@ -4,6 +4,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   """
   @current_weather_url "https://api.openweathermap.org/data/2.5/weather"
 
+  # TODO: fix to private
   def get_current_weather_data(location_name) do
     cache_key = location_name <> "_current_weather"
 
@@ -17,7 +18,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   @doc """
   Extracts and transforms specific weather data from a given map.
   """
-  @spec extract_current_weather(map()) :: %{
+  @spec extract_current_weather(String.t()) :: %{
           dt: String.t(),
           weather_description: String.t(),
           weather_main: String.t(),
@@ -25,15 +26,14 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           main_temp: float(),
           main_humidity: integer()
         }
-  def extract_current_weather(current_weather_response_map)
-      when is_map_key(current_weather_response_map, "Error"),
-      do: _extract_current_weather_default()
+  def extract_current_weather(location_name) do
+    current_weather_response_map = get_current_weather_data(location_name)
 
-  def extract_current_weather(current_weather_response_map) do
     required_keys = ["dt", "main", "wind", "weather"]
 
     cond do
-      _does_any_key_missing(current_weather_response_map, required_keys) ->
+      _does_any_key_missing(current_weather_response_map, required_keys) or
+          is_map_key(current_weather_response_map, "Error") ->
         _extract_current_weather_default()
 
       true ->
