@@ -1,6 +1,7 @@
 defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   @open_weather_api_key System.get_env("OPEN_WEATHER_API_KEY")
 
+  @spec get_open_weather_data(String.t(), String.t(), String.t()) :: map()
   def get_open_weather_data(location_name, cache_key, target_url) do
     # TODO: location_name が location_names に含まれるか保証するため assertion 入れる。含まれなかったら default_name の情報を返して、default のレンダリングをするのでよい。リダイレクトする方針も検討
 
@@ -15,7 +16,7 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
 
         case res do
           {:ok, %HTTPoison.Response{body: response_body}} ->
-            WeatherCastAngle.Cache.put_cache(cache_key, response_body)
+            WeatherCastAngle.Cache.put_cache(cache_key, response_body, 5)
 
             response_body |> Jason.decode!()
 
