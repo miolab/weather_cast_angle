@@ -4,6 +4,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
   """
   @forecast_url "https://api.openweathermap.org/data/2.5/forecast"
 
+  # TODO: fix to private
   def get_weather_forecast(location_name) do
     cache_key = location_name <> "_weather_forecast"
 

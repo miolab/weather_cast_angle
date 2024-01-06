@@ -16,7 +16,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   end
 
   @doc """
-  Extracts and transforms specific weather data from a given map.
+  Extracts and transforms specific current weather data.
   """
   @spec extract_current_weather(String.t()) :: %{
           dt: String.t(),
