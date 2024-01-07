@@ -92,11 +92,21 @@
       <p>湿度: <%= @current_weather_map.main_humidity %></p>
     </div>
 
+    <%!-- TODO: 後で消す --%>
     <div>
+      <h2 class="text-xl mt-3">Weather current</h2>
       <%= @current_weather_response |> Jason.encode!() %>
     </div>
 
+    <%!-- TODO: 後で消す --%>
     <div>
+      <h2 class="text-xl mt-3">Weather forecast</h2>
+      <%= @weather_forecast_response |> Jason.encode!() %>
+    </div>
+
+    <%!-- TODO: 後で消す --%>
+    <div>
+      <h2 class="text-xl mt-3">Tide data</h2>
       <p class="date" data-date={@tide_response.target_date}>
         Date | <%= @tide_response.target_date %>
       </p>
