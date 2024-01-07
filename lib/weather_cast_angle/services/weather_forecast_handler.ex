@@ -18,15 +18,27 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
   @doc """
   Extracts and transforms specific weather forecast.
   """
-  @spec extract_weather_forecast(String.t()) :: map()
+  @spec extract_weather_forecast(String.t()) :: [
+          {
+            String.t(),
+            %{
+              dt: String.t(),
+              weather_description: String.t(),
+              weather_main: String.t(),
+              wind_speed: float(),
+              main_temp: float(),
+              main_humidity: integer()
+            }
+          }
+        ]
   def extract_weather_forecast(location_name) do
     forecast_maps = get_weather_forecast(location_name)["list"]
 
-    Enum.reduce(forecast_maps, %{}, fn forecast_map, acc ->
+    forecast_maps
+    |> Enum.map(fn forecast_map ->
       weather_map = Enum.at(forecast_map["weather"], 0, %{})
 
-      Map.put(
-        acc,
+      {
         forecast_map["dt"]
         |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
         %{
@@ -38,7 +50,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
             |> WeatherCastAngle.Services.WeatherDataProcessor.kelvin_to_celsius_temperature(),
           main_humidity: forecast_map["main"]["humidity"]
         }
-      )
+      }
     end)
   end
 end
