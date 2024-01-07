@@ -45,4 +45,23 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   """
   @spec kelvin_to_celsius_temperature(float()) :: float()
   def kelvin_to_celsius_temperature(kelvin), do: (kelvin - 273.15) |> Float.round(1)
+
+  @doc """
+  Converts a float value to a percentage.
+  This function is intended for use in the calculation of precipitation probability.
+  """
+  @spec convert_to_percentage(float | 0 | 1) :: non_neg_integer()
+  def convert_to_percentage(probability) do
+    cond do
+      is_integer(probability) or
+          Float.floor(probability, 1) == probability ->
+        probability * 100
+
+      true ->
+        probability
+        |> Float.round(1)
+        |> Kernel.*(100)
+        |> trunc()
+    end
+  end
 end
