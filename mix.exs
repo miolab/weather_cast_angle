@@ -52,6 +52,7 @@ defmodule WeatherCastAngle.MixProject do
       {:tzdata, "~> 1.1"},
       {:timex, "~> 3.7"},
       {:cachex, "~> 3.6"},
+      {:erlport, "~> 0.11.0"},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:mimic, "~> 1.7", only: :test},
       {:mix_test_watch, "~> 1.1", only: [:dev, :test], runtime: false},
