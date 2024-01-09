@@ -8,7 +8,7 @@ defmodule PythonExecutor.SampleCalculator do
   """
   @spec add(integer(), integer()) :: integer()
   def add(n1, n2) do
-    python_pid = Application.get_env(:weather_cast_angle, :python_pid)
+    python_pid = PythonExecutor.PythonPid.get_pid()
 
     :python.call(python_pid, :sample_calculator, :add, [n1, n2])
   end
