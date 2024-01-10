@@ -18,6 +18,6 @@ COPY assets assets
 
 RUN mix do compile, phx.digest
 
-RUN pip3 install erlport>=0.6
+RUN pip3 install "erlport>=0.6" "ephem>=4.1,<5.0"
 
 CMD ["mix", "phx.server"]
