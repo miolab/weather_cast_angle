@@ -35,6 +35,9 @@ weather_cast_angle-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Python
+__pycache__
+
 # OS
 .DS_Store
 

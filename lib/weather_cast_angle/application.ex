@@ -7,6 +7,8 @@ defmodule WeatherCastAngle.Application do
 
   @impl true
   def start(_type, _args) do
+    _start_python_interpreter()
+
     children = [
       WeatherCastAngleWeb.Telemetry,
       {DNSCluster,
@@ -34,5 +36,16 @@ defmodule WeatherCastAngle.Application do
   def config_change(changed, _new, removed) do
     WeatherCastAngleWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp _start_python_interpreter do
+    # Invoke ErlPort Python interpreter and save PID
+    {:ok, python_pid} =
+      :python.start([
+        {:python_path, ~c"lib/python_manager/py_modules"},
+        {:python, ~c"python3"}
+      ])
+
+    Application.put_env(:weather_cast_angle, :python_pid, python_pid)
   end
 end
