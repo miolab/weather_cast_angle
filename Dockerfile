@@ -2,6 +2,7 @@ FROM elixir:1.16.0-slim
 
 RUN apt-get update && apt-get install -y git inotify-tools \
   python3 python3-pip
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 WORKDIR /app
 
