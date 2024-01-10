@@ -1,0 +1,17 @@
+name: Docker Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Init setup
+        run: echo "Init setup..."
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t weather_cast_angle .
+      - name: Finish message
+        run: echo "finish build."
