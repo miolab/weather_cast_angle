@@ -41,7 +41,10 @@ defmodule WeatherCastAngle.Application do
   defp _start_python_interpreter do
     # Invoke ErlPort Python interpreter and save PID
     {:ok, python_pid} =
-      :python.start([{:python_path, ~c"py_lib"}, {:python, ~c"python3"}])
+      :python.start([
+        {:python_path, ~c"lib/python_manager/py_modules"},
+        {:python, ~c"python3"}
+      ])
 
     Application.put_env(:weather_cast_angle, :python_pid, python_pid)
   end
