@@ -1,6 +1,7 @@
 # WeatherCastAngle
 
-![example workflow](https://github.com/miolab/weather_cast_angle/actions/workflows/ci.yml/badge.svg)
+![elixir ci workflow](https://github.com/miolab/weather_cast_angle/actions/workflows/elixir-ci.yml/badge.svg)
+![docker build workflow](https://github.com/miolab/weather_cast_angle/actions/workflows/docker-build.yml/badge.svg)
 
 ## Overview
 
