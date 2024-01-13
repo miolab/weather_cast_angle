@@ -1,7 +1,7 @@
-defmodule WeatherCastAngle.Services.MoonStatusCalculatorTest do
+defmodule WeatherCastAngle.Services.MoonStatusCalculator.GetMoonPhaseTest do
   use ExUnit.Case
 
-  describe "Calculates the moon phase and returns it's notation." do
+  describe "Calculates the moon phase." do
     @tokyo_latitude 35.689499
     @tokyo_longitude 139.691711
 
