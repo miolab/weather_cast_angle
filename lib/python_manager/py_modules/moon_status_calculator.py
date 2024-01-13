@@ -36,7 +36,24 @@ def get_moon_phase(date: bytes, latitude: float, longitude: float) -> float:
     return moon.phase / 100
 
 
+def calculate_moon_age(date: bytes, latitude: float, longitude: float) -> float:
+    """Calculates the moon age.
+
+    Args:
+        date (str): 'yyyy/mm/dd' formatted date string.
+        latitude (float): target location's latitude.
+        longitude (float): target location's longitude.
+
+    Returns:
+        float: the moon age in terms of the number of days elapsed since the new moon.
+    """
+    observer = _create_observer(date, latitude, longitude)
+    last_new_moon = ephem.previous_new_moon(observer.date)
+
+    return observer.date - last_new_moon
+
+
 # TODO: デバッグ用。あとで消す
 # python lib/python_manager/py_modules/moon_phase_calculator.py
 if __name__ == "__main__":
-    print(get_moon_phase(b"2024-01-21", 33.9484466691993, 130.96263530779785))
+    print(calculate_moon_age(b"2024-01-13", 33.9484466691993, 130.96263530779785))
