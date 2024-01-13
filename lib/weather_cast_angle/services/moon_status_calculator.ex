@@ -9,7 +9,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
   """
   @spec get_moon_phase(String.t(), float(), float()) :: String.t()
   def get_moon_phase(date, latitude, longitude) do
-    phase_degree = _get_moon_phase_degree(date, latitude, longitude)
+    phase_degree = _get_moon_phase_degree_using_python(date, latitude, longitude)
 
     cond do
       phase_degree < 0.25 ->
@@ -23,7 +23,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
     end
   end
 
-  defp _get_moon_phase_degree(date, latitude, longitude) do
+  defp _get_moon_phase_degree_using_python(date, latitude, longitude) do
     PythonManager.PythonExecutor.python_call(
       :moon_status_calculator,
       :get_moon_phase,
