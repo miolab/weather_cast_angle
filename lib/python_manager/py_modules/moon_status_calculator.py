@@ -1,7 +1,7 @@
 import ephem
 
 
-def _get_moon_data(date: bytes, latitude: float, longitude: float) -> ephem.Observer:
+def _create_observer(date: bytes, latitude: float, longitude: float) -> ephem.Observer:
     """Creates Ephem observer instance based on specified date, latitude, and longitude.
 
     Args:
@@ -16,11 +16,11 @@ def _get_moon_data(date: bytes, latitude: float, longitude: float) -> ephem.Obse
     observer.date = date.decode("utf-8")
     observer.lat, observer.lon = str(latitude), str(longitude)
 
-    return ephem.Moon(observer)
+    return observer
 
 
-def get_moon_phase(date: bytes, latitude: float, longitude: float) -> str:
-    """Calculates the moon phase and returns it's notation.
+def get_moon_phase(date: bytes, latitude: float, longitude: float) -> float:
+    """Calculates the moon phase.
 
     Args:
         date (str): 'yyyy/mm/dd' formatted date string.
@@ -28,32 +28,12 @@ def get_moon_phase(date: bytes, latitude: float, longitude: float) -> str:
         longitude (float): target location's longitude.
 
     Returns:
-        str: representing the moon phase.
+        float: moon phase calculated by percent of surface illuminated.
     """
-    # TODO: デバッグ用。あとで消す
-    print(date)
+    observer = _create_observer(date, latitude, longitude)
+    moon = ephem.Moon(observer)
 
-    moon = _get_moon_data(date, latitude, longitude)
-    phase = moon.phase / 100
-
-    if phase < 0.1:
-        return "新月（New Moon）"
-    elif phase < 0.2:
-        return "三日月（Waxing Crescent）"
-    elif phase < 0.3:
-        return "上弦の月（First Quarter）"
-    elif phase < 0.4:
-        return "十日夜月（Waxing Gibbous）"
-    elif phase < 0.5:
-        return "満月（Full Moon）"
-    elif phase < 0.6:
-        return "十三夜月（Waning Gibbous）"
-    elif phase < 0.7:
-        return "下弦の月（Last Quarter）"
-    elif phase < 0.8:
-        return "居待月（Waning Crescent）"
-    else:
-        return "新月に近い（New Moon Approaching）"
+    return moon.phase / 100
 
 
 # TODO: デバッグ用。あとで消す
