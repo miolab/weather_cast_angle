@@ -30,4 +30,21 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
       [date, latitude, longitude]
     )
   end
+
+  @doc """
+  Get the moon age.
+  """
+  @spec get_moon_age(String.t(), float(), float()) :: float()
+  def get_moon_age(date, latitude, longitude) do
+    _get_moon_age_using_python(date, latitude, longitude)
+    |> Float.round(1)
+  end
+
+  defp _get_moon_age_using_python(date, latitude, longitude) do
+    PythonManager.PythonExecutor.python_call(
+      :moon_status_calculator,
+      :calculate_moon_age,
+      [date, latitude, longitude]
+    )
+  end
 end
