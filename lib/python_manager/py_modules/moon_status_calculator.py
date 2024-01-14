@@ -51,9 +51,3 @@ def calculate_moon_age(date: bytes, latitude: float, longitude: float) -> float:
     last_new_moon = ephem.previous_new_moon(observer.date)
 
     return observer.date - last_new_moon
-
-
-# TODO: デバッグ用。あとで消す
-# python lib/python_manager/py_modules/moon_phase_calculator.py
-if __name__ == "__main__":
-    print(calculate_moon_age(b"2024-01-13", 33.9484466691993, 130.96263530779785))
