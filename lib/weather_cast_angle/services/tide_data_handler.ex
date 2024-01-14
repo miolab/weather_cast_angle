@@ -25,8 +25,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
         |> Enum.reduce(%{}, &Map.put(&2, &1.target_date, &1))
 
       {:error, %HTTPoison.Error{reason: reason}} ->
-        # TODO: エラー時にどう振る舞うかをちゃんと書く
-        ["Error: " <> to_string(reason)]
+        %{"Error" => reason}
     end
   end
 
@@ -56,15 +55,15 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
           low_tide: [{String.t(), integer()}]
         }
   def parse_tide_data(string) do
-    hourly_tide_levels = String.slice(string, 0, 72) |> parse_hourly_tide_levels()
+    hourly_tide_levels = String.slice(string, 0, 72) |> _parse_hourly_tide_levels()
 
     date =
       String.slice(string, 72, 6)
       |> WeatherCastAngle.Services.DatetimeProcessor.convert_date_format()
 
     location_code = String.slice(string, 78, 2)
-    high_tide = String.slice(string, 80, 28) |> parse_tide_times_and_levels()
-    low_tide = String.slice(string, 108, 28) |> parse_tide_times_and_levels()
+    high_tide = String.slice(string, 80, 28) |> _parse_tide_times_and_levels()
+    low_tide = String.slice(string, 108, 28) |> _parse_tide_times_and_levels()
 
     %{
       hourly_tide_levels: hourly_tide_levels,
@@ -75,7 +74,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     }
   end
 
-  defp parse_hourly_tide_levels(string_sliced) do
+  defp _parse_hourly_tide_levels(string_sliced) do
     # Parse hourly tide levels.
     string_sliced
     |> String.graphemes()
@@ -83,7 +82,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     |> Enum.map(&(&1 |> Enum.join() |> String.trim() |> String.to_integer()))
   end
 
-  defp parse_tide_times_and_levels(string_sliced) do
+  defp _parse_tide_times_and_levels(string_sliced) do
     # Parse string to high and low tide times and tide levels.
     string_sliced
     |> String.graphemes()
