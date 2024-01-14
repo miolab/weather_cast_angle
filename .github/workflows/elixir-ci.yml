@@ -75,6 +75,14 @@ jobs:
         run: mix deps.get
       - name: Compile Dependencies
         run: mix deps.compile --only-deps
+      - name: Set up Python for testing
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install Python dependencies for testing
+        run: |
+          pip install erlport
+          pip install ephem
       - name: Mix Test
         run: mix test
 

@@ -18,6 +18,8 @@ defmodule WeatherCastAngleWeb.PageController do
       current_weather_map: _current_weather_map(location_name),
       selected_location: location_name,
       location_names: @location_names,
+      moon_age: _fetch_moon_status(current_date, location_name) |> Map.get("moon_age"),
+      moon_phase: _fetch_moon_status(current_date, location_name) |> Map.get("moon_phase"),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
       # TODO: あとで消す
@@ -40,6 +42,8 @@ defmodule WeatherCastAngleWeb.PageController do
       current_weather_map: _current_weather_map(location_name),
       selected_location: location_name,
       location_names: @location_names,
+      moon_age: _fetch_moon_status(input_date, location_name) |> Map.get("moon_age"),
+      moon_phase: _fetch_moon_status(input_date, location_name) |> Map.get("moon_phase"),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
       # TODO: あとで消す
@@ -69,5 +73,19 @@ defmodule WeatherCastAngleWeb.PageController do
   # TODO: あとで消す
   defp _fetch_weather_forecast_response_map(location_name) do
     WeatherCastAngle.Services.WeatherForecastHandler.get_weather_forecast(location_name)
+  end
+
+  defp _fetch_moon_status(date, location_name) do
+    location_map = WeatherCastAngle.Utils.Locations.get_location_map_by_name(location_name)
+
+    latitude = location_map |> Map.get(:latitude)
+    longitude = location_map |> Map.get(:longitude)
+
+    %{
+      "moon_age" =>
+        WeatherCastAngle.Services.MoonStatusCalculator.get_moon_age(date, latitude, longitude),
+      "moon_phase" =>
+        WeatherCastAngle.Services.MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
+    }
   end
 end
