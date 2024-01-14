@@ -92,6 +92,13 @@
       <p>湿度: <%= @current_weather_map.main_humidity %></p>
     </div>
 
+    <div>
+      <p>月齢: <%= @moon_age %></p>
+      <%= if @moon_phase != "" do %>
+        <p><%= @moon_phase %></p>
+      <% end %>
+    </div>
+
     <%!-- TODO: 後で消す --%>
     <div>
       <h2 class="text-xl mt-3">Weather current</h2>
