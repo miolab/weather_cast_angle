@@ -55,7 +55,7 @@ defmodule WeatherCastAngleWeb.PageController do
   defp fetch_tide_response_map(date_string, location_code) do
     [year | _] = String.split(date_string, "-")
 
-    WeatherCastAngle.Services.TideDataHandler.get_response_body(
+    WeatherCastAngle.Services.TideDataHandler.get_tide_data(
       String.to_integer(year),
       location_code
     )

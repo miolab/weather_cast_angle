@@ -1,31 +1,51 @@
 defmodule WeatherCastAngle.Services.TideDataHandler do
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
+  def get_tide_data(year, location_code) do
+    cache_key = "#{year}_#{location_code}_tide"
+
+    WeatherCastAngle.Services.TideDataHandler.get_response_body(year, location_code, cache_key)
+  end
+
+  # TODO: fix to private
   @doc """
   HTTP GET request and and return response body.
   """
-  @spec get_response_body(pos_integer, String.t()) :: %{
-          String.t() => %{
-            hourly_tide_levels: [integer()],
-            target_date: String.t(),
-            location_code: String.t(),
-            high_tide: [{String.t(), integer()}],
-            low_tide: [{String.t(), integer()}]
+  @spec get_response_body(pos_integer, String.t(), String.t()) ::
+          %{
+            String.t() => %{
+              String.t() => [integer()],
+              String.t() => String.t(),
+              String.t() => String.t(),
+              String.t() => [%{String.t() => integer()}],
+              String.t() => [%{String.t() => integer()}]
+            }
           }
-        }
-  def get_response_body(year, location_code) do
-    url = @target_url <> "#{year}/#{location_code}.txt"
-    res = HTTPoison.get(url)
+          | %{String.t() => String.t()}
+  def get_response_body(year, location_code, cache_key) do
+    cached_value = WeatherCastAngle.Cache.get_cache(cache_key)
 
-    case res do
-      {:ok, %HTTPoison.Response{body: response_body}} ->
-        response_body
-        |> parsed_lines_array()
-        |> Enum.map(&parse_tide_data/1)
-        |> Enum.reduce(%{}, &Map.put(&2, &1.target_date, &1))
+    case cached_value do
+      nil ->
+        res = HTTPoison.get(@target_url <> "#{year}/#{location_code}.txt")
 
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        %{"Error" => reason}
+        case res do
+          {:ok, %HTTPoison.Response{body: response_body}} ->
+            result =
+              response_body
+              |> parsed_lines_array()
+              |> Enum.map(&parse_tide_data/1)
+              |> Enum.reduce(%{}, &Map.put(&2, &1 |> Map.get("target_date"), &1))
+
+            WeatherCastAngle.Cache.put_cache(cache_key, result |> Jason.encode!(), 1)
+            result
+
+          {:error, %HTTPoison.Error{reason: reason}} ->
+            %{"Error" => reason}
+        end
+
+      _ ->
+        cached_value |> Jason.decode!()
     end
   end
 
@@ -48,11 +68,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
   """
   @spec parse_tide_data(String.t()) :: %{
-          hourly_tide_levels: [integer()],
-          target_date: String.t(),
-          location_code: String.t(),
-          high_tide: [{String.t(), integer()}],
-          low_tide: [{String.t(), integer()}]
+          String.t() => [integer()],
+          String.t() => String.t(),
+          String.t() => String.t(),
+          String.t() => [%{String.t() => integer()}],
+          String.t() => [%{String.t() => integer()}]
         }
   def parse_tide_data(string) do
     hourly_tide_levels = String.slice(string, 0, 72) |> _parse_hourly_tide_levels()
@@ -66,11 +86,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     low_tide = String.slice(string, 108, 28) |> _parse_tide_times_and_levels()
 
     %{
-      hourly_tide_levels: hourly_tide_levels,
-      target_date: date,
-      location_code: location_code,
-      high_tide: high_tide,
-      low_tide: low_tide
+      "hourly_tide_levels" => hourly_tide_levels,
+      "target_date" => date,
+      "location_code" => location_code,
+      "high_tide" => high_tide,
+      "low_tide" => low_tide
     }
   end
 
@@ -89,11 +109,14 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     |> Enum.chunk_every(7)
     |> Enum.map(fn chunk ->
       {
-        (Enum.slice(chunk, 0, 2) ++ [":"] ++ Enum.slice(chunk, 2, 2))
-        |> Enum.join("")
-        |> String.replace(" ", "0"),
-        Enum.slice(chunk, 4, 3) |> Enum.join("") |> String.trim() |> String.to_integer()
+        time =
+          (Enum.slice(chunk, 0, 2) ++ [":"] ++ Enum.slice(chunk, 2, 2))
+          |> Enum.join("")
+          |> String.replace(" ", "0"),
+        level = Enum.slice(chunk, 4, 3) |> Enum.join("") |> String.trim() |> String.to_integer()
       }
+
+      %{time => level}
     end)
   end
 end

@@ -53,7 +53,7 @@
       <input
         type="date"
         name="input_date"
-        value={@tide_response.target_date}
+        value={@tide_response |> Map.get("target_date")}
         min="2015-01-01"
         max="2024-12-31"
       />
@@ -78,7 +78,7 @@
     <div>
       <canvas
         class="chart-area"
-        data-tide-levels={@tide_response.hourly_tide_levels |> Jason.encode!()}
+        data-tide-levels={@tide_response |> Map.get("hourly_tide_levels") |> Jason.encode!()}
       >
       </canvas>
     </div>
@@ -114,27 +114,27 @@
     <%!-- TODO: 後で消す --%>
     <div>
       <h2 class="text-xl mt-3">Tide data</h2>
-      <p class="date" data-date={@tide_response.target_date}>
-        Date | <%= @tide_response.target_date %>
+      <p class="date" data-date={@tide_response |> Map.get("target_date")}>
+        Date | <%= @tide_response |> Map.get("target_date") %>
       </p>
-      <p class="location-code" data-location-code={@tide_response.location_code}>
-        Location Code | <%= @tide_response.location_code %>
+      <p class="location-code" data-location-code={@tide_response |> Map.get("location_code")}>
+        Location Code | <%= @tide_response |> Map.get("location_code") %>
       </p>
       <p>
         Hourly tide levels (from 0 to 23 o'clock) |
-        <%= for tide_level <- @tide_response.hourly_tide_levels do %>
+        <%= for tide_level <- @tide_response |> Map.get("hourly_tide_levels") do %>
           <%= tide_level %>
         <% end %>
       </p>
       <p>
         High Tide |
-        <%= for {time, level} <- @tide_response.high_tide do %>
+        <%= for {time, level} <- @tide_response |> Map.get("high_tide") do %>
           <%= time %> -> <%= level %> |
         <% end %>
       </p>
       <p>
         Low Tide |
-        <%= for {time, level} <- @tide_response.low_tide do %>
+        <%= for {time, level} <- @tide_response |> Map.get("low_tide") do %>
           <%= time %> -> <%= level %> |
         <% end %>
       </p>
