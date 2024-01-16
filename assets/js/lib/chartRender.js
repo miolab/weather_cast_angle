@@ -23,7 +23,8 @@ export function renderChart() {
     options: {
       scales: {
         y: {
-          beginAtZero: true,
+          max: 240,
+          min: -80,
         },
       },
     },
