@@ -1,17 +1,26 @@
 defmodule WeatherCastAngle.Services.TideDataHandler do
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
-  def get_tide_data(year, location_code) do
-    cache_key = "#{year}_#{location_code}_tide"
-
-    WeatherCastAngle.Services.TideDataHandler.get_response_body(year, location_code, cache_key)
-  end
-
-  # TODO: fix to private
   @doc """
-  HTTP GET request and and return response body.
+  Get tide data map by HTTP requested result or cached value.
+
+  ## Parameters
+    - `year`: The input year as an example, it is a 4-digit integer, such as 2024 or 2025.
+    - `location_code`: The input Location Code in String format.
+
+  ## Returns
+    - A map where:
+      - The keys are date strings (e.g., "2024-01-01"). Equals to `target_date`.
+      - The values are maps with the following structure:
+        - `"hourly_tide_levels"`: A list of integers representing the tide levels for each hour.
+        - `"target_date"`: A string representing the date for the tide data.
+        - `"location_code"`: A string code representing the location of the tide measurement.
+        - `"high_tide"`: A list of maps, each with a string key representing a time and an integer value representing the tide level at that time.
+        - `"low_tide"`: Similar to `"high_tide"`, but for low tide measurements.
+    - If the cache does NOT exist and an HTTP request GET error occurs,
+      `%{"Error" => reason}` formatted map is returned.
   """
-  @spec get_response_body(pos_integer, String.t(), String.t()) ::
+  @spec get_tide_data(pos_integer, String.t()) ::
           %{
             String.t() => %{
               String.t() => [integer()],
@@ -22,7 +31,14 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
             }
           }
           | %{String.t() => String.t()}
-  def get_response_body(year, location_code, cache_key) do
+  def get_tide_data(year, location_code) do
+    cache_key = "#{year}_#{location_code}_tide"
+
+    _get_response_body(year, location_code, cache_key)
+  end
+
+  defp _get_response_body(year, location_code, cache_key) do
+    # HTTP GET request and and return response body.
     cached_value = WeatherCastAngle.Cache.get_cache(cache_key)
 
     case cached_value do
@@ -37,7 +53,12 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
               |> Enum.map(&parse_tide_data/1)
               |> Enum.reduce(%{}, &Map.put(&2, &1 |> Map.get("target_date"), &1))
 
-            WeatherCastAngle.Cache.put_cache(cache_key, result |> Jason.encode!(), 1)
+            WeatherCastAngle.Cache.put_cache(
+              cache_key,
+              result |> Jason.encode!(),
+              5000
+            )
+
             result
 
           {:error, %HTTPoison.Error{reason: reason}} ->
