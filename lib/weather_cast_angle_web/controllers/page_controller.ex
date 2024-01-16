@@ -9,7 +9,7 @@ defmodule WeatherCastAngleWeb.PageController do
     current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
     default_tide_location_code = WeatherCastAngle.Utils.Locations.default_tide_location_code()
 
-    tide_response_map = fetch_tide_response_map(current_date, default_tide_location_code)
+    tide_response_map = _fetch_tide_response_map(current_date, default_tide_location_code)
 
     render(
       conn,
@@ -33,7 +33,7 @@ defmodule WeatherCastAngleWeb.PageController do
         "location_name" => location_name
       }) do
     tide_location_code = WeatherCastAngle.Utils.Locations.get_location_code_by_name(location_name)
-    tide_response_map = fetch_tide_response_map(input_date, tide_location_code)
+    tide_response_map = _fetch_tide_response_map(input_date, tide_location_code)
 
     render(
       conn,
@@ -52,10 +52,10 @@ defmodule WeatherCastAngleWeb.PageController do
     )
   end
 
-  defp fetch_tide_response_map(date_string, location_code) do
+  defp _fetch_tide_response_map(date_string, location_code) do
     [year | _] = String.split(date_string, "-")
 
-    WeatherCastAngle.Services.TideDataHandler.get_response_body(
+    WeatherCastAngle.Services.TideDataHandler.get_tide_data(
       String.to_integer(year),
       location_code
     )
