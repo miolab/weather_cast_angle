@@ -22,6 +22,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           dt: String.t(),
           weather_description: String.t(),
           weather_main: String.t(),
+          weather_icon_uri: String.t(),
           wind_speed: float(),
           main_temp: float(),
           main_humidity: integer()
@@ -46,6 +47,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
             |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
           weather_description: weather_map |> Map.get("description"),
           weather_main: weather_map |> Map.get("main"),
+          weather_icon_uri:
+            "https://openweathermap.org/img/wn/#{weather_map |> Map.get("icon")}@2x.png",
           wind_speed: current_weather_response_map["wind"]["speed"],
           main_temp:
             current_weather_response_map["main"]["temp"]
@@ -60,6 +63,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       dt: "",
       weather_description: "",
       weather_main: "",
+      weather_icon_uri: "",
       wind_speed: 0.0,
       main_temp: 0.0,
       main_humidity: 0
