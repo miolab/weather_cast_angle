@@ -49,6 +49,28 @@
       </svg>
     </.link>
 
+    <%!-- TODO: update layout --%>
+    <div class="my-2">
+      <p><%= @current_weather_map.dt %>時現在の天気</p>
+      <p class="flex items-center">
+        <img
+          src={@current_weather_map.weather_icon_uri}
+          alt={"current weather icon: " <> @current_weather_map.weather_main}
+          class="h-16"
+        />
+        <%= @current_weather_map.weather_description %>
+      </p>
+      <p>風速: <%= @current_weather_map.wind_speed %></p>
+      <p>気温: <%= @current_weather_map.main_temp %></p>
+      <p>湿度: <%= @current_weather_map.main_humidity %></p>
+      <div>
+        <p>月齢: <%= @moon_age %></p>
+        <%= if @moon_phase != "" do %>
+          <p><%= @moon_phase %></p>
+        <% end %>
+      </div>
+    </div>
+
     <form action="/tide_data" method="get" class="my-4">
       <input
         type="date"
@@ -81,28 +103,6 @@
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}
       >
       </canvas>
-    </div>
-
-    <div class="my-2">
-      <p><%= @current_weather_map.dt %>時現在の天気</p>
-      <p class="flex items-center">
-        <img
-          src={@current_weather_map.weather_icon_uri}
-          alt={"current weather icon: " <> @current_weather_map.weather_main}
-          class="h-16"
-        />
-        <%= @current_weather_map.weather_description %>
-      </p>
-      <p>風速: <%= @current_weather_map.wind_speed %></p>
-      <p>気温: <%= @current_weather_map.main_temp %></p>
-      <p>湿度: <%= @current_weather_map.main_humidity %></p>
-    </div>
-
-    <div>
-      <p>月齢: <%= @moon_age %></p>
-      <%= if @moon_phase != "" do %>
-        <p><%= @moon_phase %></p>
-      <% end %>
     </div>
 
     <%!-- TODO: 後で消す --%>
