@@ -50,24 +50,36 @@
     </.link>
 
     <%!-- TODO: update layout --%>
-    <div class="my-2">
-      <p><%= @current_weather_map.dt %>時現在の天気</p>
-      <p class="flex items-center">
+    <div class="my-2 w-full p-3 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+        <%= @current_weather_map.dt %>時現在の天気
+      </h2>
+      <div class="flex items-center text-base font-bold text-gray-500 dark:text-gray-100">
         <img
           src={@current_weather_map.weather_icon_uri}
           alt={"current weather icon: " <> @current_weather_map.weather_main}
           class="h-16"
         />
         <%= @current_weather_map.weather_description %>
-      </p>
-      <p>風速: <%= @current_weather_map.wind_speed %></p>
-      <p>気温: <%= @current_weather_map.main_temp %></p>
-      <p>湿度: <%= @current_weather_map.main_humidity %></p>
-      <div>
-        <p>月齢: <%= @moon_age %></p>
-        <%= if @moon_phase != "" do %>
-          <p><%= @moon_phase %></p>
-        <% end %>
+      </div>
+      <div class="flex flex-wrap">
+        <span class="flex-1 min-w-0 ms-1 p-2 text-sm font-bold text-gray-900 rounded-lg bg-gray-50 group dark:bg-gray-600 dark:text-white">
+          風速: <%= @current_weather_map.wind_speed %>
+        </span>
+        <span class="flex-1 min-w-0 ms-1 p-2 text-sm font-bold text-gray-900 rounded-lg bg-gray-50 group dark:bg-gray-600 dark:text-white">
+          気温: <%= @current_weather_map.main_temp %>
+        </span>
+        <span class="flex-1 min-w-0 ms-1 p-2 text-sm font-bold text-gray-900 rounded-lg bg-gray-50 group dark:bg-gray-600 dark:text-white">
+          湿度: <%= @current_weather_map.main_humidity %>
+        </span>
+      </div>
+      <div class="flex flex-wrap mt-1">
+        <span class="flex-1 min-w-0 ms-1 p-2 text-sm font-bold text-gray-900 rounded-lg bg-gray-50 group dark:bg-gray-600 dark:text-white">
+          月齢: <%= @moon_age %>
+          <%= if @moon_phase != "" do %>
+            (<%= @moon_phase %>)
+          <% end %>
+        </span>
       </div>
     </div>
 
