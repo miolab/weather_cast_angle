@@ -49,6 +49,46 @@
       </svg>
     </.link>
 
+    <div class="my-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
+      <h2 class="text-base font-semibold md:text-xl text-gray-100 -mt-2">
+        <%= @current_weather_map.dt %>時現在の天気
+      </h2>
+      <div class="flex flex-wrap my-2">
+        <span class="flex-1 basis-1/2 flex items-center ms-1 rounded-lg group bg-gray-600">
+          <img
+            src={@current_weather_map.weather_icon_uri}
+            alt={"current weather icon: " <> @current_weather_map.weather_main}
+            class="h-14"
+          />
+          <p class=" text-sm font-bold text-white">
+            <%= @current_weather_map.weather_description %>
+          </p>
+        </span>
+        <span class="flex-1 basis-1/2 flex items-center ms-1 p-2 text-base font-bold rounded-lg group bg-gray-600 text-white">
+          風速: <%= @current_weather_map.wind_speed %>
+        </span>
+      </div>
+      <div class="flex flex-wrap">
+        <span class="flex-1 basis-1/2 min-w-0 ms-1 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white">
+          気温: <%= @current_weather_map.main_temp %>
+        </span>
+        <span class="flex-1 basis-1/2 min-w-0 ms-1 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white">
+          湿度: <%= @current_weather_map.main_humidity %>
+        </span>
+      </div>
+      <div class="flex flex-wrap mt-1">
+        <span class="flex-1 basis-1/2 min-w-0 ms-1 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white">
+          月齢: <%= @moon_age %>
+          <%= if @moon_phase != "" do %>
+            (<%= @moon_phase %>)
+          <% end %>
+        </span>
+        <span class="flex-1 basis-1/2 min-w-0 ms-1 p-2 text-xs font-bold rounded-lg group bg-gray-800 text-white">
+          <%!-- TODO: 水温。湿度と場所を入れ替える。bg-gray-700に。 --%>
+        </span>
+      </div>
+    </div>
+
     <form action="/tide_data" method="get" class="my-4">
       <input
         type="date"
@@ -81,22 +121,6 @@
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}
       >
       </canvas>
-    </div>
-
-    <div class="my-2">
-      <p>
-        <%= @current_weather_map.dt %>時現在の天気: <%= @current_weather_map.weather_description %> | <%= @current_weather_map.weather_main %>
-      </p>
-      <p>風速: <%= @current_weather_map.wind_speed %></p>
-      <p>温度: <%= @current_weather_map.main_temp %></p>
-      <p>湿度: <%= @current_weather_map.main_humidity %></p>
-    </div>
-
-    <div>
-      <p>月齢: <%= @moon_age %></p>
-      <%= if @moon_phase != "" do %>
-        <p><%= @moon_phase %></p>
-      <% end %>
     </div>
 
     <%!-- TODO: 後で消す --%>
