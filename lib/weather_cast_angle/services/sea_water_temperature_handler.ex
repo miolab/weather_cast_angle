@@ -1,0 +1,2 @@
+defmodule WeatherCastAngle.Services.SeaWaterTemperatureHandler do
+end
