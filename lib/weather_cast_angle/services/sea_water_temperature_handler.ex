@@ -1,9 +1,9 @@
 defmodule WeatherCastAngle.Services.SeaWaterTemperatureHandler do
-  # TODO: 各areaコードをlocationに追加する
-  # @sea_area_code 602
+  @spec get_previous_days_temperatures(String.t()) :: [{String.t(), float()}]
+  def get_previous_days_temperatures(location_name) do
+    cache_key = "#{location_name}_previous_days_temperatures"
 
-  def get_previous_days_temperatures(sea_area_code) do
-    cache_key = "#{sea_area_code}_area_previous_days_temperatures"
+    sea_area_code = _get_sea_area_code(location_name)
 
     _get_previous_days_temperatures_data(sea_area_code, cache_key)
     |> WeatherCastAngle.Services.SeaWaterTemperatureProcessor.convert_to_sorted_keyword_list()
