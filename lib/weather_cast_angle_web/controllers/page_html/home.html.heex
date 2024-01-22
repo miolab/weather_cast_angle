@@ -87,6 +87,16 @@
           <%!-- TODO: 水温。湿度と場所を入れ替える。bg-gray-700に。 --%>
         </span>
       </div>
+      <div class="flex flex-wrap mt-1">
+        <span class="flex-1 basis-1/2 min-w-0 ms-1 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white">
+          <p class="mb-1">前日までの水温</p>
+          <ur class="list-inside">
+            <%= for {date, temperature} <- @previous_days_sea_temperatures do %>
+              <li><%= date %>: <%= temperature %>℃</li>
+            <% end %>
+          </ur>
+        </span>
+      </div>
     </div>
 
     <form action="/tide_data" method="get" class="my-4">
