@@ -6,6 +6,13 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureHandler do
     cache_key = "#{sea_area_code}_area_previous_days_temperatures"
 
     _get_previous_days_temperatures_data(sea_area_code, cache_key)
+    |> WeatherCastAngle.Services.SeaWaterTemperatureProcessor.convert_to_sorted_keyword_list()
+  end
+
+  defp _get_sea_area_code(location_name) do
+    location_name
+    |> WeatherCastAngle.Utils.Locations.get_location_map_by_name()
+    |> Map.get(:sea_area_code)
   end
 
   defp _get_previous_days_temperatures_data(sea_area_code, cache_key) do
@@ -22,8 +29,9 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureHandler do
           {:ok, %HTTPoison.Response{body: response_body}} ->
             result =
               response_body
+              |> WeatherCastAngle.Services.SeaWaterTemperatureProcessor.previous_days_records()
 
-            WeatherCastAngle.Cache.put_cache(cache_key, result, 60)
+            WeatherCastAngle.Cache.put_cache(cache_key, result |> Jason.encode!(), 60)
 
             result
 
@@ -33,6 +41,7 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureHandler do
 
       _ ->
         cached_value
+        |> Jason.decode!()
     end
   end
 end
