@@ -48,4 +48,18 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureProcessor do
 
     {date, temperature}
   end
+
+  @doc """
+  Converts a map of date-temperature pairs into a sorted keyword list,
+  maintaining the descending order of dates.
+  """
+  @spec convert_to_sorted_keyword_list(%{String.t() => float()}) :: [{String.t(), float()}]
+  def(convert_to_sorted_keyword_list(previous_temperatures_map)) do
+    previous_temperatures_map
+    |> Enum.map(fn {key, value} -> {key, value} end)
+    |> Enum.sort_by(
+      fn {key, _} -> key end,
+      :desc
+    )
+  end
 end
