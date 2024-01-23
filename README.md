@@ -7,11 +7,15 @@
 
 This app is specifically designed to provide comprehensive information on tide levels, wind, weather, and more to help a fishing plan. :fish:
 
+Note: This repository and application are designed for **personal use** only.
+
 ## Features
 
 [WIP]
 
-Note: This repository and application are designed for personal use.
+- Screenshot during development
+
+  <img width="599" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/7f6e3388-61d3-4517-9463-763aad64b26d">
 
 ---
 
@@ -30,6 +34,8 @@ Can build the Docker image and launch the application using the following comman
 - To start your Phoenix server:
 
   - Run `mix setup` to install and setup dependencies
+
+  - Run `mix git_hooks.install` to prepare local development.
 
   - Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 

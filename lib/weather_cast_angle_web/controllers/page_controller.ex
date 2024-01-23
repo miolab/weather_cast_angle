@@ -20,6 +20,7 @@ defmodule WeatherCastAngleWeb.PageController do
       location_names: @location_names,
       moon_age: _fetch_moon_status(current_date, location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(current_date, location_name) |> Map.get("moon_phase"),
+      previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
       # TODO: あとで消す
@@ -44,6 +45,7 @@ defmodule WeatherCastAngleWeb.PageController do
       location_names: @location_names,
       moon_age: _fetch_moon_status(input_date, location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(input_date, location_name) |> Map.get("moon_phase"),
+      previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
       # TODO: あとで消す
@@ -87,5 +89,11 @@ defmodule WeatherCastAngleWeb.PageController do
       "moon_phase" =>
         WeatherCastAngle.Services.MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
     }
+  end
+
+  defp _previous_days_sea_temperatures(location_name) do
+    WeatherCastAngle.Services.SeaWaterTemperatureHandler.get_previous_days_temperatures(
+      location_name
+    )
   end
 end

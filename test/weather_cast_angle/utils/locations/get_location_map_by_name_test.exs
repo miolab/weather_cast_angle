@@ -6,6 +6,7 @@ defmodule WeatherCastAngle.Utils.Locations.GetLocationMapByNameTest do
 
     assert actual == %{
              tide_location_code: "TK",
+             sea_area_code: 306,
              latitude: 35.689499,
              longitude: 139.691711
            }
@@ -16,6 +17,7 @@ defmodule WeatherCastAngle.Utils.Locations.GetLocationMapByNameTest do
 
     assert actual == %{
              tide_location_code: "",
+             sea_area_code: 0,
              latitude: 0.0,
              longitude: 0.0
            }

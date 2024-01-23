@@ -7,6 +7,7 @@ defmodule WeatherCastAngle.Utils.Locations do
             String.t(),
             %{
               tide_location_code: String.t(),
+              sea_area_code: non_neg_integer(),
               latitude: float(),
               longitude: float()
             }
@@ -18,6 +19,7 @@ defmodule WeatherCastAngle.Utils.Locations do
         "moji",
         %{
           tide_location_code: "MO",
+          sea_area_code: 602,
           latitude: 33.9484466691993,
           longitude: 130.96263530779785
         }
@@ -26,6 +28,7 @@ defmodule WeatherCastAngle.Utils.Locations do
         "hagi",
         %{
           tide_location_code: "K5",
+          sea_area_code: 601,
           # Senzaki
           latitude: 34.383331,
           longitude: 131.199997
@@ -35,6 +38,7 @@ defmodule WeatherCastAngle.Utils.Locations do
         "tokyo",
         %{
           tide_location_code: "TK",
+          sea_area_code: 306,
           latitude: 35.689499,
           longitude: 139.691711
         }
@@ -73,6 +77,7 @@ defmodule WeatherCastAngle.Utils.Locations do
   """
   @spec get_location_map_by_name(String.t()) :: %{
           tide_location_code: String.t(),
+          sea_area_code: non_neg_integer(),
           latitude: float(),
           longitude: float()
         }
@@ -99,6 +104,7 @@ defmodule WeatherCastAngle.Utils.Locations do
       "",
       %{
         tide_location_code: "",
+        sea_area_code: 0,
         latitude: 0.0,
         longitude: 0.0
       }
