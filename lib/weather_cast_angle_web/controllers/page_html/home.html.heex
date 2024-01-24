@@ -53,27 +53,28 @@
       <h2 class="text-base font-semibold md:text-xl text-gray-100 -mt-2">
         <%= @current_weather_map.dt %>時現在の天気
       </h2>
+
       <div class="flex flex-wrap mt-2">
         <span class="basis-1/2 items-center p-2 rounded-lg group bg-gray-600 border-4 border-gray-800 flex flex-wrap">
           <img
             src={@current_weather_map.weather_icon_uri}
             alt={"current weather icon: " <> @current_weather_map.weather_main}
-            class="h-14"
+            class="h-12"
           />
           <p class="text-sm font-bold text-white">
             <%= @current_weather_map.weather_description %>
           </p>
         </span>
         <span class="basis-1/2 flex items-center p-2 text-base font-bold rounded-lg group bg-gray-600 border-4 border-gray-800 text-white">
-          風速: <%= @current_weather_map.wind_speed %>
+          風速: <%= @current_weather_map.wind_speed %><small class="ml-1">m/s</small>
         </span>
       </div>
       <div class="flex flex-wrap">
         <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          気温: <%= @current_weather_map.main_temp %>
+          気温: <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
         </span>
         <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          湿度: <%= @current_weather_map.main_humidity %>
+          湿度: <%= @current_weather_map.main_humidity %><small class="ml-1">%</small>
         </span>
       </div>
       <div class="flex flex-wrap">
@@ -92,7 +93,9 @@
           <p class="mb-1">前日までの水温</p>
           <ur class="list-inside">
             <%= for {date, temperature} <- @previous_days_sea_temperatures do %>
-              <li><%= date %>: <%= temperature %>℃</li>
+              <li>
+                <%= date %>: <%= temperature %><small class="ml-1">℃</small>
+              </li>
             <% end %>
           </ur>
         </span>
