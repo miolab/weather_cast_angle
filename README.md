@@ -7,15 +7,23 @@
 
 This app is specifically designed to provide comprehensive information on tide levels, wind, weather, and more to help a fishing plan. :fish:
 
-Note: This repository and application are designed for **personal use** only.
+<small>Note: This repository and application are designed for **personal use** only.</small>
 
 ## Features
 
-[WIP]
+- Screenshot during development;
 
-- Screenshot during development
+  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/e6f4f664-e32c-4828-9bc1-8cbefef49ab7">
 
-  <img width="599" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/7f6e3388-61d3-4517-9463-763aad64b26d">
+- The information provided by this application;
+
+  - Tide graph
+  - Weather
+  - Wind speed
+  - Temperature
+  - Moon age
+  - Humidity
+  - Seawater temperature
 
 ---
 
@@ -27,23 +35,25 @@ Can build the Docker image and launch the application using the following comman
 
 - Prepare `.env` file and set [OpenWeather](https://openweathermap.org/) API key (required)
 
-  ```sh
-  cp .env.sample .env
-  ```
+```sh
+cp .env.sample .env
+```
 
-- To start your Phoenix server:
+- Run `mix git_hooks.install` to prepare local development
 
-  - Run `mix setup` to install and setup dependencies
+- Run `mix setup` to install and setup dependencies
 
-  - Run `mix git_hooks.install` to prepare local development.
+### Start this application using docker container
 
-  - Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+To start the Phoenix server,
 
-### Start app using docker container
+- Build the application container
 
 ```sh
 docker build -t weather_cast_angle .
 ```
+
+- Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server` using docker;
 
 ```sh
 docker run --rm -p 4000:4000 \

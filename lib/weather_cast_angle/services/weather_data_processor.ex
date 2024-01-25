@@ -43,8 +43,12 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   @doc """
   Converts a temperature from Kelvin to Celsius.
   """
-  @spec kelvin_to_celsius_temperature(float()) :: float()
-  def kelvin_to_celsius_temperature(kelvin), do: (kelvin - 273.15) |> Float.round(1)
+  @spec kelvin_to_celsius_temperature(float()) :: integer()
+  def kelvin_to_celsius_temperature(kelvin) do
+    (kelvin - 273.15)
+    |> Float.round()
+    |> trunc()
+  end
 
   @doc """
   Converts a float value to a percentage.
