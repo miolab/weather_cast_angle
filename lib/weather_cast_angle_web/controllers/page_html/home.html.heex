@@ -55,43 +55,46 @@
       </h2>
 
       <div class="flex flex-wrap mt-2">
-        <span class="basis-1/2 items-center p-2 rounded-lg group bg-gray-600 border-4 border-gray-800 flex flex-wrap">
-          <img
-            src={@current_weather_map.weather_icon_uri}
-            alt={"current weather icon: " <> @current_weather_map.weather_main}
-            class="h-12"
-          />
-          <p class="text-sm font-bold text-white">
-            <%= @current_weather_map.weather_description %>
-          </p>
-        </span>
-        <span class="basis-1/2 flex items-center p-2 text-base font-bold rounded-lg group bg-gray-600 border-4 border-gray-800 text-white">
-          風速: <%= @current_weather_map.wind_speed %><small class="ml-1">m/s</small>
-        </span>
+        <div class="flex flex-1 flex-wrap items-stretch">
+          <span class="flex basis-1/2 items-center p-2 rounded-lg group bg-gray-600 border-4 border-gray-800 flex-wrap">
+            <img
+              src={@current_weather_map.weather_icon_uri}
+              alt={"current weather icon: " <> @current_weather_map.weather_main}
+              class="h-12"
+            />
+            <p class="text-sm font-bold text-white sm:text-base">
+              <%= @current_weather_map.weather_description %>
+            </p>
+          </span>
+          <div class="flex flex-1 md:basis-1/2 flex-wrap md:flex-col sm:my-1">
+            <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
+              <span class="whitespace-nowrap">
+                風速: <%= @current_weather_map.wind_speed %><small class="ml-1">m/s</small>
+              </span>
+            </span>
+            <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
+              <span class="whitespace-nowrap">
+                気温: <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
       <div class="flex flex-wrap">
-        <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          気温: <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
-        </span>
-        <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          湿度: <%= @current_weather_map.main_humidity %><small class="ml-1">%</small>
-        </span>
-      </div>
-      <div class="flex flex-wrap">
-        <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
+        <span class="flex basis-1/2 items-center p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800 sm:text-sm">
           月齢: <%= @moon_age %>
           <%= if @moon_phase != "" do %>
             (<%= @moon_phase %>)
           <% end %>
         </span>
-        <span class="basis-1/2 p-2 text-xs font-bold rounded-lg group bg-gray-800 text-white border-4 border-gray-800">
-          <%!-- TODO: 水温。湿度と場所を入れ替える。bg-gray-700に。 --%>
+        <span class="flex basis-1/2 items-center p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800 sm:text-sm">
+          湿度: <%= @current_weather_map.main_humidity %><small class="ml-1">%</small>
         </span>
       </div>
       <div class="flex flex-wrap">
-        <span class="flex-1 p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          <p class="mb-1">前日までの水温</p>
-          <ur class="list-inside">
+        <span class="flex-1 p-2 font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
+          <p class="mb-1 text-xs sm:text-sm">前日までの水温</p>
+          <ur class="list-inside text-xs">
             <%= for {date, temperature} <- @previous_days_sea_temperatures do %>
               <li>
                 <%= date %>: <%= temperature %><small class="ml-1">℃</small>
