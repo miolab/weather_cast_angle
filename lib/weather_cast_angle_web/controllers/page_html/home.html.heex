@@ -112,6 +112,7 @@
         value={@tide_response["target_date"]}
         min="2015-01-01"
         max="2024-12-31"
+        class="bg-gray-100 border border-gray-700 text-gray-800 font-bold text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
       />
       <select name="location_name" class="ml-3">
         <%= for location_name <- @location_names do %>
