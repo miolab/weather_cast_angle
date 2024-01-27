@@ -112,11 +112,14 @@
         value={@tide_response["target_date"]}
         min="2015-01-01"
         max="2024-12-31"
-        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 mr-2.5 mb-1"
+        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 mr-1.5 mb-2"
       />
+      <button class="mr-5">
+        <.icon name="hero-chevron-right-solid" class="p-1.5" />
+      </button>
       <select
         name="location_name"
-        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2 w-28"
+        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 mr-2 p-2 w-28"
       >
         <%= for location_name <- @location_names do %>
           <option
