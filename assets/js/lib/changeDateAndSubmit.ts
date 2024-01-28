@@ -1,3 +1,9 @@
+/**
+ * Adds the specified number of days to the date and returns the new date in `YYYY-MM-DD` format.
+ *
+ * @param {number} days Number of days to add. Negative values retrieve dates in the past, positive values retrieve dates in the future.
+ * @returns {string} Returns the date after addition in `YYYYY-MM-DD` format.
+ */
 const changeDateBy = (days: number): string => {
   const baseDateString = document.querySelector(".js-date")?.dataset.date;
 
@@ -14,6 +20,11 @@ const changeDateBy = (days: number): string => {
   return `${year}-${month}-${day}`;
 };
 
+/**
+ * Change the date by the specified number of days, set the value to the input element, and then submit the associated form.
+ *
+ * @param {number} days - Number of days to add.
+ */
 const setInputAdjustedDateAndSubmit = (days: number): void => {
   const dateInput = document.querySelector(
     ".js-input-date"
@@ -23,6 +34,10 @@ const setInputAdjustedDateAndSubmit = (days: number): void => {
   dateInput.form?.submit();
 };
 
+/**
+ * Sets up event listeners for buttons to proceed to an arbitrary date.
+ * When these buttons are clicked, the date is adjusted, and the form is submitted.
+ */
 export function changeDateAndSubmit(): void {
   document
     .querySelector(".js-proceed-next-day")
