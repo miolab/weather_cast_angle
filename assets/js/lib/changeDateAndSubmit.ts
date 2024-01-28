@@ -1,5 +1,5 @@
 const changeDateBy = (days: number): string => {
-  const baseDateString = document.querySelector(".date")?.dataset.date;
+  const baseDateString = document.querySelector(".js-date")?.dataset.date;
 
   const dateParts = baseDateString.split("-").map(Number);
   const adjustedDate = new Date(

@@ -4,7 +4,7 @@ export function renderChart() {
   const chartArea = document.querySelector(".chart-area");
   const tideLevels = JSON.parse(chartArea.dataset.tideLevels);
 
-  const date = document.querySelector(".date").dataset.date;
+  const date = document.querySelector(".js-date").dataset.date;
   const currentHour = new Date().getHours();
 
   const backgroundColors = tideLevels.map((_, index) =>
