@@ -27,4 +27,8 @@ export function changeDateAndSubmit(): void {
   document
     .querySelector(".js-proceed-next-day")
     ?.addEventListener("click", () => setInputAdjustedDateAndSubmit(1));
+
+  document
+    .querySelector(".js-proceed-before-day")
+    ?.addEventListener("click", () => setInputAdjustedDateAndSubmit(-1));
 }
