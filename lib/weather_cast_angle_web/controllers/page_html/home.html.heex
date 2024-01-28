@@ -50,7 +50,10 @@
     </.link>
 
     <div class="my-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
-      <h2 class="text-base font-semibold md:text-xl text-gray-100 -mt-2">
+      <h2
+        class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
+        data-date={@tide_response["target_date"]}
+      >
         <%= @current_weather_map.dt %>時現在の天気
       </h2>
 
@@ -106,14 +109,26 @@
     </div>
 
     <form action="/tide_data" method="get" class="my-4">
+      <button class="js-proceed-before-day mr-1 sm:mr-1.5">
+        <.icon name="hero-chevron-left-solid" class="-mr-2 sm:-mr-1.5" />
+        <span class="font-bold text-xs sm:text-sm">前日</span>
+      </button>
       <input
         type="date"
         name="input_date"
         value={@tide_response["target_date"]}
         min="2015-01-01"
         max="2024-12-31"
+        class="js-input-date bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5 mr-1 mb-2 w-40 sm:mr-1.5"
       />
-      <select name="location_name" class="ml-3">
+      <button class="js-proceed-next-day sm:mr-4">
+        <span class="font-bold text-xs sm:text-sm">翌日</span>
+        <.icon name="hero-chevron-right-solid" class="-ml-2 pr-1.5 sm:-ml-1.5" />
+      </button>
+      <select
+        name="location_name"
+        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 mr-2 p-1.5 w-28"
+      >
         <%= for location_name <- @location_names do %>
           <option
             value={location_name}
@@ -154,7 +169,7 @@
     <%!-- TODO: 後で消す --%>
     <div>
       <h2 class="text-xl mt-3">Tide data</h2>
-      <p class="date" data-date={@tide_response["target_date"]}>
+      <p>
         Date | <%= @tide_response["target_date"] %>
       </p>
       <p class="location-code" data-location-code={@tide_response["location_code"]}>
