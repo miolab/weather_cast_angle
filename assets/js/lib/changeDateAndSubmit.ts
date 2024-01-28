@@ -13,3 +13,18 @@ const changeDateBy = (days: number): string => {
 
   return `${year}-${month}-${day}`;
 };
+
+const setInputAdjustedDateAndSubmit = (days: number): void => {
+  const dateInput = document.querySelector(
+    ".js-input-date"
+  ) as HTMLInputElement;
+
+  dateInput.value = changeDateBy(days);
+  dateInput.form?.submit();
+};
+
+export function changeDateAndSubmit(): void {
+  document
+    .querySelector(".js-proceed-next-day")
+    ?.addEventListener("click", () => setInputAdjustedDateAndSubmit(1));
+}
