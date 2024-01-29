@@ -51,7 +51,9 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
           probability_of_precipitation:
             forecast_map["pop"]
             |> WeatherCastAngle.Services.WeatherDataProcessor.convert_to_percentage(),
-          wind_speed: forecast_map["wind"]["speed"] |> Float.round(1),
+          wind_speed:
+            forecast_map["wind"]["speed"]
+            |> WeatherCastAngle.Services.WeatherDataProcessor.round_wind_speed(),
           wind_deg: forecast_map["wind"]["deg"],
           main_temp:
             forecast_map["main"]["temp"]
