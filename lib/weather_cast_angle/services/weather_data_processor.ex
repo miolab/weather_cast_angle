@@ -51,6 +51,14 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   end
 
   @doc """
+  Rounds the given wind speed to the nearest integer from float.
+  If an integer is given as an argument, it is returned as is.
+  """
+  @spec round_wind_speed(float() | non_neg_integer()) :: non_neg_integer()
+  def round_wind_speed(wind_speed) when is_float(wind_speed), do: round(wind_speed)
+  def round_wind_speed(wind_speed) when is_integer(wind_speed), do: wind_speed
+
+  @doc """
   Converts a float value to a percentage.
   This function is intended for use in the calculation of precipitation probability.
   """

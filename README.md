@@ -13,7 +13,7 @@ This app is specifically designed to provide comprehensive information on tide l
 
 - Screenshot during development;
 
-  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/e6f4f664-e32c-4828-9bc1-8cbefef49ab7">
+  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/6e37434d-09a4-40cb-8de4-be27cf313a9d">
 
 - The information provided by this application;
 

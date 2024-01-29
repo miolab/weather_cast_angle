@@ -49,7 +49,9 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           weather_main: weather_map |> Map.get("main"),
           weather_icon_uri:
             "https://openweathermap.org/img/wn/#{weather_map |> Map.get("icon")}@2x.png",
-          wind_speed: current_weather_response_map["wind"]["speed"] |> Float.round(1),
+          wind_speed:
+            current_weather_response_map["wind"]["speed"]
+            |> WeatherCastAngle.Services.WeatherDataProcessor.round_wind_speed(),
           main_temp:
             current_weather_response_map["main"]["temp"]
             |> WeatherCastAngle.Services.WeatherDataProcessor.kelvin_to_celsius_temperature(),

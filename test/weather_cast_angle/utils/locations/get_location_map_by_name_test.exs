@@ -5,6 +5,7 @@ defmodule WeatherCastAngle.Utils.Locations.GetLocationMapByNameTest do
     actual = WeatherCastAngle.Utils.Locations.get_location_map_by_name("tokyo")
 
     assert actual == %{
+             place_name: "東京",
              tide_location_code: "TK",
              sea_area_code: 306,
              latitude: 35.689499,
@@ -16,6 +17,7 @@ defmodule WeatherCastAngle.Utils.Locations.GetLocationMapByNameTest do
     actual = WeatherCastAngle.Utils.Locations.get_location_map_by_name("undefined_location")
 
     assert actual == %{
+             place_name: "",
              tide_location_code: "",
              sea_area_code: 0,
              latitude: 0.0,
