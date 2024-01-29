@@ -6,6 +6,7 @@ defmodule WeatherCastAngle.Utils.Locations do
           {
             String.t(),
             %{
+              place_name: String.t(),
               tide_location_code: String.t(),
               sea_area_code: non_neg_integer(),
               latitude: float(),
@@ -18,6 +19,7 @@ defmodule WeatherCastAngle.Utils.Locations do
       {
         "moji",
         %{
+          place_name: "門司",
           tide_location_code: "MO",
           sea_area_code: 602,
           latitude: 33.9484466691993,
@@ -27,6 +29,7 @@ defmodule WeatherCastAngle.Utils.Locations do
       {
         "hagi",
         %{
+          place_name: "萩",
           tide_location_code: "K5",
           sea_area_code: 601,
           # Senzaki
@@ -37,6 +40,7 @@ defmodule WeatherCastAngle.Utils.Locations do
       {
         "tokyo",
         %{
+          place_name: "東京",
           tide_location_code: "TK",
           sea_area_code: 306,
           latitude: 35.689499,
@@ -76,6 +80,7 @@ defmodule WeatherCastAngle.Utils.Locations do
   Return location map by input location name.
   """
   @spec get_location_map_by_name(String.t()) :: %{
+          place_name: String.t(),
           tide_location_code: String.t(),
           sea_area_code: non_neg_integer(),
           latitude: float(),
@@ -91,6 +96,14 @@ defmodule WeatherCastAngle.Utils.Locations do
   end
 
   @doc """
+  Get place name like '東京' or '門司' by location name.
+  """
+  @spec get_place_name_by_location_name(String.t()) :: String.t()
+  def get_place_name_by_location_name(location_name) do
+    get_location_map_by_name(location_name) |> Map.get(:place_name)
+  end
+
+  @doc """
   Get location code by location name.
   """
   @spec get_location_code_by_name(String.t()) :: String.t()
@@ -103,6 +116,7 @@ defmodule WeatherCastAngle.Utils.Locations do
     {
       "",
       %{
+        place_name: "",
         tide_location_code: "",
         sea_area_code: 0,
         latitude: 0.0,

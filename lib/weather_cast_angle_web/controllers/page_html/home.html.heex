@@ -134,7 +134,7 @@
             value={location_name}
             selected={if location_name == @selected_location, do: "selected"}
           >
-            <%= location_name %>
+            <%= WeatherCastAngle.Utils.Locations.get_place_name_by_location_name(location_name) %>
           </option>
         <% end %>
       </select>
