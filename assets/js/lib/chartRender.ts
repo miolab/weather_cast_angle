@@ -1,21 +1,27 @@
 import Chart from "chart.js/auto";
 
-export function renderChart() {
-  const chartArea = document.querySelector(".chart-area");
-  const tideLevels = JSON.parse(chartArea.dataset.tideLevels);
+/**
+ * Renders a chart displaying tide levels for a specific location and date.
+ *
+ * - The chart displays tide levels for each hour over a 24-hour period.
+ * - The current hour is highlighted with a different color and an increased point radius.
+ */
+export function renderChart(): void {
+  const chartArea = document.querySelector(".chart-area") as HTMLCanvasElement;
+  const tideLevels: number[] = JSON.parse(chartArea.dataset.tideLevels);
 
-  const date = document.querySelector(".js-date").dataset.date;
-  const currentHour = new Date().getHours();
+  const date: string = document.querySelector(".js-date")?.dataset.date;
+  const currentHour: number = new Date().getHours();
 
-  const backgroundColors = tideLevels.map((_, index) =>
+  const backgroundColors: string[] = tideLevels.map((_, index) =>
     index === currentHour ? "rgba(255, 0, 54, 0.8)" : "rgba(54, 162, 235, 0.6)"
   );
-  const pointRadius = tideLevels.map((_, index) =>
+  const pointRadius: number[] = tideLevels.map((_, index) =>
     index === currentHour ? 5 : 0
   );
 
-  const locationCode =
-    document.querySelector(".location-code").dataset.locationCode;
+  const locationCode: string =
+    document.querySelector(".location-code")?.dataset.locationCode;
 
   new Chart(chartArea, {
     type: "bar",
