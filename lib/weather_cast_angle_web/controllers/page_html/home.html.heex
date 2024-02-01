@@ -146,7 +146,7 @@
       </button>
     </form>
 
-    <div>
+    <div data-weather-forecast="">
       <canvas
         class="chart-area"
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}
