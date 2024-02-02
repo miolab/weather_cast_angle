@@ -66,7 +66,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       weather_description: "",
       weather_main: "",
       weather_icon_uri: "",
-      wind_speed: 0.0,
+      wind_speed: 0,
       main_temp: 0.0,
       main_humidity: 0
     }
