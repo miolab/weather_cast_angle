@@ -25,7 +25,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
               dt: String.t(),
               weather_description: String.t(),
               weather_main: String.t(),
-              weather_icon: String.t(),
+              weather_icon_uri: String.t(),
               probability_of_precipitation: non_neg_integer(),
               wind_speed: float(),
               wind_deg: non_neg_integer(),
@@ -47,7 +47,8 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
         %{
           weather_description: weather_map |> Map.get("description", ""),
           weather_main: weather_map |> Map.get("main", ""),
-          weather_icon: weather_map |> Map.get("icon", ""),
+          weather_icon_uri:
+            "https://openweathermap.org/img/wn/#{weather_map |> Map.get("icon")}@2x.png",
           probability_of_precipitation:
             forecast_map["pop"]
             |> WeatherCastAngle.Services.WeatherDataProcessor.convert_to_percentage(),
@@ -61,6 +62,34 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
           main_humidity: forecast_map["main"]["humidity"]
         }
       }
+    end)
+  end
+
+  @spec get_forecast_by_date(String.t(), String.t()) ::
+          [
+            {
+              String.t(),
+              %{
+                weather_description: String.t(),
+                weather_main: String.t(),
+                weather_icon_uri: String.t(),
+                probability_of_precipitation: non_neg_integer(),
+                wind_speed: float(),
+                wind_deg: non_neg_integer(),
+                main_temp: float(),
+                main_humidity: integer()
+              }
+            }
+          ]
+          | []
+  def get_forecast_by_date(location_name, date) do
+    extract_weather_forecast(location_name)
+    |> Enum.filter(fn {datetime, _} -> String.starts_with?(datetime, date) end)
+    |> Enum.map(fn {datetime, value_map} ->
+      date_and_time = String.split(datetime, " ")
+      time = List.last(date_and_time)
+
+      {time, value_map}
     end)
   end
 end
