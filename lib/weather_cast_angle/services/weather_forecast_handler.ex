@@ -65,11 +65,16 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
     end)
   end
 
-  @spec get_forecast_by_date(String.t(), String.t()) ::
+  @doc """
+  Fetches the weather forecast data for a specific location and date, and returns it as a list of maps.
+
+  - Each map in the list represents the weather forecast for a specific time of the day, with the time as the key and the forecast data as the value.
+  - The returned list is a map and does not guarantee the order of times. If the order is important, the calling side (e.g., TypeScript) should sort the data based on the time keys as needed.
+  """
+  @spec get_forecast_map_by_date(String.t(), String.t()) ::
           [
-            {
-              String.t(),
-              %{
+            %{
+              String.t() => %{
                 weather_description: String.t(),
                 weather_main: String.t(),
                 weather_icon_uri: String.t(),
@@ -82,14 +87,14 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
             }
           ]
           | []
-  def get_forecast_by_date(location_name, date) do
+  def get_forecast_map_by_date(location_name, date) do
     extract_weather_forecast(location_name)
     |> Enum.filter(fn {datetime, _} -> String.starts_with?(datetime, date) end)
     |> Enum.map(fn {datetime, value_map} ->
       date_and_time = String.split(datetime, " ")
       time = List.last(date_and_time)
 
-      {time, value_map}
+      %{time => value_map}
     end)
   end
 end
