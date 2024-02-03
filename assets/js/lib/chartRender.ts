@@ -1,6 +1,42 @@
 import Chart from "chart.js/auto";
 
 /**
+ * Retrieves the weather forecast data from the DOM and returns it as a sorted array.
+ *
+ * - Each item in the array is an object with a single key representing the time slot (e.g., "00", "03", "06", etc.) and its corresponding weather data as the value.
+ * - If it is an empty array, the function will return an empty array.
+ *
+ * @returns {Array} An array of weather forecast data objects sorted by time slot keys, or an empty array if no data is found.
+ */
+const weatherForecastJson = ():
+  | {
+      [key: string]: {
+        weather_description: string;
+        weather_main: string;
+        weather_icon_uri: string;
+        probability_of_precipitation: number;
+        wind_speed: number;
+        wind_deg: number;
+        main_temp: number;
+        main_humidity: number;
+      };
+    }[]
+  | [] => {
+  const forecasts = document.querySelector(".js-weather-forecast")?.dataset
+    .weatherForecast;
+  if (forecasts == "[]") return [];
+
+  const forecastJson = JSON.parse(forecasts);
+
+  const sortedForecastJson = forecastJson.sort((a, b) => {
+    const keyA = parseInt(Object.keys(a)[0], 10);
+    const keyB = parseInt(Object.keys(b)[0], 10);
+    return keyA - keyB;
+  });
+  return sortedForecastJson;
+};
+
+/**
  * Renders a chart displaying tide levels for a specific location and date.
  *
  * - The chart displays tide levels for each hour over a 24-hour period.
