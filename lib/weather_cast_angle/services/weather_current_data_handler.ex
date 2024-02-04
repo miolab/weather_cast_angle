@@ -23,8 +23,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           weather_description: String.t(),
           weather_main: String.t(),
           weather_icon_uri: String.t(),
-          wind_speed: float(),
-          main_temp: float(),
+          wind_speed: non_neg_integer(),
+          main_temp: integer(),
           main_humidity: integer()
         }
   def extract_current_weather(location_name) do
@@ -67,7 +67,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       weather_main: "",
       weather_icon_uri: "",
       wind_speed: 0,
-      main_temp: 0.0,
+      main_temp: 0,
       main_humidity: 0
     }
   end
