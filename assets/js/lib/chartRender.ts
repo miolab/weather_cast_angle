@@ -1,5 +1,16 @@
 import Chart from "chart.js/auto";
 
+interface ForecastData {
+  weather_description: string;
+  weather_main: string;
+  weather_icon_uri: string;
+  probability_of_precipitation: number;
+  wind_speed: number;
+  wind_deg: number;
+  main_temp: number;
+  main_humidity: number;
+}
+
 /**
  * Retrieves the weather forecast data from the DOM and returns it as a sorted array.
  *
@@ -8,20 +19,7 @@ import Chart from "chart.js/auto";
  *
  * @returns {Array} An array of weather forecast data objects sorted by time slot keys, or an empty array if no data is found.
  */
-const weatherForecastJson = ():
-  | {
-      [key: string]: {
-        weather_description: string;
-        weather_main: string;
-        weather_icon_uri: string;
-        probability_of_precipitation: number;
-        wind_speed: number;
-        wind_deg: number;
-        main_temp: number;
-        main_humidity: number;
-      };
-    }[]
-  | [] => {
+const weatherForecastJson = (): { [key: string]: ForecastData }[] | [] => {
   const forecasts = document.querySelector(".js-weather-forecast")?.dataset
     .weatherForecast;
   if (forecasts == "[]") return [];
