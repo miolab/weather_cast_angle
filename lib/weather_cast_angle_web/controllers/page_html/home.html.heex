@@ -146,8 +146,10 @@
       </button>
     </form>
 
-    <%!-- TODO: .ts側でJSONを昇順ソートする --%>
-    <div data-weather-forecast={@weather_forecast_map |> Jason.encode!()}>
+    <div
+      class="js-weather-forecast"
+      data-weather-forecast={@weather_forecast_map |> Jason.encode!()}
+    >
       <canvas
         class="chart-area"
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}

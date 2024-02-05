@@ -68,10 +68,17 @@ export function renderChart(): void {
     return forecastCandidate ? forecastCandidate[twoDigitHour] : "-";
   });
 
-  const locationCode: string =
-    document.querySelector(".location-code")?.dataset.locationCode;
+  const getTemperatureLabel = (
+    forecast: ForecastData | "-",
+    hour: number
+  ): string => {
+    if (hour % 3 === 0) {
+      return forecast !== "-" ? `${forecast.main_temp}` : "-";
+    }
+    return "";
+  };
 
-  new Chart(chartArea, {
+  const chartInstance = new Chart(chartArea, {
     type: "bar",
     data: {
       labels: hourScale,
@@ -98,6 +105,39 @@ export function renderChart(): void {
         y: {
           max: 240,
           min: -80,
+        },
+      },
+      layout: {
+        padding: {
+          bottom: 50,
+        },
+      },
+      animation: {
+        onComplete: () => {
+          const ctx = chartInstance.ctx;
+          ctx.font = "14px sans-serif";
+          ctx.fillStyle = "blue";
+          ctx.textAlign = "center";
+
+          // render `℃` label
+          const yScale = chartInstance.scales["y"];
+          const xPosition = yScale.left;
+          const yPosition = yScale.bottom;
+          ctx.fillText("℃", xPosition + 15, yPosition + 40);
+
+          forecastDataPerHour.forEach((forecast, index) => {
+            const meta = chartInstance.getDatasetMeta(0);
+            const element = meta.data[index];
+
+            if (element) {
+              const x = element.x;
+              ctx.fillText(
+                getTemperatureLabel(forecast, index),
+                x,
+                yPosition + 40
+              );
+            }
+          });
         },
       },
     },
