@@ -34,6 +34,13 @@ const weatherForecastJson = (): { [key: string]: ForecastData }[] | [] => {
   return sortedForecastJson;
 };
 
+/** Location code like "TK", "MO". */
+const locationCode: string =
+  document.querySelector(".location-code")?.dataset.locationCode;
+
+/** Hour scale from "0" to "23". */
+const hourScale: string[] = Array.from({ length: 24 }, (_, i) => i.toString());
+
 /**
  * Renders a chart displaying tide levels for a specific location and date.
  *
@@ -60,7 +67,7 @@ export function renderChart(): void {
   new Chart(chartArea, {
     type: "bar",
     data: {
-      labels: Array.from({ length: 24 }, (_, i) => i.toString()),
+      labels: hourScale,
       datasets: [
         {
           label: `${date} ${locationCode} Tide Levels`,
