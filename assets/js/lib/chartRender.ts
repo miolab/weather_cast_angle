@@ -52,7 +52,10 @@ export function renderChart(): void {
   const tideLevels: number[] = JSON.parse(chartArea.dataset.tideLevels);
 
   const date: string = document.querySelector(".js-date")?.dataset.date;
-  const currentHour: number = new Date().getHours();
+  const currentHour: number = parseInt(
+    document.querySelector(".js-date")?.dataset.currentHour,
+    10
+  );
 
   const backgroundColors: string[] = tideLevels.map((_, index) =>
     index === currentHour ? "rgba(255, 0, 54, 0.8)" : "rgba(54, 162, 235, 0.6)"

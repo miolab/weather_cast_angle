@@ -60,6 +60,17 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
     end
   end
 
+  @doc """
+  Parse and get current date and hour from `yyyy-mm-dd HH` formatted string.
+  """
+  @spec current_date_and_hour(String.t()) :: %{date: String.t(), hour: String.t()}
+  def current_date_and_hour(location_name) do
+    case extract_current_weather(location_name).dt |> String.split(" ") do
+      [date, hour] -> %{date: date, hour: hour}
+      _ -> %{date: "9999-99-99", hour: "99"}
+    end
+  end
+
   defp _extract_current_weather_default() do
     %{
       dt: "",

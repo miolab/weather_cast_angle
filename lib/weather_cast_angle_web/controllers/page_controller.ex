@@ -16,6 +16,7 @@ defmodule WeatherCastAngleWeb.PageController do
       :home,
       tide_response: tide_response_map[current_date],
       current_weather_map: _current_weather_map(location_name),
+      current_hour: _current_hour(location_name),
       weather_forecast_map: _weather_forecast_map(location_name, current_date),
       selected_location: location_name,
       location_names: @location_names,
@@ -42,6 +43,7 @@ defmodule WeatherCastAngleWeb.PageController do
       :home,
       tide_response: tide_response_map[input_date],
       current_weather_map: _current_weather_map(location_name),
+      current_hour: _current_hour(location_name),
       weather_forecast_map: _weather_forecast_map(location_name, input_date),
       selected_location: location_name,
       location_names: @location_names,
@@ -67,6 +69,10 @@ defmodule WeatherCastAngleWeb.PageController do
 
   defp _current_weather_map(location_name) do
     WeatherCastAngle.Services.WeatherCurrentDataHandler.extract_current_weather(location_name)
+  end
+
+  defp _current_hour(location_name) do
+    WeatherCastAngle.Services.WeatherCurrentDataHandler.current_date_and_hour(location_name).hour
   end
 
   defp _weather_forecast_map(location_name, date) do
