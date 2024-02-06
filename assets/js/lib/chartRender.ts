@@ -11,6 +11,13 @@ interface ForecastData {
   main_humidity: number;
 }
 
+/** Location code like "TK", "MO". */
+const locationCode: string =
+  document.querySelector(".location-code")?.dataset.locationCode;
+
+/** Hour scale from "0" to "23". */
+const hourScale: string[] = Array.from({ length: 24 }, (_, i) => i.toString());
+
 /**
  * Retrieves the weather forecast data from the DOM and returns it as a sorted array.
  *
@@ -34,12 +41,22 @@ const weatherForecastJson = (): { [key: string]: ForecastData }[] | [] => {
   return sortedForecastJson;
 };
 
-/** Location code like "TK", "MO". */
-const locationCode: string =
-  document.querySelector(".location-code")?.dataset.locationCode;
-
-/** Hour scale from "0" to "23". */
-const hourScale: string[] = Array.from({ length: 24 }, (_, i) => i.toString());
+/**
+ * Get weather temperature label per hour.
+ *
+ * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
+ * @param {number} hour - The hour for which to get the temperature label.
+ * @returns {string} The temperature label for the hour or "-" or empty string.
+ */
+const getWeatherTemperatureLabel = (
+  forecast: ForecastData | "-",
+  hour: number
+): string => {
+  if (hour % 3 === 0) {
+    return forecast !== "-" ? `${forecast.main_temp}` : "-";
+  }
+  return "";
+};
 
 /**
  * Renders a chart displaying tide levels for a specific location and date.
@@ -70,16 +87,6 @@ export function renderChart(): void {
     );
     return forecastCandidate ? forecastCandidate[twoDigitHour] : "-";
   });
-
-  const getTemperatureLabel = (
-    forecast: ForecastData | "-",
-    hour: number
-  ): string => {
-    if (hour % 3 === 0) {
-      return forecast !== "-" ? `${forecast.main_temp}` : "-";
-    }
-    return "";
-  };
 
   const chartInstance = new Chart(chartArea, {
     type: "bar",
@@ -135,7 +142,7 @@ export function renderChart(): void {
             if (element) {
               const x = element.x;
               ctx.fillText(
-                getTemperatureLabel(forecast, index),
+                getWeatherTemperatureLabel(forecast, index),
                 x,
                 yPosition + 40
               );
