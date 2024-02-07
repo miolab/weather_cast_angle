@@ -53,6 +53,7 @@
       <h2
         class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
         data-date={@tide_response["target_date"]}
+        data-current-hour={@current_hour}
       >
         <%= @current_weather_map.dt %>時現在の天気
       </h2>
@@ -146,7 +147,10 @@
       </button>
     </form>
 
-    <div>
+    <div
+      class="js-weather-forecast"
+      data-weather-forecast={@weather_forecast_map |> Jason.encode!()}
+    >
       <canvas
         class="chart-area"
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}

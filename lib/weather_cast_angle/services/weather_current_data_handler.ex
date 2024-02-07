@@ -23,8 +23,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           weather_description: String.t(),
           weather_main: String.t(),
           weather_icon_uri: String.t(),
-          wind_speed: float(),
-          main_temp: float(),
+          wind_speed: non_neg_integer(),
+          main_temp: integer(),
           main_humidity: integer()
         }
   def extract_current_weather(location_name) do
@@ -60,14 +60,25 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
     end
   end
 
+  @doc """
+  Parse and get current date and hour from `yyyy-mm-dd HH` formatted string.
+  """
+  @spec current_date_and_hour(String.t()) :: %{date: String.t(), hour: String.t()}
+  def current_date_and_hour(location_name) do
+    case extract_current_weather(location_name).dt |> String.split(" ") do
+      [date, hour] -> %{date: date, hour: hour}
+      _ -> %{date: "9999-99-99", hour: "99"}
+    end
+  end
+
   defp _extract_current_weather_default() do
     %{
       dt: "",
       weather_description: "",
       weather_main: "",
       weather_icon_uri: "",
-      wind_speed: 0.0,
-      main_temp: 0.0,
+      wind_speed: 0,
+      main_temp: 0,
       main_humidity: 0
     }
   end
