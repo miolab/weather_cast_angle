@@ -41,6 +41,15 @@ const weatherForecastJson = (): { [key: string]: ForecastData }[] | [] => {
   return sortedForecastJson;
 };
 
+/** Forecast array per hour. */
+const forecastDataPerHour: (ForecastData | "-")[] = hourScale.map((hour) => {
+  const twoDigitHour = hour.padStart(2, "0");
+  const forecastCandidate = weatherForecastJson().find(
+    (forecast) => Object.keys(forecast)[0] === twoDigitHour
+  );
+  return forecastCandidate ? forecastCandidate[twoDigitHour] : "-";
+});
+
 /**
  * Get weather temperature label per hour.
  *
@@ -80,13 +89,6 @@ export function renderChart(): void {
   const pointRadius: number[] = tideLevels.map((_, index) =>
     index === currentHour ? 5 : 0
   );
-  const forecastDataPerHour: (ForecastData | "-")[] = hourScale.map((hour) => {
-    const twoDigitHour = hour.padStart(2, "0");
-    const forecastCandidate = weatherForecastJson().find(
-      (forecast) => Object.keys(forecast)[0] === twoDigitHour
-    );
-    return forecastCandidate ? forecastCandidate[twoDigitHour] : "-";
-  });
 
   const chartInstance = new Chart(chartArea, {
     type: "bar",
