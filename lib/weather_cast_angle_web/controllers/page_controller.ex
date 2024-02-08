@@ -1,6 +1,8 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
+  alias WeatherCastAngle.Utils
+
   @location_names WeatherCastAngle.Utils.Locations.location_names()
 
   def home(conn, _params) do
@@ -35,20 +37,27 @@ defmodule WeatherCastAngleWeb.PageController do
         "input_date" => input_date,
         "location_name" => location_name
       }) do
+    # TODO: input valuesがinvalidだったらフォールバックさせてお茶を濁しているが今後エラー画面を生やしてリダイレクトしたい
+    target_date =
+      case Utils.Validation.validate_date_format(input_date) do
+        :ok -> input_date
+        _ -> WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
+      end
+
     tide_location_code = WeatherCastAngle.Utils.Locations.get_location_code_by_name(location_name)
-    tide_response_map = _fetch_tide_response_map(input_date, tide_location_code)
+    tide_response_map = _fetch_tide_response_map(target_date, tide_location_code)
 
     render(
       conn,
       :home,
-      tide_response: tide_response_map[input_date],
+      tide_response: tide_response_map[target_date],
       current_weather_map: _current_weather_map(location_name),
       current_hour: _current_hour(location_name),
-      weather_forecast_map: _weather_forecast_map(location_name, input_date),
+      weather_forecast_map: _weather_forecast_map(location_name, target_date),
       selected_location: location_name,
       location_names: @location_names,
-      moon_age: _fetch_moon_status(input_date, location_name) |> Map.get("moon_age"),
-      moon_phase: _fetch_moon_status(input_date, location_name) |> Map.get("moon_phase"),
+      moon_age: _fetch_moon_status(target_date, location_name) |> Map.get("moon_age"),
+      moon_phase: _fetch_moon_status(target_date, location_name) |> Map.get("moon_phase"),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
