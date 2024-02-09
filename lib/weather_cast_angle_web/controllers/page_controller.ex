@@ -44,25 +44,33 @@ defmodule WeatherCastAngleWeb.PageController do
         _ -> WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
       end
 
-    tide_location_code = WeatherCastAngle.Utils.Locations.get_location_code_by_name(location_name)
+    target_location_name =
+      case Utils.Validation.validate_lowercase_alphabetic_length(location_name, 2, 12) do
+        :ok -> location_name
+        _ -> WeatherCastAngle.Utils.Locations.default_location_name()
+      end
+
+    tide_location_code =
+      WeatherCastAngle.Utils.Locations.get_location_code_by_name(target_location_name)
+
     tide_response_map = _fetch_tide_response_map(target_date, tide_location_code)
 
     render(
       conn,
       :home,
       tide_response: tide_response_map[target_date],
-      current_weather_map: _current_weather_map(location_name),
-      current_hour: _current_hour(location_name),
-      weather_forecast_map: _weather_forecast_map(location_name, target_date),
-      selected_location: location_name,
+      current_weather_map: _current_weather_map(target_location_name),
+      current_hour: _current_hour(target_location_name),
+      weather_forecast_map: _weather_forecast_map(target_location_name, target_date),
+      selected_location: target_location_name,
       location_names: @location_names,
-      moon_age: _fetch_moon_status(target_date, location_name) |> Map.get("moon_age"),
-      moon_phase: _fetch_moon_status(target_date, location_name) |> Map.get("moon_phase"),
-      previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
+      moon_age: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_age"),
+      moon_phase: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_phase"),
+      previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       # TODO: あとで消す
-      current_weather_response: _fetch_current_weather_response_map(location_name),
+      current_weather_response: _fetch_current_weather_response_map(target_location_name),
       # TODO: あとで消す
-      weather_forecast_response: _fetch_weather_forecast_response_map(location_name),
+      weather_forecast_response: _fetch_weather_forecast_response_map(target_location_name),
       layout: false
     )
   end
