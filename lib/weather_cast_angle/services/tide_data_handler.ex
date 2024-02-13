@@ -1,4 +1,10 @@
 defmodule WeatherCastAngle.Services.TideDataHandler do
+  @moduledoc """
+  Provides functions for handling tide data HTTP request responses.
+  """
+  alias WeatherCastAngle.Cache
+  alias WeatherCastAngle.Services.DatetimeProcessor
+
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
 
   @doc """
@@ -39,7 +45,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
 
   defp _get_response_body(year, location_code, cache_key) do
     # HTTP GET request and and return response body.
-    cached_value = WeatherCastAngle.Cache.get_cache(cache_key)
+    cached_value = Cache.get_cache(cache_key)
 
     case cached_value do
       nil ->
@@ -53,7 +59,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
               |> Enum.map(&parse_tide_data/1)
               |> Enum.reduce(%{}, &Map.put(&2, &1 |> Map.get("target_date"), &1))
 
-            WeatherCastAngle.Cache.put_cache(
+            Cache.put_cache(
               cache_key,
               result |> Jason.encode!(),
               5000
@@ -100,7 +106,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
 
     date =
       String.slice(string, 72, 6)
-      |> WeatherCastAngle.Services.DatetimeProcessor.convert_date_format()
+      |> DatetimeProcessor.convert_date_format()
 
     location_code = String.slice(string, 78, 2)
     high_tide = String.slice(string, 80, 28) |> _parse_tide_times_and_levels()
