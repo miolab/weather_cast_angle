@@ -2,14 +2,20 @@ defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
   alias WeatherCastAngle.Utils
+  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Services.TideDataHandler
+  alias WeatherCastAngle.Services.WeatherCurrentDataHandler
+  alias WeatherCastAngle.Services.WeatherForecastHandler
+  alias WeatherCastAngle.Services.MoonStatusCalculator
+  alias WeatherCastAngle.Services.SeaWaterTemperatureHandler
 
-  @location_names WeatherCastAngle.Utils.Locations.location_names()
+  @location_names Utils.Locations.location_names()
 
   def home(conn, _params) do
-    location_name = WeatherCastAngle.Utils.Locations.default_location_name()
+    location_name = Utils.Locations.default_location_name()
 
-    current_date = WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
-    default_tide_location_code = WeatherCastAngle.Utils.Locations.default_tide_location_code()
+    current_date = DatetimeProcessor.get_current_date_string()
+    default_tide_location_code = Utils.Locations.default_tide_location_code()
 
     tide_response_map = _fetch_tide_response_map(current_date, default_tide_location_code)
 
@@ -41,17 +47,16 @@ defmodule WeatherCastAngleWeb.PageController do
     target_date =
       case Utils.Validation.validate_date_format(input_date) do
         :ok -> input_date
-        _ -> WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string()
+        _ -> DatetimeProcessor.get_current_date_string()
       end
 
     target_location_name =
       case Utils.Validation.validate_lowercase_alphabetic_length(location_name, 2, 12) do
         :ok -> location_name
-        _ -> WeatherCastAngle.Utils.Locations.default_location_name()
+        _ -> Utils.Locations.default_location_name()
       end
 
-    tide_location_code =
-      WeatherCastAngle.Utils.Locations.get_location_code_by_name(target_location_name)
+    tide_location_code = Utils.Locations.get_location_code_by_name(target_location_name)
 
     tide_response_map = _fetch_tide_response_map(target_date, tide_location_code)
 
@@ -78,51 +83,47 @@ defmodule WeatherCastAngleWeb.PageController do
   defp _fetch_tide_response_map(date_string, location_code) do
     [year | _] = String.split(date_string, "-")
 
-    WeatherCastAngle.Services.TideDataHandler.get_tide_data(
+    TideDataHandler.get_tide_data(
       String.to_integer(year),
       location_code
     )
   end
 
   defp _current_weather_map(location_name) do
-    WeatherCastAngle.Services.WeatherCurrentDataHandler.extract_current_weather(location_name)
+    WeatherCurrentDataHandler.extract_current_weather(location_name)
   end
 
   defp _current_hour(location_name) do
-    WeatherCastAngle.Services.WeatherCurrentDataHandler.current_date_and_hour(location_name).hour
+    WeatherCurrentDataHandler.current_date_and_hour(location_name).hour
   end
 
   defp _weather_forecast_map(location_name, date) do
-    WeatherCastAngle.Services.WeatherForecastHandler.get_forecast_map_by_date(location_name, date)
+    WeatherForecastHandler.get_forecast_map_by_date(location_name, date)
   end
 
   # TODO: あとで消す
   defp _fetch_current_weather_response_map(location_name) do
-    WeatherCastAngle.Services.WeatherCurrentDataHandler.get_current_weather_data(location_name)
+    WeatherCurrentDataHandler.get_current_weather_data(location_name)
   end
 
   # TODO: あとで消す
   defp _fetch_weather_forecast_response_map(location_name) do
-    WeatherCastAngle.Services.WeatherForecastHandler.get_weather_forecast(location_name)
+    WeatherForecastHandler.get_weather_forecast(location_name)
   end
 
   defp _fetch_moon_status(date, location_name) do
-    location_map = WeatherCastAngle.Utils.Locations.get_location_map_by_name(location_name)
+    location_map = Utils.Locations.get_location_map_by_name(location_name)
 
     latitude = location_map |> Map.get(:latitude)
     longitude = location_map |> Map.get(:longitude)
 
     %{
-      "moon_age" =>
-        WeatherCastAngle.Services.MoonStatusCalculator.get_moon_age(date, latitude, longitude),
-      "moon_phase" =>
-        WeatherCastAngle.Services.MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
+      "moon_age" => MoonStatusCalculator.get_moon_age(date, latitude, longitude),
+      "moon_phase" => MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
     }
   end
 
   defp _previous_days_sea_temperatures(location_name) do
-    WeatherCastAngle.Services.SeaWaterTemperatureHandler.get_previous_days_temperatures(
-      location_name
-    )
+    SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)
   end
 end
