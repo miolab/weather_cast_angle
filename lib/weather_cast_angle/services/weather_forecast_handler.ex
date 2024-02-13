@@ -2,13 +2,16 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
   @moduledoc """
   Provides functions for handling weather forecast HTTP request responses.
   """
+  alias WeatherCastAngle.Services.WeatherDataProcessor
+  alias WeatherCastAngle.Services.DatetimeProcessor
+
   @forecast_url "https://api.openweathermap.org/data/2.5/forecast"
 
   # TODO: fix to private
   def get_weather_forecast(location_name) do
     cache_key = location_name <> "_weather_forecast"
 
-    WeatherCastAngle.Services.WeatherDataProcessor.get_open_weather_data(
+    WeatherDataProcessor.get_open_weather_data(
       location_name,
       cache_key,
       @forecast_url
@@ -50,7 +53,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
 
           {
             forecast_map["dt"]
-            |> WeatherCastAngle.Services.DatetimeProcessor.convert_unix_to_datetime_string(),
+            |> DatetimeProcessor.convert_unix_to_datetime_string(),
             %{
               weather_description: weather_map |> Map.get("description", ""),
               weather_main: weather_map |> Map.get("main", ""),
@@ -58,14 +61,14 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
                 "https://openweathermap.org/img/wn/#{weather_map |> Map.get("icon")}@2x.png",
               probability_of_precipitation:
                 forecast_map["pop"]
-                |> WeatherCastAngle.Services.WeatherDataProcessor.convert_to_percentage(),
+                |> WeatherDataProcessor.convert_to_percentage(),
               wind_speed:
                 forecast_map["wind"]["speed"]
-                |> WeatherCastAngle.Services.WeatherDataProcessor.round_wind_speed(),
+                |> WeatherDataProcessor.round_wind_speed(),
               wind_deg: forecast_map["wind"]["deg"],
               main_temp:
                 forecast_map["main"]["temp"]
-                |> WeatherCastAngle.Services.WeatherDataProcessor.kelvin_to_celsius_temperature(),
+                |> WeatherDataProcessor.kelvin_to_celsius_temperature(),
               main_humidity: forecast_map["main"]["humidity"]
             }
           }
