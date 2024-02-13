@@ -12,11 +12,10 @@ defmodule WeatherCastAngleWeb.PageController do
   @location_names Utils.Locations.location_names()
 
   def home(conn, _params) do
+    current_date = DatetimeProcessor.get_current_date_string()
     location_name = Utils.Locations.default_location_name()
 
-    current_date = DatetimeProcessor.get_current_date_string()
     default_tide_location_code = Utils.Locations.default_tide_location_code()
-
     tide_response_map = _fetch_tide_response_map(current_date, default_tide_location_code)
 
     render(
@@ -57,7 +56,6 @@ defmodule WeatherCastAngleWeb.PageController do
       end
 
     tide_location_code = Utils.Locations.get_location_code_by_name(target_location_name)
-
     tide_response_map = _fetch_tide_response_map(target_date, tide_location_code)
 
     render(
@@ -89,27 +87,22 @@ defmodule WeatherCastAngleWeb.PageController do
     )
   end
 
-  defp _current_weather_map(location_name) do
-    WeatherCurrentDataHandler.extract_current_weather(location_name)
-  end
+  defp _current_weather_map(location_name),
+    do: WeatherCurrentDataHandler.extract_current_weather(location_name)
 
-  defp _current_hour(location_name) do
-    WeatherCurrentDataHandler.current_date_and_hour(location_name).hour
-  end
+  defp _current_hour(location_name),
+    do: WeatherCurrentDataHandler.current_date_and_hour(location_name).hour
 
-  defp _weather_forecast_map(location_name, date) do
-    WeatherForecastHandler.get_forecast_map_by_date(location_name, date)
-  end
+  defp _weather_forecast_map(location_name, date),
+    do: WeatherForecastHandler.get_forecast_map_by_date(location_name, date)
 
   # TODO: あとで消す
-  defp _fetch_current_weather_response_map(location_name) do
-    WeatherCurrentDataHandler.get_current_weather_data(location_name)
-  end
+  defp _fetch_current_weather_response_map(location_name),
+    do: WeatherCurrentDataHandler.get_current_weather_data(location_name)
 
   # TODO: あとで消す
-  defp _fetch_weather_forecast_response_map(location_name) do
-    WeatherForecastHandler.get_weather_forecast(location_name)
-  end
+  defp _fetch_weather_forecast_response_map(location_name),
+    do: WeatherForecastHandler.get_weather_forecast(location_name)
 
   defp _fetch_moon_status(date, location_name) do
     location_map = Utils.Locations.get_location_map_by_name(location_name)
@@ -123,7 +116,6 @@ defmodule WeatherCastAngleWeb.PageController do
     }
   end
 
-  defp _previous_days_sea_temperatures(location_name) do
-    SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)
-  end
+  defp _previous_days_sea_temperatures(location_name),
+    do: SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)
 end
