@@ -1,4 +1,8 @@
 defmodule WeatherCastAngle.Services.SeaWaterTemperatureProcessor do
+  @moduledoc """
+  Provides various functions for processing seawater temperature data.
+  """
+
   @doc """
   Generate a Map consisting of date and temperature.
   """
