@@ -2,6 +2,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
   @moduledoc """
   Calculates Various Moon Status using erlport and Python script.
   """
+  alias PythonManager.PythonExecutor
 
   @doc """
   Get the moon phase status.
@@ -24,7 +25,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
   end
 
   defp _get_moon_phase_degree_using_python(date, latitude, longitude) do
-    PythonManager.PythonExecutor.python_call(
+    PythonExecutor.python_call(
       :moon_status_calculator,
       :get_moon_phase,
       [date, latitude, longitude]
@@ -41,7 +42,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
   end
 
   defp _get_moon_age_using_python(date, latitude, longitude) do
-    PythonManager.PythonExecutor.python_call(
+    PythonExecutor.python_call(
       :moon_status_calculator,
       :calculate_moon_age,
       [date, latitude, longitude]
