@@ -4,6 +4,19 @@ defmodule WeatherCastAngle.Utils.Validation do
   """
 
   @doc """
+  Validates that the given value is in the array.
+  """
+  @spec validate_in_array(term(), list(term())) :: :ok | {:error, String.t()}
+  def validate_in_array(value, array) when is_list(array) do
+    case value in array do
+      true -> :ok
+      false -> {:error, "Value not found in array"}
+    end
+  end
+
+  def validate_in_array(_, array), do: {:error, "#{array} must be a list"}
+
+  @doc """
   Validates that the given value matches the `YYYY-MM-DD` date format.
   """
   @spec validate_date_format(String.t()) :: :ok | {:error, String.t()}
