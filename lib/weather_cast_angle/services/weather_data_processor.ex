@@ -9,8 +9,6 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
 
   @spec get_open_weather_data(String.t(), String.t(), String.t()) :: map()
   def get_open_weather_data(location_name, cache_key, target_url) do
-    # TODO: location_name が location_names に含まれるか保証するため assertion 入れる。含まれなかったら default_name の情報を返して、default のレンダリングをするのでよい。リダイレクトする方針も検討
-
     cached_value = Cache.get_cache(cache_key)
 
     case cached_value do

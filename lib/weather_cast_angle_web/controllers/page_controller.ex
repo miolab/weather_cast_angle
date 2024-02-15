@@ -50,9 +50,14 @@ defmodule WeatherCastAngleWeb.PageController do
       end
 
     target_location_name =
-      case Utils.Validation.validate_lowercase_alphabetic_length(location_name, 2, 12) do
-        :ok -> location_name
-        _ -> Utils.Locations.default_location_name()
+      cond do
+        Utils.Validation.validate_lowercase_alphabetic_length(location_name, 2, 12) == :ok and
+            Utils.Validation.validate_in_array(location_name, Utils.Locations.location_names()) ==
+              :ok ->
+          location_name
+
+        true ->
+          Utils.Locations.default_location_name()
       end
 
     tide_location_code = Utils.Locations.get_location_code_by_name(target_location_name)
