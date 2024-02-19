@@ -68,6 +68,23 @@ const getWeatherTemperatureLabel = (
 };
 
 /**
+ * Get wind speed label per hour.
+ *
+ * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
+ * @param {number} hour - The hour for which to get the wind speed label.
+ * @returns {string} The wind speed label for the hour or "-" or empty string.
+ */
+const getWindSpeedLabel = (
+  forecast: ForecastData | "-",
+  hour: number
+): string => {
+  if (hour % 3 === 0) {
+    return forecast !== "-" ? `${forecast.wind_speed}` : "-";
+  }
+  return "";
+};
+
+/**
  * Renders a chart displaying tide levels for a specific location and date.
  *
  * - The chart displays tide levels for each hour over a 24-hour period.
@@ -121,21 +138,23 @@ export function renderChart(): void {
       },
       layout: {
         padding: {
-          bottom: 50,
+          // TODO: 天気アイコン・風向きを表示追加
+          bottom: 70,
         },
       },
       animation: {
         onComplete: () => {
+          // Render various forecast values.
           const ctx = chartInstance.ctx;
           ctx.font = "14px sans-serif";
           ctx.fillStyle = "blue";
           ctx.textAlign = "center";
 
-          // render `℃` label
           const yScale = chartInstance.scales["y"];
           const xPosition = yScale.left;
           const yPosition = yScale.bottom;
-          ctx.fillText("℃", xPosition + 15, yPosition + 40);
+          ctx.fillText("気温", xPosition + 15, yPosition + 40);
+          ctx.fillText("風速", xPosition + 15, yPosition + 60);
 
           forecastDataPerHour.forEach((forecast, index) => {
             const meta = chartInstance.getDatasetMeta(0);
@@ -147,6 +166,11 @@ export function renderChart(): void {
                 getWeatherTemperatureLabel(forecast, index),
                 x,
                 yPosition + 40
+              );
+              ctx.fillText(
+                getWindSpeedLabel(forecast, index),
+                x,
+                yPosition + 60
               );
             }
           });
