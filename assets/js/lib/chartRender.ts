@@ -51,35 +51,22 @@ const forecastDataPerHour: (ForecastData | "-")[] = hourScale.map((hour) => {
 });
 
 /**
- * Get weather temperature label per hour.
+ * Retrieves the forecast label for a specified attribute at a given hour, if available.
+ * It returns the attribute's value at 3-hour intervals, "-" for unavailable data, or
+ * an empty string for hours outside the 3-hour interval.
  *
  * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
- * @param {number} hour - The hour for which to get the temperature label.
- * @returns {string} The temperature label for the hour or "-" or empty string.
+ * @param {number} hour - The hour for which to get the forecast label.
+ * @param {keyof ForecastData} attribute - The forecast attribute to retrieve (e.g., "main_temp", "wind_speed").
+ * @returns {string} The forecast label for the hour or "-" or empty string.
  */
-const getWeatherTemperatureLabel = (
+const getForecastLabel = (
   forecast: ForecastData | "-",
-  hour: number
+  hour: number,
+  attribute: keyof ForecastData
 ): string => {
   if (hour % 3 === 0) {
-    return forecast !== "-" ? `${forecast.main_temp}` : "-";
-  }
-  return "";
-};
-
-/**
- * Get wind speed label per hour.
- *
- * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
- * @param {number} hour - The hour for which to get the wind speed label.
- * @returns {string} The wind speed label for the hour or "-" or empty string.
- */
-const getWindSpeedLabel = (
-  forecast: ForecastData | "-",
-  hour: number
-): string => {
-  if (hour % 3 === 0) {
-    return forecast !== "-" ? `${forecast.wind_speed}` : "-";
+    return forecast !== "-" ? `${forecast[attribute]}` : "-";
   }
   return "";
 };
@@ -163,12 +150,12 @@ export function renderChart(): void {
             if (element) {
               const x = element.x;
               ctx.fillText(
-                getWeatherTemperatureLabel(forecast, index),
+                getForecastLabel(forecast, index, "main_temp"),
                 x,
                 yPosition + 40
               );
               ctx.fillText(
-                getWindSpeedLabel(forecast, index),
+                getForecastLabel(forecast, index, "wind_speed"),
                 x,
                 yPosition + 60
               );
