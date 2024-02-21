@@ -90,7 +90,7 @@ const drawWeatherForecastIcon = (
   if (hour % 3 === 0 && forecast !== "-") {
     const image = new Image();
     image.onload = () => {
-      ctx.drawImage(image, x - 14, y - 14, 25, 25);
+      ctx.drawImage(image, x - 14, y - 14, 24, 24);
     };
     image.src = forecast.weather_icon_uri;
   } else if (hour % 3 === 0) {
@@ -144,6 +144,8 @@ export function renderChart(): void {
       ],
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           max: 240,
