@@ -72,6 +72,33 @@ const getForecastLabel = (
 };
 
 /**
+ * Draw a weather icon or a placeholder "-" on the canvas at the specified position based on the availability of the forecast data.
+ *
+ * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
+ * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
+ * @param {number} hour - The hour for which to draw the icon.
+ * @param {number} x - The x-coordinate on the canvas where the icon should be drawn.
+ * @param {number} y - The y-coordinate on the canvas where the icon should be drawn.
+ */
+const drawWeatherForecastIcon = (
+  ctx: CanvasRenderingContext2D,
+  forecast: ForecastData | "-",
+  hour: number,
+  x: number,
+  y: number
+): void => {
+  if (hour % 3 === 0 && forecast !== "-") {
+    const image = new Image();
+    image.onload = () => {
+      ctx.drawImage(image, x - 14, y - 14, 25, 25);
+    };
+    image.src = forecast.weather_icon_uri;
+  } else if (hour % 3 === 0) {
+    ctx.fillText("-", x, y);
+  }
+};
+
+/**
  * Renders a chart displaying tide levels for a specific location and date.
  *
  * - The chart displays tide levels for each hour over a 24-hour period.
@@ -125,8 +152,8 @@ export function renderChart(): void {
       },
       layout: {
         padding: {
-          // TODO: 天気アイコン・風向きを表示追加
-          bottom: 70,
+          // TODO: 風向きを表示追加
+          bottom: 80,
         },
       },
       animation: {
@@ -142,6 +169,7 @@ export function renderChart(): void {
           const yPosition = yScale.bottom;
           ctx.fillText("気温", xPosition + 15, yPosition + 40);
           ctx.fillText("風速", xPosition + 15, yPosition + 60);
+          ctx.fillText("気象", xPosition + 15, yPosition + 80);
 
           forecastDataPerHour.forEach((forecast, index) => {
             const meta = chartInstance.getDatasetMeta(0);
@@ -159,6 +187,8 @@ export function renderChart(): void {
                 x,
                 yPosition + 60
               );
+
+              drawWeatherForecastIcon(ctx, forecast, index, x, yPosition + 80);
             }
           });
         },
