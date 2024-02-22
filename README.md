@@ -30,7 +30,7 @@ This app is specifically designed to provide comprehensive information on tide l
 - Marine information: Japan Meteorological Agency https://www.jma.go.jp/jma/kishou/info/coment.html
   - https://www.jma.go.jp/jma/menu/menureport.html
 - Weather information: OpenWeather https://openweathermap.org/full-price
-  - Current weather data: https://openweathermap.org/current#name
+  - Current weather data: https://openweathermap.org/current
   - 5 day weather forecast: https://openweathermap.org/forecast5
 - Moon information: calculate using PyEphem astronomy library for Python https://rhodesmill.org/pyephem/
 
