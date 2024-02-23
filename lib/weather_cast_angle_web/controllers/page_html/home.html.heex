@@ -148,11 +148,11 @@
     </form>
 
     <div
-      class="js-weather-forecast"
+      class="js-weather-forecast relative h-auto min-h-[250px] sm:min-h-[350px]"
       data-weather-forecast={@weather_forecast_map |> Jason.encode!()}
     >
       <canvas
-        class="chart-area"
+        class="chart-area w-full h-full"
         data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}
       >
       </canvas>

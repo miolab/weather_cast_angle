@@ -51,20 +51,51 @@ const forecastDataPerHour: (ForecastData | "-")[] = hourScale.map((hour) => {
 });
 
 /**
- * Get weather temperature label per hour.
+ * Retrieves the forecast label for a specified attribute at a given hour, if available.
+ * It returns the attribute's value at 3-hour intervals, "-" for unavailable data, or
+ * an empty string for hours outside the 3-hour interval.
  *
  * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
- * @param {number} hour - The hour for which to get the temperature label.
- * @returns {string} The temperature label for the hour or "-" or empty string.
+ * @param {number} hour - The hour for which to get the forecast label.
+ * @param {keyof ForecastData} attribute - The forecast attribute to retrieve (e.g., "main_temp", "wind_speed").
+ * @returns {string} The forecast label for the hour or "-" or empty string.
  */
-const getWeatherTemperatureLabel = (
+const getForecastLabel = (
   forecast: ForecastData | "-",
-  hour: number
+  hour: number,
+  attribute: keyof ForecastData
 ): string => {
   if (hour % 3 === 0) {
-    return forecast !== "-" ? `${forecast.main_temp}` : "-";
+    return forecast !== "-" ? `${forecast[attribute]}` : "-";
   }
   return "";
+};
+
+/**
+ * Draw a weather icon or a placeholder "-" on the canvas at the specified position based on the availability of the forecast data.
+ *
+ * @param {CanvasRenderingContext2D} ctx - The rendering context of the canvas.
+ * @param {ForecastData | "-"} forecast - The forecast data for the hour, or "-" if not available.
+ * @param {number} hour - The hour for which to draw the icon.
+ * @param {number} x - The x-coordinate on the canvas where the icon should be drawn.
+ * @param {number} y - The y-coordinate on the canvas where the icon should be drawn.
+ */
+const drawWeatherForecastIcon = (
+  ctx: CanvasRenderingContext2D,
+  forecast: ForecastData | "-",
+  hour: number,
+  x: number,
+  y: number
+): void => {
+  if (hour % 3 === 0 && forecast !== "-") {
+    const image = new Image();
+    image.onload = () => {
+      ctx.drawImage(image, x - 14, y - 14, 24, 24);
+    };
+    image.src = forecast.weather_icon_uri;
+  } else if (hour % 3 === 0) {
+    ctx.fillText("-", x, y);
+  }
 };
 
 /**
@@ -113,6 +144,8 @@ export function renderChart(): void {
       ],
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           max: 240,
@@ -121,21 +154,24 @@ export function renderChart(): void {
       },
       layout: {
         padding: {
-          bottom: 50,
+          // TODO: 風向きを表示追加
+          bottom: 80,
         },
       },
       animation: {
         onComplete: () => {
+          // Render various forecast values.
           const ctx = chartInstance.ctx;
           ctx.font = "14px sans-serif";
           ctx.fillStyle = "blue";
           ctx.textAlign = "center";
 
-          // render `℃` label
           const yScale = chartInstance.scales["y"];
           const xPosition = yScale.left;
           const yPosition = yScale.bottom;
-          ctx.fillText("℃", xPosition + 15, yPosition + 40);
+          ctx.fillText("気温", xPosition + 15, yPosition + 40);
+          ctx.fillText("風速", xPosition + 15, yPosition + 60);
+          ctx.fillText("気象", xPosition + 15, yPosition + 80);
 
           forecastDataPerHour.forEach((forecast, index) => {
             const meta = chartInstance.getDatasetMeta(0);
@@ -144,10 +180,17 @@ export function renderChart(): void {
             if (element) {
               const x = element.x;
               ctx.fillText(
-                getWeatherTemperatureLabel(forecast, index),
+                getForecastLabel(forecast, index, "main_temp"),
                 x,
                 yPosition + 40
               );
+              ctx.fillText(
+                getForecastLabel(forecast, index, "wind_speed"),
+                x,
+                yPosition + 60
+              );
+
+              drawWeatherForecastIcon(ctx, forecast, index, x, yPosition + 80);
             }
           });
         },

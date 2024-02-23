@@ -7,13 +7,11 @@
 
 This app is specifically designed to provide comprehensive information on tide levels, wind, weather, and more to help a fishing plan. :fish:
 
-<small>Note: This repository and application are designed for **personal use** only.</small>
-
 ## Features
 
 - Screenshot during development;
 
-  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/6e37434d-09a4-40cb-8de4-be27cf313a9d">
+  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/2f50b738-5fed-43c4-9448-f757ea98015b">
 
 - The information provided by this application;
 
@@ -24,6 +22,20 @@ This app is specifically designed to provide comprehensive information on tide l
   - Moon age
   - Humidity
   - Seawater temperature
+
+### Source
+
+- Marine information: Japan Meteorological Agency https://www.jma.go.jp/jma/kishou/info/coment.html
+  - https://www.jma.go.jp/jma/menu/menureport.html
+- Weather information: OpenWeather https://openweathermap.org/full-price
+  - Current weather data: https://openweathermap.org/current
+  - 5 day weather forecast: https://openweathermap.org/forecast5
+- Moon information: calculate using PyEphem astronomy library for Python https://rhodesmill.org/pyephem/
+
+### Disclaimer
+
+- This repository and application are designed for **personal use** only.
+- The use of this app is at your own risk. We assume no liability for any outcomes resulting from its use.
 
 ---
 
