@@ -7,8 +7,6 @@
 
 This app is specifically designed to provide comprehensive information on tide levels, wind, weather, and more to help a fishing plan. :fish:
 
-<small>Note: This repository and application are designed for **personal use** only.</small>
-
 ## Features
 
 - Screenshot during development;
@@ -33,6 +31,11 @@ This app is specifically designed to provide comprehensive information on tide l
   - Current weather data: https://openweathermap.org/current
   - 5 day weather forecast: https://openweathermap.org/forecast5
 - Moon information: calculate using PyEphem astronomy library for Python https://rhodesmill.org/pyephem/
+
+### Disclaimer
+
+- This repository and application are designed for **personal use** only.
+- The use of this app is at your own risk. We assume no liability for any outcomes resulting from its use.
 
 ---
 
