@@ -73,13 +73,13 @@
           <div class="flex flex-1 md:basis-1/2 flex-wrap md:flex-col sm:my-1">
             <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
               <span class="whitespace-nowrap">
-                風: <%= @current_weather_map.wind_deg %> <%= @current_weather_map.wind_speed %>
+                <small class="mr-1">風:</small> <%= @current_weather_map.wind_deg %> <%= @current_weather_map.wind_speed %>
                 <small class="ml-0.5">m/s</small>
               </span>
             </span>
             <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
               <span class="whitespace-nowrap">
-                気温: <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
+                <small class="mr-1">気温:</small> <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
               </span>
             </span>
           </div>
