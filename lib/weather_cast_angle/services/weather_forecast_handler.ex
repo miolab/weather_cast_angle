@@ -32,7 +32,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
                 weather_icon_uri: String.t(),
                 probability_of_precipitation: non_neg_integer(),
                 wind_speed: float(),
-                wind_deg: non_neg_integer(),
+                wind_deg: String.t(),
                 main_temp: float(),
                 main_humidity: integer()
               }
@@ -65,7 +65,9 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
               wind_speed:
                 forecast_map["wind"]["speed"]
                 |> WeatherDataProcessor.round_wind_speed(),
-              wind_deg: forecast_map["wind"]["deg"],
+              wind_deg:
+                forecast_map["wind"]["deg"]
+                |> WeatherDataProcessor.wind_direction(),
               main_temp:
                 forecast_map["main"]["temp"]
                 |> WeatherDataProcessor.kelvin_to_celsius_temperature(),

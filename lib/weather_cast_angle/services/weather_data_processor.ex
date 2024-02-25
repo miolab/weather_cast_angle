@@ -63,6 +63,25 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   def round_wind_speed(wind_speed) when is_integer(wind_speed), do: wind_speed
 
   @doc """
+  Convert the wind direction angle integer to an 8 wind direction notation.
+  """
+  @spec wind_direction(non_neg_integer()) :: String.t()
+  def wind_direction(degrees) when is_integer(degrees) and (degrees >= 0 and degrees <= 359) do
+    cond do
+      degrees < 22.5 or degrees >= 337.5 -> "北"
+      degrees < 67.5 -> "北東"
+      degrees < 112.5 -> "東"
+      degrees < 157.5 -> "南東"
+      degrees < 202.5 -> "南"
+      degrees < 247.5 -> "南西"
+      degrees < 292.5 -> "西"
+      degrees < 337.5 -> "北西"
+    end
+  end
+
+  def wind_direction(_), do: "Invalid value"
+
+  @doc """
   Converts a float value to a percentage.
   This function is intended for use in the calculation of precipitation probability.
   """

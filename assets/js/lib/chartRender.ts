@@ -155,7 +155,7 @@ export function renderChart(): void {
       layout: {
         padding: {
           // TODO: 風向きを表示追加
-          bottom: 80,
+          bottom: 100,
         },
       },
       animation: {
@@ -169,9 +169,10 @@ export function renderChart(): void {
           const yScale = chartInstance.scales["y"];
           const xPosition = yScale.left;
           const yPosition = yScale.bottom;
-          ctx.fillText("気温", xPosition + 15, yPosition + 40);
-          ctx.fillText("風速", xPosition + 15, yPosition + 60);
-          ctx.fillText("気象", xPosition + 15, yPosition + 80);
+          ctx.fillText("気温", xPosition + 14, yPosition + 40);
+          ctx.fillText("風速", xPosition + 14, yPosition + 60);
+          ctx.fillText("風向", xPosition + 14, yPosition + 80);
+          ctx.fillText("気象", xPosition + 14, yPosition + 100);
 
           forecastDataPerHour.forEach((forecast, index) => {
             const meta = chartInstance.getDatasetMeta(0);
@@ -189,8 +190,13 @@ export function renderChart(): void {
                 x,
                 yPosition + 60
               );
+              ctx.fillText(
+                getForecastLabel(forecast, index, "wind_deg"),
+                x,
+                yPosition + 80
+              );
 
-              drawWeatherForecastIcon(ctx, forecast, index, x, yPosition + 80);
+              drawWeatherForecastIcon(ctx, forecast, index, x, yPosition + 100);
             }
           });
         },
