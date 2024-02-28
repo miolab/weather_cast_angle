@@ -18,22 +18,22 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     - A map where:
       - The keys are date strings (e.g., "2024-01-01"). Equals to `target_date`.
       - The values are maps with the following structure:
-        - `"hourly_tide_levels"`: A list of integers representing the tide levels for each hour.
-        - `"target_date"`: A string representing the date for the tide data.
-        - `"location_code"`: A string code representing the location of the tide measurement.
-        - `"high_tide"`: A list of maps, each with a string key representing a time and an integer value representing the tide level at that time.
-        - `"low_tide"`: Similar to `"high_tide"`, but for low tide measurements.
+        - `hourly_tide_levels`: A list of integers representing the tide levels for each hour.
+        - `target_date`: A string representing the date for the tide data.
+        - `location_code`: A string code representing the location of the tide measurement.
+        - `high_tide`: A list of maps, each with a string key representing a time and an integer value representing the tide level at that time.
+        - `low_tide`: Similar to `"high_tide"`, but for low tide measurements.
     - If the cache does NOT exist and an HTTP request GET error occurs,
       `%{"Error" => reason}` formatted map is returned.
   """
   @spec get_tide_data(pos_integer, String.t()) ::
           %{
             String.t() => %{
-              String.t() => [integer()],
-              String.t() => String.t(),
-              String.t() => String.t(),
-              String.t() => [%{String.t() => integer()}],
-              String.t() => [%{String.t() => integer()}]
+              hourly_tide_levels: [integer()],
+              target_date: String.t(),
+              location_code: String.t(),
+              high_tide: [%{String.t() => integer()}],
+              low_tide: [%{String.t() => integer()}]
             }
           }
           | %{String.t() => String.t()}
@@ -57,7 +57,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
               response_body
               |> parsed_lines_array()
               |> Enum.map(&parse_tide_data/1)
-              |> Enum.reduce(%{}, &Map.put(&2, &1 |> Map.get("target_date"), &1))
+              |> Enum.reduce(%{}, &Map.put(&2, &1.target_date, &1))
 
             Cache.put_cache(
               cache_key,
