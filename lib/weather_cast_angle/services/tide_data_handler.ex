@@ -95,11 +95,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
   """
   @spec parse_tide_data(String.t()) :: %{
-          String.t() => [integer()],
-          String.t() => String.t(),
-          String.t() => String.t(),
-          String.t() => [%{String.t() => integer()}],
-          String.t() => [%{String.t() => integer()}]
+          hourly_tide_levels: [integer()],
+          target_date: String.t(),
+          location_code: String.t(),
+          high_tide: [%{String.t() => integer()}],
+          low_tide: [%{String.t() => integer()}]
         }
   def parse_tide_data(string) do
     hourly_tide_levels = String.slice(string, 0, 72) |> _parse_hourly_tide_levels()
@@ -113,11 +113,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     low_tide = String.slice(string, 108, 28) |> _parse_tide_times_and_levels()
 
     %{
-      "hourly_tide_levels" => hourly_tide_levels,
-      "target_date" => date,
-      "location_code" => location_code,
-      "high_tide" => high_tide,
-      "low_tide" => low_tide
+      hourly_tide_levels: hourly_tide_levels,
+      target_date: date,
+      location_code: location_code,
+      high_tide: high_tide,
+      low_tide: low_tide
     }
   end
 
