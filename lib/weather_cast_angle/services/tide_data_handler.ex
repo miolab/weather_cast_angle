@@ -3,6 +3,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   Provides functions for handling tide data HTTP request responses.
   """
   alias WeatherCastAngle.Cache
+  alias WeatherCastAngle.Utils
   alias WeatherCastAngle.Services.DatetimeProcessor
 
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
@@ -74,7 +75,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
       _ ->
         cached_value
         |> Jason.decode!()
-        |> normalize_keys_to_atoms
+        |> Utils.Collection.normalize_inner_map_keys_to_atoms()
     end
   end
 
@@ -147,18 +148,5 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
 
       %{time => level}
     end)
-  end
-
-  defp normalize_keys_to_atoms(map) when is_map(map) do
-    Enum.map(map, fn {top_level_key, top_level_value} ->
-      {
-        top_level_key,
-        Enum.reduce(top_level_value, %{}, fn {key, value}, acc ->
-          new_key = if is_binary(key), do: String.to_atom(key), else: key
-          Map.put(acc, new_key, value)
-        end)
-      }
-    end)
-    |> Map.new()
   end
 end
