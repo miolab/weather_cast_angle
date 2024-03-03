@@ -52,7 +52,7 @@
     <div class="my-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
       <h2
         class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
-        data-date={@tide_response["target_date"]}
+        data-date={@tide_response.target_date}
         data-current-hour={@current_hour}
       >
         <%= @current_weather_map.dt %>時現在の天気
@@ -118,7 +118,7 @@
       <input
         type="date"
         name="input_date"
-        value={@tide_response["target_date"]}
+        value={@tide_response.target_date}
         min="2015-01-01"
         max="2024-12-31"
         class="js-input-date bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5 mr-1 mb-2 w-40 sm:mr-1.5"
@@ -154,7 +154,7 @@
     >
       <canvas
         class="chart-area w-full h-full"
-        data-tide-levels={@tide_response["hourly_tide_levels"] |> Jason.encode!()}
+        data-tide-levels={@tide_response.hourly_tide_levels |> Jason.encode!()}
       >
       </canvas>
     </div>
@@ -175,26 +175,26 @@
     <div>
       <h2 class="text-xl mt-3">Tide data</h2>
       <p>
-        Date | <%= @tide_response["target_date"] %>
+        Date | <%= @tide_response.target_date %>
       </p>
-      <p class="location-code" data-location-code={@tide_response["location_code"]}>
-        Location Code | <%= @tide_response["location_code"] %>
+      <p class="location-code" data-location-code={@tide_response.location_code}>
+        Location Code | <%= @tide_response.location_code %>
       </p>
       <p>
         Hourly tide levels (from 0 to 23 o'clock) |
-        <%= for tide_level <- @tide_response["hourly_tide_levels"] do %>
+        <%= for tide_level <- @tide_response.hourly_tide_levels do %>
           <%= tide_level %>
         <% end %>
       </p>
       <p>
         High Tide |
-        <%= for {time, level} <- @tide_response["high_tide"] do %>
+        <%= for {time, level} <- @tide_response.high_tide do %>
           <%= time %> -> <%= level %> |
         <% end %>
       </p>
       <p>
         Low Tide |
-        <%= for {time, level} <- @tide_response["low_tide"] do %>
+        <%= for {time, level} <- @tide_response.low_tide do %>
           <%= time %> -> <%= level %> |
         <% end %>
       </p>

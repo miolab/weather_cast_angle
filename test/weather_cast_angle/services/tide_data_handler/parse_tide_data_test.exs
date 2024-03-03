@@ -8,7 +8,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler.ParseTideDataTest do
       )
 
     expected = %{
-      "hourly_tide_levels" => [
+      hourly_tide_levels: [
         76,
         99,
         123,
@@ -34,15 +34,15 @@ defmodule WeatherCastAngle.Services.TideDataHandler.ParseTideDataTest do
         68,
         51
       ],
-      "location_code" => "AB",
-      "target_date" => "2023-01-01",
-      "high_tide" => [
+      location_code: "AB",
+      target_date: "2023-01-01",
+      high_tide: [
         %{"04:32" => 152},
         %{"16:42" => 167},
         %{"99:99" => 999},
         %{"99:99" => 999}
       ],
-      "low_tide" => [
+      low_tide: [
         %{"10:27" => -10},
         %{"23:38" => 48},
         %{"99:99" => 999},

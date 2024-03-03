@@ -3,6 +3,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   Provides functions for handling tide data HTTP request responses.
   """
   alias WeatherCastAngle.Cache
+  alias WeatherCastAngle.Utils
   alias WeatherCastAngle.Services.DatetimeProcessor
 
   @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
@@ -18,22 +19,22 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     - A map where:
       - The keys are date strings (e.g., "2024-01-01"). Equals to `target_date`.
       - The values are maps with the following structure:
-        - `"hourly_tide_levels"`: A list of integers representing the tide levels for each hour.
-        - `"target_date"`: A string representing the date for the tide data.
-        - `"location_code"`: A string code representing the location of the tide measurement.
-        - `"high_tide"`: A list of maps, each with a string key representing a time and an integer value representing the tide level at that time.
-        - `"low_tide"`: Similar to `"high_tide"`, but for low tide measurements.
+        - `hourly_tide_levels`: A list of integers representing the tide levels for each hour.
+        - `target_date`: A string representing the date for the tide data.
+        - `location_code`: A string code representing the location of the tide measurement.
+        - `high_tide`: A list of maps, each with a string key representing a time and an integer value representing the tide level at that time.
+        - `low_tide`: Similar to `"high_tide"`, but for low tide measurements.
     - If the cache does NOT exist and an HTTP request GET error occurs,
       `%{"Error" => reason}` formatted map is returned.
   """
   @spec get_tide_data(pos_integer, String.t()) ::
           %{
             String.t() => %{
-              String.t() => [integer()],
-              String.t() => String.t(),
-              String.t() => String.t(),
-              String.t() => [%{String.t() => integer()}],
-              String.t() => [%{String.t() => integer()}]
+              hourly_tide_levels: [integer()],
+              target_date: String.t(),
+              location_code: String.t(),
+              high_tide: [%{String.t() => integer()}],
+              low_tide: [%{String.t() => integer()}]
             }
           }
           | %{String.t() => String.t()}
@@ -57,7 +58,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
               response_body
               |> parsed_lines_array()
               |> Enum.map(&parse_tide_data/1)
-              |> Enum.reduce(%{}, &Map.put(&2, &1 |> Map.get("target_date"), &1))
+              |> Enum.reduce(%{}, &Map.put(&2, &1.target_date, &1))
 
             Cache.put_cache(
               cache_key,
@@ -72,7 +73,9 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
         end
 
       _ ->
-        cached_value |> Jason.decode!()
+        cached_value
+        |> Jason.decode!()
+        |> Utils.Collection.normalize_inner_map_keys_to_atoms()
     end
   end
 
@@ -95,11 +98,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   The map includes hourly tide levels, date, location code, high tide times and levels, and low tide times and levels.
   """
   @spec parse_tide_data(String.t()) :: %{
-          String.t() => [integer()],
-          String.t() => String.t(),
-          String.t() => String.t(),
-          String.t() => [%{String.t() => integer()}],
-          String.t() => [%{String.t() => integer()}]
+          hourly_tide_levels: [integer()],
+          target_date: String.t(),
+          location_code: String.t(),
+          high_tide: [%{String.t() => integer()}],
+          low_tide: [%{String.t() => integer()}]
         }
   def parse_tide_data(string) do
     hourly_tide_levels = String.slice(string, 0, 72) |> _parse_hourly_tide_levels()
@@ -113,11 +116,11 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
     low_tide = String.slice(string, 108, 28) |> _parse_tide_times_and_levels()
 
     %{
-      "hourly_tide_levels" => hourly_tide_levels,
-      "target_date" => date,
-      "location_code" => location_code,
-      "high_tide" => high_tide,
-      "low_tide" => low_tide
+      hourly_tide_levels: hourly_tide_levels,
+      target_date: date,
+      location_code: location_code,
+      high_tide: high_tide,
+      low_tide: low_tide
     }
   end
 
