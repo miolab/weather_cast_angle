@@ -29,12 +29,19 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           wind_speed: non_neg_integer(),
           wind_deg: String.t(),
           main_temp: integer(),
-          main_humidity: integer()
+          main_humidity: integer(),
+          sunrise: integer()
         }
   def extract_current_weather(location_name) do
     current_weather_response_map = get_current_weather_data(location_name)
 
-    required_keys = ["dt", "main", "wind", "weather"]
+    required_keys = [
+      "dt",
+      "main",
+      "wind",
+      "weather",
+      "sys"
+    ]
 
     cond do
       _does_any_key_missing(current_weather_response_map, required_keys) or
@@ -62,7 +69,10 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           main_temp:
             current_weather_response_map["main"]["temp"]
             |> WeatherDataProcessor.kelvin_to_celsius_temperature(),
-          main_humidity: current_weather_response_map["main"]["humidity"]
+          main_humidity: current_weather_response_map["main"]["humidity"],
+          sunrise:
+            current_weather_response_map["sys"]["sunrise"]
+            |> DatetimeProcessor.convert_unix_to_hour_minute_format()
         }
     end
   end
@@ -87,7 +97,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       wind_speed: 0,
       wind_deg: "",
       main_temp: 0,
-      main_humidity: 0
+      main_humidity: 0,
+      sunrise: 0
     }
   end
 
