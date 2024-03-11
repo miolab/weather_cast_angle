@@ -30,7 +30,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           wind_deg: String.t(),
           main_temp: integer(),
           main_humidity: integer(),
-          sunrise: integer()
+          sunrise: non_neg_integer(),
+          sunset: non_neg_integer()
         }
   def extract_current_weather(location_name) do
     current_weather_response_map = get_current_weather_data(location_name)
@@ -72,6 +73,9 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           main_humidity: current_weather_response_map["main"]["humidity"],
           sunrise:
             current_weather_response_map["sys"]["sunrise"]
+            |> DatetimeProcessor.convert_unix_to_hour_minute_format(),
+          sunset:
+            current_weather_response_map["sys"]["sunset"]
             |> DatetimeProcessor.convert_unix_to_hour_minute_format()
         }
     end
@@ -98,7 +102,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       wind_deg: "",
       main_temp: 0,
       main_humidity: 0,
-      sunrise: 0
+      sunrise: 0,
+      sunset: 0
     }
   end
 
