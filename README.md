@@ -11,7 +11,7 @@ This app is specifically designed to provide comprehensive information on tide l
 
 - Screenshot during development;
 
-  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/2f50b738-5fed-43c4-9448-f757ea98015b">
+  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/128e03b3-29d3-489b-893b-94c91d7f28fb">
 
 - The information provided by this application;
 
@@ -22,6 +22,7 @@ This app is specifically designed to provide comprehensive information on tide l
   - Moon age
   - Humidity
   - Seawater temperature
+  - Sunrise and Sunset time
 
 ### Source
 
