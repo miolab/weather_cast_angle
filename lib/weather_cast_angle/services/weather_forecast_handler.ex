@@ -40,19 +40,19 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
           ]
           | []
   def extract_weather_forecast(location_name) do
-    forecast_maps = get_weather_forecast(location_name)["list"]
+    forecast_lists = get_weather_forecast(location_name)["list"]
 
     cond do
-      is_nil(forecast_maps) ->
+      is_nil(forecast_lists) ->
         []
 
       true ->
-        forecast_maps
-        |> Enum.map(fn forecast_map ->
-          weather_map = Enum.at(forecast_map["weather"], 0, %{})
+        forecast_lists
+        |> Enum.map(fn forecast_list ->
+          weather_map = Enum.at(forecast_list["weather"], 0, %{})
 
           {
-            forecast_map["dt"]
+            forecast_list["dt"]
             |> DatetimeProcessor.convert_unix_to_datetime_string(),
             %{
               weather_description: weather_map |> Map.get("description", ""),
@@ -60,18 +60,18 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
               weather_icon_uri:
                 "https://openweathermap.org/img/wn/#{weather_map |> Map.get("icon")}@2x.png",
               probability_of_precipitation:
-                forecast_map["pop"]
+                forecast_list["pop"]
                 |> WeatherDataProcessor.convert_to_percentage(),
               wind_speed:
-                forecast_map["wind"]["speed"]
+                forecast_list["wind"]["speed"]
                 |> WeatherDataProcessor.round_wind_speed(),
               wind_deg:
-                forecast_map["wind"]["deg"]
+                forecast_list["wind"]["deg"]
                 |> WeatherDataProcessor.wind_direction(),
               main_temp:
-                forecast_map["main"]["temp"]
+                forecast_list["main"]["temp"]
                 |> WeatherDataProcessor.kelvin_to_celsius_temperature(),
-              main_humidity: forecast_map["main"]["humidity"]
+              main_humidity: forecast_list["main"]["humidity"]
             }
           }
         end)

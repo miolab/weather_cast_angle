@@ -108,6 +108,13 @@
           </ur>
         </span>
       </div>
+      <%!-- TODO: --%>
+      <div class="flex flex-wrap">
+        <span class="flex-1 p-2 font-bold text-sm rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
+          <span class="mr-5">日の出: <%= @current_weather_map.sunrise %></span>
+          <span>日没: <%= @current_weather_map.sunset %></span>
+        </span>
+      </div>
     </div>
 
     <form action="/tide_data" method="get" class="my-4">

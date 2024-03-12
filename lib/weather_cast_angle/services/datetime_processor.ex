@@ -17,6 +17,17 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   end
 
   @doc """
+  Convert UNIX UTC timestamp to JST "HH:mm" formatted time string.
+  """
+  @spec convert_unix_to_hour_minute_format(integer()) :: String.t()
+  def convert_unix_to_hour_minute_format(unix_utc) do
+    unix_utc
+    |> Timex.from_unix()
+    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> Timex.format!("{h24}:{m}")
+  end
+
+  @doc """
   Convert date string "YYMMDD" to "YYYY-MM-DD" format.
   If a single-byte space is retained, it is filled with `0`.
   """
