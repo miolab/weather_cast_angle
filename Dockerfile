@@ -1,4 +1,4 @@
-FROM elixir:1.16.1-slim
+FROM elixir:1.16.2-slim
 
 RUN apt-get update && apt-get install -y git inotify-tools \
   python3.11 python3-pip python3.11-venv
