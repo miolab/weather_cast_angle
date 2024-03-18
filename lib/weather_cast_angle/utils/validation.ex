@@ -18,6 +18,14 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value matches the `YYYY-MM-DD` date format.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_date_format("2024-01-01")
+      :ok
+
+      iex> Utils.Validation.validate_date_format("2024-1-1")
+      {:error, "Invalid date format"}
   """
   @spec validate_date_format(String.t()) :: :ok | {:error, String.t()}
   def validate_date_format(value) do
