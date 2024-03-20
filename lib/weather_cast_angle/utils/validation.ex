@@ -48,6 +48,17 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value consists of lowercase alphanumeric characters and is within a specific range of characters long.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("abc", 2, 3)
+      :ok
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("a", 2, 3)
+      {:error, "The value must be at least 2 characters long."}
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("abcde", 2, 3)
+      {:error, "The value must be no more than 3 characters long."}
   """
   @spec validate_lowercase_alphabetic_length(
           String.t(),
