@@ -30,4 +30,24 @@ defmodule WeatherCastAngle.Utils.Collection do
   end
 
   def normalize_inner_map_keys_to_atoms(_), do: {:error, "The value must be Map."}
+
+  @doc """
+  Returns whether or not any required key is missing from the map.
+  - Returns `true` if it is missing, `false` if it is included.
+
+  ## Examples
+
+    iex> Utils.Collection.does_any_key_missing_in_map(%{"a" => 1, "b" => 2}, ["a", "b", "c"])
+    true
+
+    iex> Utils.Collection.does_any_key_missing_in_map(%{"a" => 1, "b" => 2}, ["a", "b"])
+    false
+  """
+  @spec does_any_key_missing_in_map(map(), [term()]) :: boolean()
+  def does_any_key_missing_in_map(map, keys) do
+    Enum.any?(
+      keys,
+      fn key -> !Map.has_key?(map, key) end
+    )
+  end
 end
