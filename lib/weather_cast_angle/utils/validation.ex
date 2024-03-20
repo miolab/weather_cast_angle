@@ -5,6 +5,17 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value is in the array.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_in_array("ab", ["ab", "cd", "ef"])
+      :ok
+
+      iex> Utils.Validation.validate_in_array("z", ["ab", "cd", "ef"])
+      {:error, "Value not found in array"}
+
+      iex> Utils.Validation.validate_in_array("ab", "abcde")
+      {:error, "abcde must be a list"}
   """
   @spec validate_in_array(term(), list(term())) :: :ok | {:error, String.t()}
   def validate_in_array(value, array) when is_list(array) do
