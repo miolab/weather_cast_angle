@@ -4,6 +4,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   """
   alias WeatherCastAngle.Services.WeatherDataProcessor
   alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils
 
   @current_weather_url "https://api.openweathermap.org/data/2.5/weather"
 
@@ -36,17 +37,19 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   def extract_current_weather(location_name) do
     current_weather_response_map = get_current_weather_data(location_name)
 
-    required_keys = [
-      "dt",
-      "main",
-      "wind",
-      "weather",
-      "sys"
-    ]
+    does_any_key_missing =
+      Utils.Collection.does_any_key_missing_in_map(current_weather_response_map, [
+        "dt",
+        "main",
+        "wind",
+        "weather",
+        "sys"
+      ])
+
+    is_map_key_error = is_map_key(current_weather_response_map, "Error")
 
     cond do
-      _does_any_key_missing(current_weather_response_map, required_keys) or
-          is_map_key(current_weather_response_map, "Error") ->
+      does_any_key_missing or is_map_key_error ->
         _extract_current_weather_default()
 
       true ->
@@ -105,9 +108,5 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       sunrise: 0,
       sunset: 0
     }
-  end
-
-  defp _does_any_key_missing(map, keys) do
-    Enum.any?(keys, fn key -> !Map.has_key?(map, key) end)
   end
 end

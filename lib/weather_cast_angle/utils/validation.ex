@@ -5,6 +5,17 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value is in the array.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_in_array("ab", ["ab", "cd", "ef"])
+      :ok
+
+      iex> Utils.Validation.validate_in_array("z", ["ab", "cd", "ef"])
+      {:error, "Value not found in array"}
+
+      iex> Utils.Validation.validate_in_array("ab", "abcde")
+      {:error, "abcde must be a list"}
   """
   @spec validate_in_array(term(), list(term())) :: :ok | {:error, String.t()}
   def validate_in_array(value, array) when is_list(array) do
@@ -18,6 +29,14 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value matches the `YYYY-MM-DD` date format.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_date_format("2024-01-01")
+      :ok
+
+      iex> Utils.Validation.validate_date_format("2024-1-1")
+      {:error, "Invalid date format"}
   """
   @spec validate_date_format(String.t()) :: :ok | {:error, String.t()}
   def validate_date_format(value) do
@@ -29,6 +48,17 @@ defmodule WeatherCastAngle.Utils.Validation do
 
   @doc """
   Validates that the given value consists of lowercase alphanumeric characters and is within a specific range of characters long.
+
+  ## Examples
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("abc", 2, 3)
+      :ok
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("a", 2, 3)
+      {:error, "The value must be at least 2 characters long."}
+
+      iex> Utils.Validation.validate_lowercase_alphabetic_length("abcde", 2, 3)
+      {:error, "The value must be no more than 3 characters long."}
   """
   @spec validate_lowercase_alphabetic_length(
           String.t(),
