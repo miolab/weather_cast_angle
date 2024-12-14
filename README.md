@@ -82,7 +82,21 @@ weather_cast_angle
   docker exec -it weather_cast_angle iex -S mix
   ```
 
-### Official References
+### Setting Up npm Execution Environment for Local Development
+
+In local testing and development, an **npm** execution environment may be required for tasks such as installing **JavaScript libraries** (e.g., chart.js). The use of **nodenv** is recommended for preparing this environment.
+
+To install **nodenv**, refer to the official installation guide: [nodenv installation](https://github.com/nodenv/nodenv#installation).
+
+The Node.js version specified in the .node-version file can be installed locally by executing the following command:
+
+```sh
+nodenv install
+```
+
+This ensures the appropriate Node.js version is available for the development environment.
+
+### Other Phoenix Official References
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
