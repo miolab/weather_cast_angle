@@ -1,3 +1,9 @@
+FROM node:22.3.0-alpine AS node-builder
+
+WORKDIR /app/assets
+COPY assets/package*.json ./
+RUN npm i
+
 FROM elixir:1.17.3-slim
 
 RUN apt-get update && apt-get install -y git inotify-tools \
@@ -15,6 +21,7 @@ RUN mix deps.compile
 COPY lib lib
 COPY priv priv
 COPY assets assets
+COPY --from=node-builder /app/assets/node_modules assets/node_modules
 
 RUN mix do compile, phx.digest
 
