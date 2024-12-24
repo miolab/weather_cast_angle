@@ -120,9 +120,9 @@
     <form
       action="/tide_data"
       method="get"
-      class="fixed bottom-0 w-full bg-white bg-opacity-80 mt-4 pt-4 pb-4 z-50"
+      class="fixed bottom-0 w-full bg-white bg-opacity-80 mt-4 pt-2 sm:pt-4 pb-3 sm:pb-4 z-50"
     >
-      <button class="js-proceed-before-day mr-1 sm:mr-1.5">
+      <button class="js-proceed-before-day -ml-1 sm:ml-auto mr-1 sm:mr-1.5">
         <.icon name="hero-chevron-left-solid" class="-mr-1 pr-1 sm:-mr-1.5" />
         <span class="hidden pl-1 sm:inline-block sm:font-bold sm:text-sm">前日</span>
       </button>
@@ -132,7 +132,7 @@
         value={@tide_response.target_date}
         min="2015-01-01"
         max="2024-12-31"
-        class="js-input-date bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5 mr-1 mb-2 w-40 sm:mr-1.5"
+        class="js-input-date bg-gray-50 border border-gray-700 text-gray-900 font-bold text-xs sm:text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5 mr-1 mb-2 w-32 sm:w-40 sm:mr-1.5"
       />
       <button class="js-proceed-next-day ml-1 sm:ml-0 sm:mr-4">
         <span class="hidden sm:inline-block sm:font-bold sm:text-sm">翌日</span>
@@ -140,7 +140,7 @@
       </button>
       <select
         name="location_name"
-        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 mr-2 p-1.5 w-28"
+        class="bg-gray-50 border border-gray-700 text-gray-900 font-bold text-xs sm:text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 mr-1 sm:mr-2 p-1.5 w-20 sm:w-28"
       >
         <%= for location_name <- @location_names do %>
           <option
@@ -153,9 +153,10 @@
       </select>
       <button
         type="submit"
-        class="mx-3 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        class="h-8 sm:h-auto w-7 sm:w-auto sm:mx-3 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:px-4 rounded-lg text-xs sm:text-base"
       >
-        Submit
+        <.icon name="hero-magnifying-glass" class="sm:-ml-1.5" />
+        <span class="hidden sm:inline-block">検索</span>
       </button>
     </form>
 
