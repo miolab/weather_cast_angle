@@ -6,6 +6,17 @@
         <img src={~p"/images/fishes.jpg"} alt="header logo" class="w-auto h-14 sm:h-20" />
       </.link>
     </div>
+    <div class="flex justify-between items-center w-full">
+      <%!-- TODO: --%>
+      <div class="text-left">WIP</div>
+      <div class="text-center">
+        <h1 class="font-semibold text-lg md:text-xl">
+          <%= WeatherCastAngle.Utils.Locations.get_place_name_by_location_name(@selected_location) %>
+        </h1>
+        <span>wip</span>
+      </div>
+      <div class="text-right">WIP</div>
+    </div>
     <div class="mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
       <h2
         class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
