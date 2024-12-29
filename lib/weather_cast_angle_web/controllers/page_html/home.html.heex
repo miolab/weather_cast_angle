@@ -8,15 +8,43 @@
     </div>
     <div class="flex justify-between items-center w-full">
       <%!-- TODO: --%>
-      <div class="text-left">WIP</div>
-      <div class="text-center">
+      <div class="text-left flex-1">
+        <h2>
+          <%= @tide_response.target_date %>
+        </h2>
+        <span>
+          <%!-- WIP --%>
+        </span>
+      </div>
+      <div class="text-center flex-none">
         <h1 class="font-semibold text-lg md:text-xl">
           <%= WeatherCastAngle.Utils.Locations.get_place_name_by_location_name(@selected_location) %>
         </h1>
-        <span>wip</span>
+        <span>
+          <%!-- WIP --%>
+        </span>
       </div>
-      <div class="text-right">WIP</div>
+      <div class="text-right flex-1">
+        <h2>
+          <%!-- WIP --%>
+        </h2>
+        <span>
+          <%!-- WIP --%>
+        </span>
+      </div>
     </div>
+
+    <div
+      class="js-weather-forecast relative h-auto min-h-[250px] sm:min-h-[350px]"
+      data-weather-forecast={@weather_forecast_map |> Jason.encode!()}
+    >
+      <canvas
+        class="chart-area w-full h-full"
+        data-tide-levels={@tide_response.hourly_tide_levels |> Jason.encode!()}
+      >
+      </canvas>
+    </div>
+
     <div class="mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
       <h2
         class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
@@ -127,17 +155,6 @@
         <span class="hidden sm:inline-block">検索</span>
       </button>
     </form>
-
-    <div
-      class="js-weather-forecast relative h-auto min-h-[250px] sm:min-h-[350px]"
-      data-weather-forecast={@weather_forecast_map |> Jason.encode!()}
-    >
-      <canvas
-        class="chart-area w-full h-full"
-        data-tide-levels={@tide_response.hourly_tide_levels |> Jason.encode!()}
-      >
-      </canvas>
-    </div>
 
     <%!-- TODO: 後で消す --%>
     <div>
