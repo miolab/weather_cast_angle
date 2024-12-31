@@ -7,12 +7,14 @@
       </.link>
     </div>
     <div class="flex justify-between items-center w-full">
-      <%!-- TODO: --%>
       <div class="text-left flex-1">
-        <h2>
-          <%= @tide_response.target_date %>
+        <h2
+          class="js-format-japanese-date text-xs sm:text-base"
+          data-date={@tide_response.target_date}
+        >
         </h2>
         <span>
+          <%!-- TODO: --%>
           <%!-- WIP --%>
         </span>
       </div>
@@ -21,14 +23,17 @@
           <%= WeatherCastAngle.Utils.Locations.get_place_name_by_location_name(@selected_location) %>
         </h1>
         <span>
+          <%!-- TODO: --%>
           <%!-- WIP --%>
         </span>
       </div>
       <div class="text-right flex-1">
         <h2>
+          <%!-- TODO: --%>
           <%!-- WIP --%>
         </h2>
         <span>
+          <%!-- TODO: --%>
           <%!-- WIP --%>
         </span>
       </div>
