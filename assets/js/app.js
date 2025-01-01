@@ -20,6 +20,11 @@ renderChart();
 import { changeDateAndSubmit } from "./lib/changeDateAndSubmit";
 changeDateAndSubmit();
 
+import { formatDate } from "./lib/dateFormatter";
+const rawDateElement = document.querySelector(".js-format-japanese-date");
+const rawFormattedDate = rawDateElement.getAttribute("data-date");
+if (rawFormattedDate) rawDateElement.textContent = formatDate(rawFormattedDate);
+
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.

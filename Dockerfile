@@ -2,7 +2,7 @@ FROM node:22.3.0-alpine AS node-builder
 
 WORKDIR /app/assets
 COPY assets/package*.json ./
-RUN npm i chart.js
+RUN npm i chart.js dayjs
 
 FROM elixir:1.17.3-slim
 
