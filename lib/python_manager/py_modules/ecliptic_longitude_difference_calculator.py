@@ -3,7 +3,7 @@ import math
 
 
 def _create_observer(date: bytes) -> ephem.Observer:
-    """Creates Ephem observer instance based on specified date, latitude, and longitude.
+    """Creates Ephem observer instance based on specified date.
 
     Args:
         date (str): 'yyyy/mm/dd' formatted date string.
@@ -18,7 +18,7 @@ def _create_observer(date: bytes) -> ephem.Observer:
 
 
 def calculate_ecliptic_longitude_difference(date: bytes) -> int:
-    """Calculates the ecliptic longitude difference between the sun and the moon at a given date and time and returns the angle (integer value).
+    """Calculates the ecliptic longitude difference between the sun and the moon at a given date and time and returns the angle.
 
     Args:
         date (str): 'yyyy/mm/dd' formatted date string.
