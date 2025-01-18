@@ -11,7 +11,7 @@ defmodule WeatherCastAngle.Services.TideNameClassifier do
   def get_ecliptic_longitude_difference(date) do
     date
     |> _get_ecliptic_longitude_difference_using_python()
-    |> classify_tide_name()
+    |> _classify_tide_name()
   end
 
   defp _get_ecliptic_longitude_difference_using_python(date) do
@@ -22,29 +22,28 @@ defmodule WeatherCastAngle.Services.TideNameClassifier do
     )
   end
 
-  @doc """
-  Classify the tide name based on the acliptic longitude difference.
-  """
-  @spec classify_tide_name(non_neg_integer()) :: String.t()
-  def classify_tide_name(angle) when angle >= 343 or angle < 31, do: "大潮"
-  def classify_tide_name(angle) when angle >= 163 and angle < 211, do: "大潮"
+  # Classify the tide name based on the ecliptic longitude difference.
+  @spec _classify_tide_name(non_neg_integer()) :: String.t()
+  defp _classify_tide_name(angle)
+       when angle >= 343 or angle < 31 or (angle >= 163 and angle < 211),
+       do: "大潮"
 
-  def classify_tide_name(angle)
-      when (angle >= 31 and angle < 67) or (angle >= 127 and angle < 163) or
-             (angle >= 211 and angle < 247) or (angle >= 307 and angle < 343),
-      do: "中潮"
+  defp _classify_tide_name(angle)
+       when (angle >= 31 and angle < 67) or (angle >= 127 and angle < 163) or
+              (angle >= 211 and angle < 247) or (angle >= 307 and angle < 343),
+       do: "中潮"
 
-  def classify_tide_name(angle)
-      when (angle >= 67 and angle < 103) or (angle >= 247 and angle < 283),
-      do: "小潮"
+  defp _classify_tide_name(angle)
+       when (angle >= 67 and angle < 103) or (angle >= 247 and angle < 283),
+       do: "小潮"
 
-  def classify_tide_name(angle)
-      when (angle >= 103 and angle < 115) or (angle >= 283 and angle < 295),
-      do: "長潮"
+  defp _classify_tide_name(angle)
+       when (angle >= 103 and angle < 115) or (angle >= 283 and angle < 295),
+       do: "長潮"
 
-  def classify_tide_name(angle)
-      when (angle >= 115 and angle < 127) or (angle >= 295 and angle < 307),
-      do: "若潮"
+  defp _classify_tide_name(angle)
+       when (angle >= 115 and angle < 127) or (angle >= 295 and angle < 307),
+       do: "若潮"
 
-  def classify_tide_name(_angle), do: "不明"
+  defp _classify_tide_name(_angle), do: "-"
 end
