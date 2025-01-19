@@ -7,6 +7,7 @@ defmodule WeatherCastAngleWeb.PageController do
   alias WeatherCastAngle.Services.WeatherCurrentDataHandler
   alias WeatherCastAngle.Services.WeatherForecastHandler
   alias WeatherCastAngle.Services.MoonStatusCalculator
+  alias WeatherCastAngle.Services.TideNameClassifier
   alias WeatherCastAngle.Services.SeaWaterTemperatureHandler
 
   @location_names Utils.Locations.location_names()
@@ -29,6 +30,7 @@ defmodule WeatherCastAngleWeb.PageController do
       location_names: @location_names,
       moon_age: _fetch_moon_status(current_date, location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(current_date, location_name) |> Map.get("moon_phase"),
+      tide_name: _get_tide_name_by_date(current_date),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
@@ -74,6 +76,7 @@ defmodule WeatherCastAngleWeb.PageController do
       location_names: @location_names,
       moon_age: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_phase"),
+      tide_name: _get_tide_name_by_date(target_date),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(target_location_name),
@@ -120,6 +123,9 @@ defmodule WeatherCastAngleWeb.PageController do
       "moon_phase" => MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
     }
   end
+
+  defp _get_tide_name_by_date(date),
+    do: TideNameClassifier.get_ecliptic_longitude_difference(date)
 
   defp _previous_days_sea_temperatures(location_name),
     do: SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)

@@ -21,6 +21,7 @@ This app is specifically designed to provide comprehensive information on tide l
   - Temperature
   - Moon age
   - Humidity
+  - Tide name (e.g. 大潮, 小潮, 長潮, etc.)
   - Seawater temperature
   - Sunrise and Sunset time
 
