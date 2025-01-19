@@ -11,7 +11,7 @@ This app is specifically designed to provide comprehensive information on tide l
 
 - Screenshot during development;
 
-  <img width="607" alt="screenshot_during_development" src="https://github.com/miolab/weather_cast_angle/assets/33124627/128e03b3-29d3-489b-893b-94c91d7f28fb">
+  <img width="600" alt="screenshot_during_development" src="https://github.com/user-attachments/assets/1ca61ed5-ad06-4445-b468-8c5aaeba36d8">
 
 - The information provided by this application;
 
@@ -32,6 +32,7 @@ This app is specifically designed to provide comprehensive information on tide l
 - Weather information: OpenWeather https://openweathermap.org/full-price
   - Current weather data: https://openweathermap.org/current
   - 5 day weather forecast: https://openweathermap.org/forecast5
+- Tide names classification: calculate using the difference in ecliptic longitude based on the MIRC method.
 - Moon information: calculate using PyEphem astronomy library for Python https://rhodesmill.org/pyephem/
 
 ### Disclaimer
