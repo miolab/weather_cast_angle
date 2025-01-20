@@ -6,9 +6,8 @@ defmodule WeatherCastAngleWeb.PageController do
   alias WeatherCastAngle.Services.TideDataHandler
   alias WeatherCastAngle.Services.WeatherCurrentDataHandler
   alias WeatherCastAngle.Services.WeatherForecastHandler
-  alias WeatherCastAngle.Services.MoonStatusCalculator
-  alias WeatherCastAngle.Services.TideNameClassifier
   alias WeatherCastAngle.Services.SeaWaterTemperatureHandler
+  alias WeatherCastAngle.Services.ForecastAggregator
 
   @location_names Utils.Locations.location_names()
 
@@ -19,6 +18,8 @@ defmodule WeatherCastAngleWeb.PageController do
     default_tide_location_code = Utils.Locations.default_tide_location_code()
     tide_response_map = _fetch_tide_response_map(current_date, default_tide_location_code)
 
+    forecast_map = _forecast_map(location_name, current_date)
+
     render(
       conn,
       :home,
@@ -28,9 +29,9 @@ defmodule WeatherCastAngleWeb.PageController do
       weather_forecast_map: _weather_forecast_map(location_name, current_date),
       selected_location: location_name,
       location_names: @location_names,
-      moon_age: _fetch_moon_status(current_date, location_name) |> Map.get("moon_age"),
-      moon_phase: _fetch_moon_status(current_date, location_name) |> Map.get("moon_phase"),
-      tide_name: _get_tide_name_by_date(current_date),
+      moon_age: forecast_map |> Map.get(:moon_age),
+      moon_phase: forecast_map |> Map.get(:moon_phase),
+      tide_name: forecast_map |> Map.get(:tide_name),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
@@ -65,6 +66,8 @@ defmodule WeatherCastAngleWeb.PageController do
     tide_location_code = Utils.Locations.get_location_code_by_name(target_location_name)
     tide_response_map = _fetch_tide_response_map(target_date, tide_location_code)
 
+    forecast_map = _forecast_map(target_location_name, target_date)
+
     render(
       conn,
       :home,
@@ -74,9 +77,9 @@ defmodule WeatherCastAngleWeb.PageController do
       weather_forecast_map: _weather_forecast_map(target_location_name, target_date),
       selected_location: target_location_name,
       location_names: @location_names,
-      moon_age: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_age"),
-      moon_phase: _fetch_moon_status(target_date, target_location_name) |> Map.get("moon_phase"),
-      tide_name: _get_tide_name_by_date(target_date),
+      moon_age: forecast_map |> Map.get(:moon_age),
+      moon_phase: forecast_map |> Map.get(:moon_phase),
+      tide_name: forecast_map |> Map.get(:tide_name),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(target_location_name),
@@ -85,6 +88,9 @@ defmodule WeatherCastAngleWeb.PageController do
       layout: false
     )
   end
+
+  defp _forecast_map(location_name, date),
+    do: ForecastAggregator.get_forecast_by_date(location_name, date)
 
   defp _fetch_tide_response_map(date_string, location_code) do
     [year | _] = String.split(date_string, "-")
@@ -111,21 +117,6 @@ defmodule WeatherCastAngleWeb.PageController do
   # TODO: あとで消す
   defp _fetch_weather_forecast_response_map(location_name),
     do: WeatherForecastHandler.get_weather_forecast(location_name)
-
-  defp _fetch_moon_status(date, location_name) do
-    location_map = Utils.Locations.get_location_map_by_name(location_name)
-
-    latitude = location_map |> Map.get(:latitude)
-    longitude = location_map |> Map.get(:longitude)
-
-    %{
-      "moon_age" => MoonStatusCalculator.get_moon_age(date, latitude, longitude),
-      "moon_phase" => MoonStatusCalculator.get_moon_phase(date, latitude, longitude)
-    }
-  end
-
-  defp _get_tide_name_by_date(date),
-    do: TideNameClassifier.get_ecliptic_longitude_difference(date)
 
   defp _previous_days_sea_temperatures(location_name),
     do: SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)
