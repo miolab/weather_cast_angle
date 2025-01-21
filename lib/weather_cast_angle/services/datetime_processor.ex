@@ -51,10 +51,14 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   """
   @spec get_current_date_string() :: String.t()
   def get_current_date_string() do
-    Timex.format!(get_current_date(), "{YYYY}-{0M}-{0D}")
+    Timex.format!(_get_current_date(), "{YYYY}-{0M}-{0D}")
   end
 
-  defp get_current_date() do
-    Timex.now(@asia_tokyo_timezone)
-  end
+  defp _get_current_date(), do: Timex.now(@asia_tokyo_timezone)
+
+  @doc """
+  Return the date is current date or not.
+  """
+  @spec is_current_date(String.t()) :: boolean()
+  def is_current_date(date), do: date == get_current_date_string()
 end
