@@ -178,34 +178,5 @@
       <h2 class="text-xl mt-3">Weather forecast</h2>
       <%= @weather_forecast_response |> Jason.encode!() %>
     </div>
-
-    <%!-- TODO: 後で消す --%>
-    <div>
-      <h2 class="text-xl mt-3">Tide data</h2>
-      <p>
-        Date | <%= @tide_response.target_date %>
-      </p>
-      <p class="location-code" data-location-code={@tide_response.location_code}>
-        Location Code | <%= @tide_response.location_code %>
-      </p>
-      <p>
-        Hourly tide levels (from 0 to 23 o'clock) |
-        <%= for tide_level <- @tide_response.hourly_tide_levels do %>
-          <%= tide_level %>
-        <% end %>
-      </p>
-      <p>
-        High Tide |
-        <%= for {time, level} <- @tide_response.high_tide do %>
-          <%= time %> -> <%= level %> |
-        <% end %>
-      </p>
-      <p>
-        Low Tide |
-        <%= for {time, level} <- @tide_response.low_tide do %>
-          <%= time %> -> <%= level %> |
-        <% end %>
-      </p>
-    </div>
   </div>
 </div>
