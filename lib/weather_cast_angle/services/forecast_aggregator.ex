@@ -17,6 +17,8 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
             # TODO: add more information later. (wind, temperature, etc.)
             weather_description: String.t(),
             weather_icon_uri: String.t(),
+            wind_deg: String.t(),
+            wind_speed: float() | String.t(),
             moon_age: float(),
             moon_phase: String.t(),
             tide_name: String.t()
@@ -27,6 +29,8 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
     %{
       weather_description: weather_forecast_summary_map |> Map.get(:weather_description, "-"),
       weather_icon_uri: weather_forecast_summary_map |> Map.get(:weather_icon_uri, ""),
+      wind_deg: weather_forecast_summary_map |> Map.get(:wind_deg, ""),
+      wind_speed: weather_forecast_summary_map |> Map.get(:wind_speed, "-"),
       moon_age: _fetch_moon_status(date, location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(date, location_name) |> Map.get("moon_phase"),
       tide_name: _get_tide_name_by_date(date)
