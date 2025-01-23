@@ -168,14 +168,14 @@
     </form>
 
     <%!-- TODO: 後で消す --%>
-    <div>
-      <h2 class="text-xl mt-3">Weather current</h2>
+    <div class="hidden">
+      <h2 class="text-xl pt-3">Weather current</h2>
       <%= @current_weather_response |> Jason.encode!() %>
     </div>
 
     <%!-- TODO: 後で消す --%>
-    <div>
-      <h2 class="text-xl mt-3">Weather forecast</h2>
+    <div class="hidden">
+      <h2 class="text-xl pt-3">Weather forecast</h2>
       <%= @weather_forecast_response |> Jason.encode!() %>
     </div>
   </div>
