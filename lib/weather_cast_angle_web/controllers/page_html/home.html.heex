@@ -60,7 +60,25 @@
       </canvas>
     </div>
 
-    <div class="mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
+    <%!-- TODO: 移行中 --%>
+    <div class="flex justify-between items-center w-full mb-4">
+      <div class="text-left flex-1">
+        <span>月齢: <%= @moon_age %></span>
+      </div>
+      <%!-- TODO: --%>
+      <%!-- WIP --%>
+      <div class="text-center flex-none">
+        <%!-- TODO: --%>
+        <%!-- WIP --%>
+      </div>
+      <div class="text-right flex-1">
+        <%!-- TODO: --%>
+        <%!-- WIP --%>
+      </div>
+    </div>
+
+    <%!-- TODO: 移行後削除 --%>
+    <div class="hidden mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
       <h2
         class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
         data-date={@tide_response.target_date}
