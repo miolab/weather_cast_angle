@@ -118,4 +118,35 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
         end)
     end
   end
+
+  @doc """
+  Gets the sunrise and sunset times for the given location.
+
+  - The times are returned as strings formatted in JST "HH:mm".
+  - If lacks forecast data, an empty map `%{}` is returned.
+  """
+  @spec get_sunrise_and_sunset_information_map(location_name :: String.t()) ::
+          %{
+            sunrise: String.t(),
+            sunset: String.t()
+          }
+          | %{}
+  def get_sunrise_and_sunset_information_map(location_name) do
+    forecast_city_information = get_weather_forecast(location_name)["city"]
+
+    cond do
+      is_nil(forecast_city_information) ->
+        %{}
+
+      true ->
+        %{
+          sunrise:
+            forecast_city_information["sunrise"]
+            |> DatetimeProcessor.convert_unix_to_hour_minute_format(),
+          sunset:
+            forecast_city_information["sunset"]
+            |> DatetimeProcessor.convert_unix_to_hour_minute_format()
+        }
+    end
+  end
 end

@@ -36,6 +36,8 @@ defmodule WeatherCastAngleWeb.PageController do
       moon_age: forecast_map |> Map.get(:moon_age),
       moon_phase: forecast_map |> Map.get(:moon_phase),
       tide_name: forecast_map |> Map.get(:tide_name),
+      sunrise: forecast_map |> Map.get(:sunrise),
+      sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(location_name),
@@ -88,6 +90,8 @@ defmodule WeatherCastAngleWeb.PageController do
       moon_age: forecast_map |> Map.get(:moon_age),
       moon_phase: forecast_map |> Map.get(:moon_phase),
       tide_name: forecast_map |> Map.get(:tide_name),
+      sunrise: forecast_map |> Map.get(:sunrise),
+      sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       # TODO: あとで消す
       current_weather_response: _fetch_current_weather_response_map(target_location_name),
