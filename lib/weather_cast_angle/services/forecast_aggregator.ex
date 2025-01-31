@@ -21,7 +21,9 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
             wind_speed: float() | String.t(),
             moon_age: float(),
             moon_phase: String.t(),
-            tide_name: String.t()
+            tide_name: String.t(),
+            sunrise: String.t(),
+            sunset: String.t()
           }
   def get_forecast_by_date(location_name, date) do
     weather_forecast_summary_map = _get_weather_forecast_summary_map(location_name, date)
@@ -33,7 +35,9 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
       wind_speed: weather_forecast_summary_map |> Map.get(:wind_speed, "-"),
       moon_age: _fetch_moon_status(date, location_name) |> Map.get("moon_age"),
       moon_phase: _fetch_moon_status(date, location_name) |> Map.get("moon_phase"),
-      tide_name: _get_tide_name_by_date(date)
+      tide_name: _get_tide_name_by_date(date),
+      sunrise: weather_forecast_summary_map |> Map.get(:sunrise, "-"),
+      sunset: weather_forecast_summary_map |> Map.get(:sunset, "-")
     }
   end
 
@@ -63,12 +67,15 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
         forecast_summary_map
         |> Enum.find(fn map -> Map.has_key?(map, "12") end)
         |> Map.get("12")
+        |> Map.merge(WeatherForecastHandler.get_sunrise_and_sunset_information_map(location_name))
 
       true ->
         # TODO: 暫定で最後の要素を取得している
         last_map = List.last(forecast_summary_map)
         last_key = last_map |> Map.keys() |> List.last()
+
         Map.get(last_map, last_key)
+        |> Map.merge(WeatherForecastHandler.get_sunrise_and_sunset_information_map(location_name))
     end
   end
 

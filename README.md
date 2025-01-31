@@ -11,13 +11,15 @@ This app is specifically designed to provide comprehensive information on tide l
 
 - Screenshot during development;
 
-  <img width="600" alt="screenshot_during_development" src="https://github.com/user-attachments/assets/f241fc8d-8eb9-4ef8-ac0b-a7c3711a8a07">
+  | mobile                                                                                                                                      |
+  | ------------------------------------------------------------------------------------------------------------------------------------------- |
+  | <img width="350" alt="screenshot_during_development" src="https://github.com/user-attachments/assets/1e6dafee-f12b-450f-a17d-e68a00e498bf"> |
 
 - The information provided by this application;
 
   - Tide graph
   - Weather
-  - Wind speed and degree
+  - Wind speed and direction
   - Temperature
   - Moon age
   - Humidity
