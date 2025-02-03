@@ -25,6 +25,9 @@ const rawDateElement = document.querySelector(".js-format-japanese-date");
 const rawFormattedDate = rawDateElement.getAttribute("data-date");
 if (rawFormattedDate) rawDateElement.textContent = formatDate(rawFormattedDate);
 
+import { MoonPhasePainter } from "./lib/moonPhasePainter";
+MoonPhasePainter.init();
+
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
