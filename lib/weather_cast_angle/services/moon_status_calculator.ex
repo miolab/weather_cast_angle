@@ -13,10 +13,10 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator do
     phase_degree = _get_moon_phase_degree_using_python(date, latitude, longitude)
 
     cond do
-      phase_degree < 0.125 ->
+      phase_degree < 0.065 ->
         "新月"
 
-      phase_degree > 0.875 ->
+      phase_degree > 0.935 ->
         "満月"
 
       true ->
