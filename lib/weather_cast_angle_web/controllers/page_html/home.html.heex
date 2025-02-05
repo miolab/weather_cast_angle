@@ -69,10 +69,31 @@
       </canvas>
     </div>
 
-    <%!-- TODO: 移行中 --%>
     <div class="flex justify-between items-center w-full mb-4">
       <div class="text-left flex-1">
-        <span>月齢: <%= @moon_age %></span>
+        <div class="relative w-20 h-20">
+          <svg
+            class="js-moon-phase-area absolute w-full h-full"
+            data-moon-age={@moon_age}
+            aria-label="moon-phase"
+          >
+          </svg>
+          <div class="absolute top-0 left-0 w-full h-full inset-0 flex flex-col justify-center items-center font-extrabold">
+            <div
+              class="text-indigo-800"
+              style="text-shadow: 1px 1px 0 #DDDDDD, -1px -1px 0 #DDDDDD, 1px -1px 0 #DDDDDD, -1px 1px 0 #DDDDDD;"
+            >
+              月齢: <%= @moon_age %>
+            </div>
+            <div
+              class="text-indigo-900"
+              style="text-shadow: 1px 1px 0 #DDDDDD, -1px -1px 0 #DDDDDD, 1px -1px 0 #DDDDDD, -1px 1px 0 #DDDDDD;"
+            >
+              <%= @moon_phase %>
+            </div>
+          </div>
+        </div>
+        <%!-- TODO: 移行中 --%>
         <div class="mt-3">
           <span class="inline-flex items-center">
             <svg

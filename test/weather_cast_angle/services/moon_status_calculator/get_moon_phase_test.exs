@@ -13,7 +13,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator.GetMoonPhaseTest do
           @tokyo_longitude
         )
 
-      assert actual == "new-moon"
+      assert actual == "新月"
     end
 
     test "Can return full moon." do
@@ -24,7 +24,7 @@ defmodule WeatherCastAngle.Services.MoonStatusCalculator.GetMoonPhaseTest do
           @tokyo_longitude
         )
 
-      assert actual == "full-moon"
+      assert actual == "満月"
     end
 
     test "If it is neither a full nor a new moon, returns a empty character." do
