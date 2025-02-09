@@ -33,7 +33,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
                 probability_of_precipitation: non_neg_integer(),
                 wind_speed: float(),
                 wind_deg: String.t(),
-                main_temp: float(),
+                main_temp: integer(),
                 main_humidity: integer()
               }
             }
