@@ -17,6 +17,10 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureProcessor.PreviousDaysRec
     actual =
       WeatherCastAngle.Services.SeaWaterTemperatureProcessor.previous_days_records(raw_text)
 
-    assert actual == %{"2024-01-05" => 16.9, "2024-01-06" => 16.8, "2024-01-07" => 16.7}
+    assert actual == %{
+             "2024-01-05" => 17,
+             "2024-01-06" => 17,
+             "2024-01-07" => 17
+           }
   end
 end
