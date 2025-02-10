@@ -20,10 +20,8 @@ renderChart();
 import { changeDateAndSubmit } from "./lib/changeDateAndSubmit";
 changeDateAndSubmit();
 
-import { formatDate } from "./lib/dateFormatter";
-const rawDateElement = document.querySelector(".js-format-japanese-date");
-const rawFormattedDate = rawDateElement.getAttribute("data-date");
-if (rawFormattedDate) rawDateElement.textContent = formatDate(rawFormattedDate);
+import { autoFormatJapaneseDates } from "./lib/dateFormatter";
+autoFormatJapaneseDates();
 
 import { MoonPhasePainter } from "./lib/moonPhasePainter";
 MoonPhasePainter.init();

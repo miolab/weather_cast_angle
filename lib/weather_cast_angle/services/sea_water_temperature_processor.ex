@@ -48,7 +48,7 @@ defmodule WeatherCastAngle.Services.SeaWaterTemperatureProcessor do
     temperature =
       temperature_string
       |> String.to_float()
-      |> Float.round(1)
+      |> round()
 
     {date, temperature}
   end
