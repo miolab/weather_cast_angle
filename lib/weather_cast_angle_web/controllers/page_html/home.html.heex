@@ -160,7 +160,19 @@
         </ul>
       </div>
     </div>
+
     <%!-- TODO: 移行中 --%>
+    <div class="flex justify-between items-start w-full mt-1">
+      <%= for i <- 0..4 do %>
+        <div class="text-left flex-0 mr-1 bg-blue-50 px-2 py-1 border rounded-md ">
+          <span
+            class="js-format-japanese-date font-semibold text-slate-700 text-xs sm:text-base"
+            data-date={WeatherCastAngle.Services.DatetimeProcessor.shift_date_from_current(i)}
+          >
+          </span>
+        </div>
+      <% end %>
+    </div>
 
     <%!-- TODO: 移行後削除 --%>
     <div class="hidden mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
