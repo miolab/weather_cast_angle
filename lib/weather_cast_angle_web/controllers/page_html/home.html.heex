@@ -152,7 +152,7 @@
         <ul class="list-inside text-xs">
           <%= for {date, temperature} <- @previous_days_sea_temperatures do %>
             <li>
-              <span class="js-format-japanese-date" data-date={date}></span>
+              <span class="js-format-japanese-date-short" data-date={date}></span>
               <span class="text-sm ml-0.5"><%= temperature %></span>
               <small>℃</small>
             </li>
@@ -162,11 +162,11 @@
     </div>
 
     <%!-- TODO: 移行中 --%>
-    <div class="flex justify-between items-start w-full mt-1">
+    <div class="flex justify-between items-start w-full mt-4">
       <%= for i <- 0..4 do %>
-        <div class="text-left flex-0 mr-1 bg-blue-50 px-2 py-1 border rounded-md ">
+        <div class="text-left flex-0 mr-1 bg-blue-50 px-1 py-1 border rounded-md ">
           <span
-            class="js-format-japanese-date font-semibold text-slate-700 text-xs sm:text-base"
+            class="js-format-japanese-date-short font-semibold text-slate-700 text-xs sm:text-base"
             data-date={WeatherCastAngle.Services.DatetimeProcessor.shift_date_from_current(i)}
           >
           </span>
