@@ -6,7 +6,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   alias WeatherCastAngle.Utils
   alias WeatherCastAngle.Services.DatetimeProcessor
 
-  @target_url "https://www.data.jma.go.jp/gmd/kaiyou/data/db/tide/suisan/txt/"
+  @target_url "https://www.data.jma.go.jp/kaiyou/data/db/tide/suisan/txt/"
 
   @doc """
   Get tide data map by HTTP requested result or cached value.
@@ -70,6 +70,8 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
 
           {:error, %HTTPoison.Error{reason: reason}} ->
             %{"Error" => reason}
+
+            # TODO: Even in the event of an error, the tide data should return an __empty map__ so that other forecast processing can be performed and processing can continue.
         end
 
       _ ->
