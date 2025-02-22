@@ -63,6 +63,16 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   def is_current_date(date), do: date == get_current_date_string()
 
   @doc """
+  Shift the date by any number of days from the current date, and return the "YYYY-MM-DD" formatted date string.
+  """
+  @spec shift_date_from_current(integer()) :: String.t()
+  def shift_date_from_current(days) do
+    _get_current_date()
+    |> Timex.shift(days: days)
+    |> Timex.format!("{YYYY}-{0M}-{0D}")
+  end
+
+  @doc """
   Get yesterday "Asia/Tokyo" date from current, and return the "YYYY-MM-DD" formatted date string.
   """
   @spec get_yesterday_string_from_current() :: String.t()
