@@ -97,7 +97,7 @@
           </div>
         </div>
       </div>
-      <div class="text-left flex-0 mr-3">
+      <div class="text-left flex-0 mr-4">
         <div class="mt-0.5">
           <span class="inline-flex items-center">
             <svg
@@ -161,15 +161,16 @@
       </div>
     </div>
 
-    <%!-- TODO: 移行中 --%>
     <div class="flex justify-between items-start w-full mt-4">
-      <%= for i <- 0..4 do %>
-        <div class="text-left flex-0 mr-1 bg-blue-50 px-1 py-1 border rounded-md ">
+      <%= for recent_forecast <- @recent_forecasts do %>
+        <div class="text-left flex-1 mr-1.5 bg-blue-50 px-1.5 sm:px-3 py-0.5 border rounded-md ">
           <span
-            class="js-format-japanese-date-short font-semibold text-slate-700 text-xs sm:text-base"
-            data-date={WeatherCastAngle.Services.DatetimeProcessor.shift_date_from_current(i)}
+            class="js-format-japanese-date-short font-semibold text-slate-700 text-xs sm:text-sm"
+            data-date={recent_forecast.date}
           >
           </span>
+          <%!-- TODO: icon + tide_name --%>
+          <%!-- TODO: wind_direction + wind_speed --%>
         </div>
       <% end %>
     </div>

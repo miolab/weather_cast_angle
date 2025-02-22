@@ -63,6 +63,18 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
     }
   end
 
+  @doc """
+  Gets recent forecasts, from current date.
+  """
+  @spec get_recent_forecasts(String.t()) :: [forecast_by_date_t()]
+  def get_recent_forecasts(location_name) do
+    days_range = 0..3
+
+    days_range
+    |> Enum.map(fn days -> DatetimeProcessor.shift_date_from_current(days) end)
+    |> Enum.map(fn date -> get_forecast_by_date(location_name, date) end)
+  end
+
   defp _get_weather_forecast_summary_map(location_name, date) do
     # TODO: controller から移行して持ってくる
     case DatetimeProcessor.is_current_date(date) do
