@@ -162,6 +162,7 @@
     </div>
 
     <div class="flex justify-between items-start w-full mt-4">
+      <%!-- weather forecast panels --%>
       <%= for recent_forecast <- @recent_forecasts do %>
         <div class="text-left flex-1 mr-1.5 bg-blue-50 px-1.5 sm:px-3 py-0.5 border rounded-md ">
           <span
@@ -183,8 +184,17 @@
             <%= recent_forecast.wind_speed %>
             <small class="ml-0.5">m/s</small>
           </span>
-          <%!-- TODO: icon (+ tide_name) --%>
-          <span class="inline-flex items-center text-sm sm:text-base">
+          <%!-- weather icon + tide name --%>
+          <span class="inline-flex items-center text-sm sm:text-base -mt-1">
+            <img
+              src={recent_forecast.weather_icon_uri}
+              alt={
+                if recent_forecast.weather_icon_uri != "" do
+                  "weather icon: " <> recent_forecast.weather_description
+                end
+              }
+              class="h-6 w-6 -ml-1.5 mr-0.5"
+            />
             <%= recent_forecast.tide_name %>
           </span>
         </div>
