@@ -165,38 +165,47 @@
       <%!-- weather forecast panels --%>
       <%= for recent_forecast <- @recent_forecasts do %>
         <div class="text-left flex-1 mr-1.5 bg-blue-50 px-1.5 sm:px-3 py-0.5 border rounded-md ">
-          <span
+          <p
             class="js-format-japanese-date-short font-semibold text-slate-700 text-xs sm:text-sm"
             data-date={recent_forecast.date}
           >
-          </span>
-          <%!-- TODO: wind_direction (+ wind_speed) --%>
-          <span class="inline-flex items-center text-sm sm:text-base">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              fill="#94a3b8"
-              class="h-4 w-4 mr-0.5"
-              aria-label="wind speed"
-            >
-              <path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z" />
-            </svg>
-            <%= recent_forecast.wind_speed %>
-            <small class="ml-0.5">m/s</small>
-          </span>
+          </p>
           <%!-- weather icon + tide name --%>
-          <span class="inline-flex items-center text-sm sm:text-base -mt-1">
-            <img
-              src={recent_forecast.weather_icon_uri}
-              alt={
-                if recent_forecast.weather_icon_uri != "" do
-                  "weather icon: " <> recent_forecast.weather_description
-                end
-              }
-              class="h-6 w-6 -ml-1.5 mr-0.5"
-            />
-            <%= recent_forecast.tide_name %>
-          </span>
+          <div class="mt-1">
+            <span class="inline-flex items-center text-xs sm:text-sm">
+              <img
+                src={recent_forecast.weather_icon_uri}
+                alt={
+                  if recent_forecast.weather_icon_uri != "" do
+                    "weather icon: " <> recent_forecast.weather_description
+                  end
+                }
+                class="h-6 w-6 -ml-1 mr-0.5"
+              />
+              <%= recent_forecast.tide_name %>
+            </span>
+          </div>
+          <%!-- wind_speed --%>
+          <div class="-mt-2 ml-0.5">
+            <span class="inline-flex items-center text-xs sm:text-sm ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 -960 960 960"
+                fill="#94a3b8"
+                class="h-3.5 w-3.5 mr-0.5"
+                aria-label="wind speed"
+              >
+                <path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z" />
+              </svg>
+              <%= recent_forecast.wind_speed %>
+              <small class="ml-0.5">m/s</small>
+            </span>
+          </div>
+          <%!-- wind_direction --%>
+          <div class="ml-0.5 items-center text-xs sm:text-sm">
+            <small class="">風向:</small>
+            <%= recent_forecast.wind_deg %>
+          </div>
         </div>
       <% end %>
     </div>
