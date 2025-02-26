@@ -8,8 +8,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
 
   @current_weather_url "https://api.openweathermap.org/data/2.5/weather"
 
-  # TODO: fix to private
-  def get_current_weather_data(location_name) do
+  defp _get_current_weather_data(location_name) do
     cache_key = location_name <> "_current_weather"
 
     WeatherDataProcessor.get_open_weather_data(
@@ -35,7 +34,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           sunset: non_neg_integer()
         }
   def extract_current_weather(location_name) do
-    current_weather_response_map = get_current_weather_data(location_name)
+    current_weather_response_map = _get_current_weather_data(location_name)
 
     does_any_key_missing =
       Utils.Collection.does_any_key_missing_in_map(current_weather_response_map, [
