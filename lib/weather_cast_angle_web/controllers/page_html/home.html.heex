@@ -161,16 +161,16 @@
       </div>
     </div>
 
-    <div class="flex justify-between items-start w-full mt-4">
+    <div class="flex justify-between items-start w-full mt-5">
       <%!-- weather forecast panels --%>
       <%= for recent_forecast <- @recent_forecasts do %>
-        <div class="text-left flex-1 mr-1.5 bg-blue-50 px-1.5 sm:px-3 py-0.5 border rounded-md ">
+        <div class="text-left flex-1 mr-1 bg-blue-50 pl-1 sm:pl-3 py-1 border rounded-md">
           <p
             class="js-format-japanese-date-short font-semibold text-slate-700 text-xs sm:text-sm"
             data-date={recent_forecast.date}
           >
           </p>
-          <%!-- weather icon + tide name --%>
+          <%!-- weather icon + main temperature + tide name --%>
           <div class="mt-1">
             <span class="inline-flex items-center text-xs sm:text-sm">
               <img
@@ -180,9 +180,10 @@
                     "weather icon: " <> recent_forecast.weather_description
                   end
                 }
-                class="h-6 w-6 -ml-1 mr-0.5"
+                class="h-6 w-6 -ml-1.5"
               />
-              <%= recent_forecast.tide_name %>
+              <%= recent_forecast.main_temp %><small class="">℃</small>
+              <span class="ml-1"><%= recent_forecast.tide_name %></span>
             </span>
           </div>
           <%!-- wind_speed --%>
