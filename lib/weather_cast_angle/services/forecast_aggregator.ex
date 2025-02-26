@@ -9,28 +9,44 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
   alias WeatherCastAngle.Services.MoonStatusCalculator
   alias WeatherCastAngle.Services.TideNameClassifier
 
+  @typep forecast_by_date_t :: %{
+           date: String.t(),
+           weather_description: String.t(),
+           weather_icon_uri: String.t(),
+           wind_deg: String.t(),
+           wind_speed: float() | String.t(),
+           main_temp: integer(),
+           main_humidity: integer(),
+           moon_age: float(),
+           moon_phase: String.t(),
+           tide_name: String.t(),
+           sunrise: String.t(),
+           sunset: String.t()
+         }
+
   @doc """
   Fetches the forecast data for a specific location and date, and returns it as a map.
+
+  The returned map has the following structure:
+  - `date`: Target forecast date in YYYY-MM-DD format.
+  - `weather_description`: Description of the weather (e.g., "厚い雲").
+  - `weather_icon_uri`: URI for the weather icon.
+  - `wind_deg`: Wind direction in degrees as a string.
+  - `wind_speed`: Wind speed as a float or string (e.g., "5.5" or 5.5).
+  - `main_temp`: Main temperature in Celsius.
+  - `main_humidity`: Humidity percentage.
+  - `moon_age`: Moon age in days as a float.
+  - `moon_phase`: Description of the moon phase.
+  - `tide_name`: Name of the tide (e.g., "大潮").
+  - `sunrise`: Sunrise time in HH:MM format.
+  - `sunset`: Sunset time in HH:MM format.
   """
-  @spec get_forecast_by_date(String.t(), String.t()) ::
-          %{
-            # TODO: add more information later. (wind, temperature, etc.)
-            weather_description: String.t(),
-            weather_icon_uri: String.t(),
-            wind_deg: String.t(),
-            wind_speed: float() | String.t(),
-            main_temp: integer(),
-            main_humidity: integer(),
-            moon_age: float(),
-            moon_phase: String.t(),
-            tide_name: String.t(),
-            sunrise: String.t(),
-            sunset: String.t()
-          }
+  @spec get_forecast_by_date(String.t(), String.t()) :: forecast_by_date_t()
   def get_forecast_by_date(location_name, date) do
     weather_forecast_summary_map = _get_weather_forecast_summary_map(location_name, date)
 
     %{
+      date: date,
       weather_description: weather_forecast_summary_map |> Map.get(:weather_description, "-"),
       weather_icon_uri: weather_forecast_summary_map |> Map.get(:weather_icon_uri, ""),
       wind_deg: weather_forecast_summary_map |> Map.get(:wind_deg, ""),
@@ -43,6 +59,18 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
       sunrise: weather_forecast_summary_map |> Map.get(:sunrise, "-"),
       sunset: weather_forecast_summary_map |> Map.get(:sunset, "-")
     }
+  end
+
+  @doc """
+  Gets recent forecasts, from current date.
+  """
+  @spec get_recent_forecasts(String.t()) :: [forecast_by_date_t()]
+  def get_recent_forecasts(location_name) do
+    days_range = 0..3
+
+    days_range
+    |> Enum.map(fn days -> DatetimeProcessor.shift_date_from_current(days) end)
+    |> Enum.map(fn date -> get_forecast_by_date(location_name, date) end)
   end
 
   defp _get_weather_forecast_summary_map(location_name, date) do
