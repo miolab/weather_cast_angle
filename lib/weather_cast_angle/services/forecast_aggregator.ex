@@ -9,22 +9,6 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
   alias WeatherCastAngle.Services.MoonStatusCalculator
   alias WeatherCastAngle.Services.TideNameClassifier
 
-  @typedoc """
-  Represents the weather forecast data for a specific date.
-
-  - `date`: Target forecast date in YYYY-MM-DD format.
-  - `weather_description`: Description of the weather (e.g., "厚い雲").
-  - `weather_icon_uri`: URI for the weather icon.
-  - `wind_deg`: Wind direction in degrees as a string.
-  - `wind_speed`: Wind speed as a float or string (e.g., "5.5" or 5.5).
-  - `main_temp`: Main temperature in Celsius.
-  - `main_humidity`: Humidity percentage.
-  - `moon_age`: Moon age in days as a float.
-  - `moon_phase`: Description of the moon phase.
-  - `tide_name`: Name of the tide (e.g., "大潮").
-  - `sunrise`: Sunrise time in HH:MM format.
-  - `sunset`: Sunset time in HH:MM format.
-  """
   @typep forecast_by_date_t :: %{
            date: String.t(),
            weather_description: String.t(),
@@ -42,6 +26,20 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
 
   @doc """
   Fetches the forecast data for a specific location and date, and returns it as a map.
+
+  The returned map has the following structure:
+  - `date`: Target forecast date in YYYY-MM-DD format.
+  - `weather_description`: Description of the weather (e.g., "厚い雲").
+  - `weather_icon_uri`: URI for the weather icon.
+  - `wind_deg`: Wind direction in degrees as a string.
+  - `wind_speed`: Wind speed as a float or string (e.g., "5.5" or 5.5).
+  - `main_temp`: Main temperature in Celsius.
+  - `main_humidity`: Humidity percentage.
+  - `moon_age`: Moon age in days as a float.
+  - `moon_phase`: Description of the moon phase.
+  - `tide_name`: Name of the tide (e.g., "大潮").
+  - `sunrise`: Sunrise time in HH:MM format.
+  - `sunset`: Sunset time in HH:MM format.
   """
   @spec get_forecast_by_date(String.t(), String.t()) :: forecast_by_date_t()
   def get_forecast_by_date(location_name, date) do
