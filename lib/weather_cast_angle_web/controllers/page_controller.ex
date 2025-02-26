@@ -42,8 +42,6 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       recent_forecasts: _recent_forecasts(location_name),
-      # TODO: あとで消す
-      weather_forecast_response: _fetch_weather_forecast_response_map(location_name),
       layout: false
     )
   end
@@ -97,8 +95,6 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       recent_forecasts: _recent_forecasts(location_name),
-      # TODO: あとで消す
-      weather_forecast_response: _fetch_weather_forecast_response_map(target_location_name),
       layout: false
     )
   end
@@ -126,10 +122,6 @@ defmodule WeatherCastAngleWeb.PageController do
 
   defp _recent_forecasts(location_name),
     do: ForecastAggregator.get_recent_forecasts(location_name)
-
-  # TODO: あとで消す
-  defp _fetch_weather_forecast_response_map(location_name),
-    do: WeatherForecastHandler.get_weather_forecast(location_name)
 
   defp _previous_days_sea_temperatures(location_name),
     do: SeaWaterTemperatureHandler.get_previous_days_temperatures(location_name)

@@ -321,11 +321,5 @@
         <span class="hidden sm:inline-block">検索</span>
       </button>
     </form>
-
-    <%!-- TODO: 後で消す --%>
-    <div class="hidden">
-      <h2 class="text-xl pt-3">Weather forecast</h2>
-      <%= @weather_forecast_response |> Jason.encode!() %>
-    </div>
   </div>
 </div>

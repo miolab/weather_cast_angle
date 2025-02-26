@@ -7,8 +7,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
 
   @forecast_url "https://api.openweathermap.org/data/2.5/forecast"
 
-  # TODO: fix to private
-  def get_weather_forecast(location_name) do
+  defp _get_weather_forecast(location_name) do
     cache_key = location_name <> "_weather_forecast"
 
     WeatherDataProcessor.get_open_weather_data(
@@ -40,7 +39,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
           ]
           | []
   def extract_weather_forecast(location_name) do
-    forecast_lists = get_weather_forecast(location_name)["list"]
+    forecast_lists = _get_weather_forecast(location_name)["list"]
 
     cond do
       is_nil(forecast_lists) ->
@@ -132,7 +131,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
           }
           | %{}
   def get_sunrise_and_sunset_information_map(location_name) do
-    forecast_city_information = get_weather_forecast(location_name)["city"]
+    forecast_city_information = _get_weather_forecast(location_name)["city"]
 
     cond do
       is_nil(forecast_city_information) ->
