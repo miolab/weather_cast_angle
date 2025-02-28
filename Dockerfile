@@ -1,4 +1,4 @@
-FROM node:22.3.0-alpine AS node-builder
+FROM node:22.14.0-alpine AS node-builder
 
 WORKDIR /app/assets
 COPY assets/package*.json ./
