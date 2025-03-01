@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    container_name: weather_cast_angle_dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+    environment:
+      OPEN_WEATHER_API_KEY: ${OPEN_WEATHER_API_KEY}

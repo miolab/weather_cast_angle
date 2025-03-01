@@ -52,9 +52,9 @@ Can build the Docker image and launch the application using the following comman
 
 - Prepare `.env` file and set [OpenWeather](https://openweathermap.org/) API key (required)
 
-```sh
-cp .env.sample .env
-```
+  ```sh
+  cp .env.sample .env
+  ```
 
 - Run `mix git_hooks.install` to prepare local development
 
@@ -66,19 +66,31 @@ To start the Phoenix server,
 
 - Build the application container
 
-```sh
-docker build -t weather_cast_angle .
-```
+  ```sh
+  docker build -t weather_cast_angle .
+  ```
+
+  - For **development**, and if `docker compose` command is available, the following will work instead.
+
+    ```sh
+    docker compose build
+    ```
 
 - Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server` using docker;
 
-```sh
-docker run --rm -p 4000:4000 \
--v $(pwd):/app \
--e OPEN_WEATHER_API_KEY=$(cat .env | grep OPEN_WEATHER_API_KEY | cut -d '=' -f2) \
---name weather_cast_angle \
-weather_cast_angle
-```
+  ```sh
+  docker run --rm -p 4000:4000 \
+  -v $(pwd):/app \
+  -e OPEN_WEATHER_API_KEY=$(cat .env | grep OPEN_WEATHER_API_KEY | cut -d '=' -f2) \
+  --name weather_cast_angle \
+  weather_cast_angle
+  ```
+
+  - For **development**, and if `docker compose` command is available, the following will work instead.
+
+    ```sh
+    docker compose up
+    ```
 
 - If want to run `iex -S mix`;
 
