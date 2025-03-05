@@ -5,14 +5,20 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   """
   @asia_tokyo_timezone "Asia/Tokyo"
 
+  @spec _convert_unix_to_jst_datetime(integer()) :: DateTime.t()
+  defp _convert_unix_to_jst_datetime(unix_utc) do
+    unix_utc
+    |> Timex.from_unix()
+    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+  end
+
   @doc """
   Convert UNIX UTC timestamp to JST "yyyy-mm-dd HH" formatted datetime string.
   """
   @spec convert_unix_to_datetime_string(integer()) :: String.t()
   def convert_unix_to_datetime_string(unix_utc) do
     unix_utc
-    |> Timex.from_unix()
-    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> _convert_unix_to_jst_datetime
     |> Timex.format!("{YYYY}-{0M}-{0D} {h24}")
   end
 
@@ -22,8 +28,7 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   @spec convert_unix_to_hour_minute_format(integer()) :: String.t()
   def convert_unix_to_hour_minute_format(unix_utc) do
     unix_utc
-    |> Timex.from_unix()
-    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> _convert_unix_to_jst_datetime
     |> Timex.format!("{h24}:{m}")
   end
 
