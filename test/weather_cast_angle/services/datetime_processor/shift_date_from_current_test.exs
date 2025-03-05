@@ -14,5 +14,8 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor.ShiftDateFromCurrentTest d
     assert DatetimeProcessor.shift_date_from_current(0) == "2025-01-01"
     assert DatetimeProcessor.shift_date_from_current(1) == "2025-01-02"
     assert DatetimeProcessor.shift_date_from_current(2) == "2025-01-03"
+
+    # Get yesterday date.
+    assert DatetimeProcessor.shift_date_from_current(-1) == "2024-12-31"
   end
 end
