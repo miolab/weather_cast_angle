@@ -3,7 +3,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
   Provides functions for handling current weather data HTTP request responses.
   """
   alias WeatherCastAngle.Services.WeatherDataProcessor
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
   alias WeatherCastAngle.Utils
 
   @current_weather_url "https://api.openweathermap.org/data/2.5/weather"

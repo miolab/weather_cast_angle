@@ -1,8 +1,8 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor.ShiftDateFromCurrentTest do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor.ShiftDateFromCurrentTest do
   use ExUnit.Case
   use Mimic
 
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   test "Shift the date by any number of days from the current date." do
     stub(

@@ -1,4 +1,4 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor do
   @moduledoc """
   Provides functions for processing datetime.
   This module mainly uses Asia/Tokyo timezone.

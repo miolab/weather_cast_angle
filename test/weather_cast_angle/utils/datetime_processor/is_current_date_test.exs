@@ -1,8 +1,8 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor.IsCurrentDateTest do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor.IsCurrentDateTest do
   use ExUnit.Case
   use Mimic
 
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   test "Return the date is current date or not." do
     stub(

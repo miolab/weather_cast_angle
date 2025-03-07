@@ -1,8 +1,8 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor.GetCurrentDateStringTest do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor.GetCurrentDateStringTest do
   use ExUnit.Case
   use Mimic
 
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   test "Get current date and return the YYYY-MM-DD formatted date string." do
     stub(

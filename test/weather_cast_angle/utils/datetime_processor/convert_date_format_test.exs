@@ -1,7 +1,7 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor.ConvertDateFormatTest do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor.ConvertDateFormatTest do
   use ExUnit.Case
 
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   test "Convert date string YYMMDD to YYYY-MM-DD format." do
     assert DatetimeProcessor.convert_date_format("231231") == "2023-12-31"
