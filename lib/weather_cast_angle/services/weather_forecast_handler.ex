@@ -3,7 +3,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
   Provides functions for handling weather forecast HTTP request responses.
   """
   alias WeatherCastAngle.Services.WeatherDataProcessor
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   @forecast_url "https://api.openweathermap.org/data/2.5/forecast"
 

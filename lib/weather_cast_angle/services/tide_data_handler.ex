@@ -4,7 +4,7 @@ defmodule WeatherCastAngle.Services.TideDataHandler do
   """
   alias WeatherCastAngle.Cache
   alias WeatherCastAngle.Utils
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   @target_url "https://www.data.jma.go.jp/kaiyou/data/db/tide/suisan/txt/"
 

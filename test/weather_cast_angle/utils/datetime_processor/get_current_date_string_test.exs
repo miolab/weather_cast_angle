@@ -1,6 +1,8 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor.GetCurrentDateStringTest do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor.GetCurrentDateStringTest do
   use ExUnit.Case
   use Mimic
+
+  alias WeatherCastAngle.Utils.DatetimeProcessor
 
   test "Get current date and return the YYYY-MM-DD formatted date string." do
     stub(
@@ -9,7 +11,6 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor.GetCurrentDateStringTest d
       fn "Asia/Tokyo" -> DateTime.from_naive!(~N[2023-01-01 12:00:00], "Asia/Tokyo") end
     )
 
-    assert WeatherCastAngle.Services.DatetimeProcessor.get_current_date_string() ==
-             "2023-01-01"
+    assert DatetimeProcessor.get_current_date_string() == "2023-01-01"
   end
 end

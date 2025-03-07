@@ -1,9 +1,16 @@
-defmodule WeatherCastAngle.Services.DatetimeProcessor do
+defmodule WeatherCastAngle.Utils.DatetimeProcessor do
   @moduledoc """
   Provides functions for processing datetime.
   This module mainly uses Asia/Tokyo timezone.
   """
   @asia_tokyo_timezone "Asia/Tokyo"
+
+  @spec _convert_unix_to_jst_datetime(integer()) :: DateTime.t()
+  defp _convert_unix_to_jst_datetime(unix_utc) do
+    unix_utc
+    |> Timex.from_unix()
+    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+  end
 
   @doc """
   Convert UNIX UTC timestamp to JST "yyyy-mm-dd HH" formatted datetime string.
@@ -11,8 +18,7 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   @spec convert_unix_to_datetime_string(integer()) :: String.t()
   def convert_unix_to_datetime_string(unix_utc) do
     unix_utc
-    |> Timex.from_unix()
-    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> _convert_unix_to_jst_datetime
     |> Timex.format!("{YYYY}-{0M}-{0D} {h24}")
   end
 
@@ -22,8 +28,7 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   @spec convert_unix_to_hour_minute_format(integer()) :: String.t()
   def convert_unix_to_hour_minute_format(unix_utc) do
     unix_utc
-    |> Timex.from_unix()
-    |> Timex.Timezone.convert(Timex.Timezone.get(@asia_tokyo_timezone))
+    |> _convert_unix_to_jst_datetime
     |> Timex.format!("{h24}:{m}")
   end
 
@@ -54,6 +59,7 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
     Timex.format!(_get_current_date(), "{YYYY}-{0M}-{0D}")
   end
 
+  @spec _get_current_date() :: DateTime.t()
   defp _get_current_date(), do: Timex.now(@asia_tokyo_timezone)
 
   @doc """
@@ -69,16 +75,6 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
   def shift_date_from_current(days) do
     _get_current_date()
     |> Timex.shift(days: days)
-    |> Timex.format!("{YYYY}-{0M}-{0D}")
-  end
-
-  @doc """
-  Get yesterday "Asia/Tokyo" date from current, and return the "YYYY-MM-DD" formatted date string.
-  """
-  @spec get_yesterday_string_from_current() :: String.t()
-  def get_yesterday_string_from_current() do
-    _get_current_date()
-    |> Timex.shift(days: -1)
     |> Timex.format!("{YYYY}-{0M}-{0D}")
   end
 end

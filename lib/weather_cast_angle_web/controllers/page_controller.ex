@@ -2,7 +2,7 @@ defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
   alias WeatherCastAngle.Utils
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
   alias WeatherCastAngle.Services.TideDataHandler
   alias WeatherCastAngle.Services.WeatherCurrentDataHandler
   alias WeatherCastAngle.Services.WeatherForecastHandler

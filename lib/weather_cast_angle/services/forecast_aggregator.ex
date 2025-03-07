@@ -3,7 +3,7 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
   Aggregate functions about forecasts of weather, wind speed, etc. for the day and for the next several days.
   """
   alias WeatherCastAngle.Utils
-  alias WeatherCastAngle.Services.DatetimeProcessor
+  alias WeatherCastAngle.Utils.DatetimeProcessor
   alias WeatherCastAngle.Services.WeatherCurrentDataHandler
   alias WeatherCastAngle.Services.WeatherForecastHandler
   alias WeatherCastAngle.Services.MoonStatusCalculator
