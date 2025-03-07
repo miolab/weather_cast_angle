@@ -59,6 +59,7 @@ defmodule WeatherCastAngle.Services.DatetimeProcessor do
     Timex.format!(_get_current_date(), "{YYYY}-{0M}-{0D}")
   end
 
+  @spec _get_current_date() :: DateTime.t()
   defp _get_current_date(), do: Timex.now(@asia_tokyo_timezone)
 
   @doc """
