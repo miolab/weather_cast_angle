@@ -1,6 +1,7 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
+  alias WeatherCastAngleWeb.SvgIcons
   alias WeatherCastAngle.Utils
   alias WeatherCastAngle.Utils.DatetimeProcessor
   alias WeatherCastAngle.Services.TideDataHandler
@@ -42,6 +43,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
   end
@@ -95,6 +97,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
   end
