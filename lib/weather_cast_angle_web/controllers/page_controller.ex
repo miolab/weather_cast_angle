@@ -43,6 +43,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      sunrise_icon: SvgIcons.sunrise_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
@@ -97,6 +98,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      sunrise_icon: SvgIcons.sunrise_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
