@@ -44,6 +44,7 @@ defmodule WeatherCastAngleWeb.PageController do
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       recent_forecasts: _recent_forecasts(location_name),
       sunrise_icon: SvgIcons.sunrise_icon(%{}),
+      sunset_icon: SvgIcons.sunset_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
@@ -99,6 +100,7 @@ defmodule WeatherCastAngleWeb.PageController do
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       recent_forecasts: _recent_forecasts(location_name),
       sunrise_icon: SvgIcons.sunrise_icon(%{}),
+      sunset_icon: SvgIcons.sunset_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
