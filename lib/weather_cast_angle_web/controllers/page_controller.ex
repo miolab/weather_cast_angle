@@ -45,6 +45,7 @@ defmodule WeatherCastAngleWeb.PageController do
       recent_forecasts: _recent_forecasts(location_name),
       sunrise_icon: SvgIcons.sunrise_icon(%{}),
       sunset_icon: SvgIcons.sunset_icon(%{}),
+      humidity_icon: SvgIcons.humidity_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
@@ -101,6 +102,7 @@ defmodule WeatherCastAngleWeb.PageController do
       recent_forecasts: _recent_forecasts(location_name),
       sunrise_icon: SvgIcons.sunrise_icon(%{}),
       sunset_icon: SvgIcons.sunset_icon(%{}),
+      humidity_icon: SvgIcons.humidity_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
