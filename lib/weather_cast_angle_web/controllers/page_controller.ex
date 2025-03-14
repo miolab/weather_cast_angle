@@ -47,6 +47,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset_icon: SvgIcons.sunset_icon(%{}),
       humidity_icon: SvgIcons.humidity_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
+      wind_direction_icon: SvgIcons.wind_direction_icon(%{direction: ""}),
       layout: false
     )
   end
@@ -104,6 +105,7 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset_icon: SvgIcons.sunset_icon(%{}),
       humidity_icon: SvgIcons.humidity_icon(%{}),
       wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
+      wind_direction_icon: SvgIcons.wind_direction_icon(%{direction: ""}),
       layout: false
     )
   end
