@@ -63,23 +63,42 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
   def round_wind_speed(wind_speed) when is_integer(wind_speed), do: wind_speed
 
   @doc """
-  Convert the wind direction angle integer to an 8 wind direction notation.
+  Convert the wind direction angle integer to an 8 wind direction notation flag.
   """
-  @spec wind_direction(non_neg_integer()) :: String.t()
-  def wind_direction(degrees) when is_integer(degrees) and (degrees >= 0 and degrees <= 359) do
+  @spec wind_direction_flag(non_neg_integer()) :: atom() | nil
+  def wind_direction_flag(degrees)
+      when is_integer(degrees) and (degrees >= 0 and degrees <= 359) do
     cond do
-      degrees < 22.5 or degrees >= 337.5 -> "北"
-      degrees < 67.5 -> "北東"
-      degrees < 112.5 -> "東"
-      degrees < 157.5 -> "南東"
-      degrees < 202.5 -> "南"
-      degrees < 247.5 -> "南西"
-      degrees < 292.5 -> "西"
-      degrees < 337.5 -> "北西"
+      degrees < 22.5 or degrees >= 337.5 -> :north
+      degrees < 67.5 -> :northeast
+      degrees < 112.5 -> :east
+      degrees < 157.5 -> :southeast
+      degrees < 202.5 -> :south
+      degrees < 247.5 -> :southwest
+      degrees < 292.5 -> :west
+      degrees < 337.5 -> :northwest
     end
   end
 
-  def wind_direction(_), do: "Invalid value"
+  def wind_direction_flag(_), do: nil
+
+  @doc """
+  Convert the wind direction angle flag to an 8 wind direction notation in Japanese.
+  """
+  @spec wind_direction(non_neg_integer()) :: String.t()
+  def wind_direction(degrees) do
+    cond do
+      wind_direction_flag(degrees) == :north -> "北"
+      wind_direction_flag(degrees) == :northeast -> "北東"
+      wind_direction_flag(degrees) == :east -> "東"
+      wind_direction_flag(degrees) == :southeast -> "南東"
+      wind_direction_flag(degrees) == :south -> "南"
+      wind_direction_flag(degrees) == :southwest -> "南西"
+      wind_direction_flag(degrees) == :west -> "西"
+      wind_direction_flag(degrees) == :northwest -> "北西"
+      true -> "Invalid value"
+    end
+  end
 
   @doc """
   Converts a float value to a percentage.
