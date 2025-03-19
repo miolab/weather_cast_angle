@@ -65,21 +65,60 @@ defmodule WeatherCastAngleWeb.SvgIcons do
     </svg>
     """
 
-  # TODO: apply like `class="rotate-45 origin-center"` by using direction flag.
   @doc """
   SVG icon: wind direction
+
+  - Default icon direction is __southwest__ .
+  - For the argument, the value obtained from `WeatherDataProcessor.wind_direction_flag` is assumed to be used.
   """
-  @spec wind_direction_icon(%{direction: String.t()}) :: Phoenix.LiveView.Rendered.t()
-  def wind_direction_icon(assigns),
+  @spec wind_direction_icon(%{direction: atom() | nil}) :: Phoenix.LiveView.Rendered.t()
+  def wind_direction_icon(%{direction: nil} = assigns),
     do: ~H"""
+    <span>-</span>
+    """
+
+  def wind_direction_icon(%{direction: direction_flag} = assigns) do
+    aria_label_text = "wind direction #{to_string(direction_flag)}"
+    rotate_class = "origin-center #{_wind_direction_rotate_class(direction_flag)}"
+
+    ~H"""
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 14 14"
       fill="#94a3b8"
-      aria-label="wind direction {@direction}"
+      aria-label={aria_label_text}
+      class={rotate_class}
     >
       <path d="M13.9605 0.69482c0.0793 -0.187513 0.037 -0.404403 -0.1069 -0.548373 -0.144 -0.14397052 -0.3609 -0.1862631 -0.5484 -0.1069306L0.30518 5.53952c-0.179689 0.07602 -0.29874413 0.24962 -0.304928737 0.44463 -0.006184603 0.19501 0.101630737 0.37581 0.276141737 0.46306L5.12732 8.87268l2.42547 4.85092c0.08725 0.1745 0.26805 0.2823 0.46306 0.2761 0.19501 -0.0061 0.36861 -0.1252 0.44463 -0.3049L13.9605 0.69482Z">
       </path>
     </svg>
     """
+  end
+
+  @spec _wind_direction_rotate_class(atom()) :: String.t()
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :north,
+    do: "rotate-[135deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :northeast,
+    do: "rotate-[180deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :east,
+    do: "rotate-[225deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :southeast,
+    do: "rotate-[270deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :south,
+    do: "rotate-[315deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :southwest,
+    do: "rotate-0"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :west,
+    do: "rotate-[45deg]"
+
+  defp _wind_direction_rotate_class(direction_flag) when direction_flag == :northwest,
+    do: "rotate-[90deg]"
+
+  defp _wind_direction_rotate_class(_), do: ""
 end

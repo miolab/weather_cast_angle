@@ -96,7 +96,7 @@ defmodule WeatherCastAngle.Services.WeatherDataProcessor do
       wind_direction_flag(degrees) == :southwest -> "南西"
       wind_direction_flag(degrees) == :west -> "西"
       wind_direction_flag(degrees) == :northwest -> "北西"
-      true -> "Invalid value"
+      true -> ""
     end
   end
 

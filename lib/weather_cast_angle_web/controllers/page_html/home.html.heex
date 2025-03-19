@@ -171,8 +171,11 @@
           <%!-- wind_direction --%>
           <div class="ml-0.5 inline-flex items-center text-xs sm:text-sm">
             <small class="mr-1">風向</small>
-            <%!-- TODO: --%>
-            <span class="h-4 w-4 mr-0.5"><%= @wind_direction_icon %></span>
+            <span class="h-4 w-4 mr-1">
+              <%= WeatherCastAngleWeb.SvgIcons.wind_direction_icon(%{
+                direction: recent_forecast.wind_direction_flag
+              }) %>
+            </span>
             <%= recent_forecast.wind_deg %>
           </div>
         </div>
