@@ -28,6 +28,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           weather_icon_uri: String.t(),
           wind_speed: non_neg_integer(),
           wind_deg: String.t(),
+          wind_direction_flag: atom(),
           main_temp: integer(),
           main_humidity: integer(),
           sunrise: non_neg_integer(),
@@ -55,6 +56,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
         weather_map =
           current_weather_response_map["weather"] |> List.first()
 
+        wind_degree = current_weather_response_map["wind"]["deg"]
+
         %{
           dt:
             current_weather_response_map["dt"]
@@ -66,9 +69,8 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
           wind_speed:
             current_weather_response_map["wind"]["speed"]
             |> WeatherDataProcessor.round_wind_speed(),
-          wind_deg:
-            current_weather_response_map["wind"]["deg"]
-            |> WeatherDataProcessor.wind_direction(),
+          wind_deg: wind_degree |> WeatherDataProcessor.wind_direction(),
+          wind_direction_flag: wind_degree |> WeatherDataProcessor.wind_direction_flag(),
           main_temp:
             current_weather_response_map["main"]["temp"]
             |> WeatherDataProcessor.kelvin_to_celsius_temperature(),
@@ -102,6 +104,7 @@ defmodule WeatherCastAngle.Services.WeatherCurrentDataHandler do
       weather_icon_uri: "",
       wind_speed: 0,
       wind_deg: "",
+      wind_direction_flag: nil,
       main_temp: 0,
       main_humidity: 0,
       sunrise: 0,

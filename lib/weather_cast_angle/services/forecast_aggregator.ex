@@ -14,6 +14,7 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
            weather_description: String.t(),
            weather_icon_uri: String.t(),
            wind_deg: String.t(),
+           wind_direction_flag: String.t(),
            wind_speed: float() | String.t(),
            main_temp: integer(),
            main_humidity: integer(),
@@ -32,6 +33,7 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
   - `weather_description`: Description of the weather (e.g., "厚い雲").
   - `weather_icon_uri`: URI for the weather icon.
   - `wind_deg`: Wind direction in degrees as a string.
+  - `wind_direction_flag`: Wind direction flag in degrees as atom.
   - `wind_speed`: Wind speed as a float or string (e.g., "5.5" or 5.5).
   - `main_temp`: Main temperature in Celsius.
   - `main_humidity`: Humidity percentage.
@@ -50,6 +52,7 @@ defmodule WeatherCastAngle.Services.ForecastAggregator do
       weather_description: weather_forecast_summary_map |> Map.get(:weather_description, "-"),
       weather_icon_uri: weather_forecast_summary_map |> Map.get(:weather_icon_uri, ""),
       wind_deg: weather_forecast_summary_map |> Map.get(:wind_deg, ""),
+      wind_direction_flag: weather_forecast_summary_map |> Map.get(:wind_direction_flag, nil),
       wind_speed: weather_forecast_summary_map |> Map.get(:wind_speed, "-"),
       main_temp: weather_forecast_summary_map |> Map.get(:main_temp, "-"),
       main_humidity: weather_forecast_summary_map |> Map.get(:main_humidity, "-"),
