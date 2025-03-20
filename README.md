@@ -13,7 +13,7 @@ This app is specifically designed to provide comprehensive information on tide l
 
   | mobile                                                                                                                                      |
   | ------------------------------------------------------------------------------------------------------------------------------------------- |
-  | <img width="350" alt="screenshot_during_development" src="https://github.com/user-attachments/assets/0159b371-04ec-49db-b4f0-8fe8a208d5b9"> |
+  | <img width="350" alt="screenshot_during_development" src="https://github.com/user-attachments/assets/bbb8a041-5997-402d-9120-b11bf0e253d6"> |
 
 - The information provided by this application;
 
