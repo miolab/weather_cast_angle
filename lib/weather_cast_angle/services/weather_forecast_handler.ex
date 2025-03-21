@@ -32,6 +32,7 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
                 probability_of_precipitation: non_neg_integer(),
                 wind_speed: float(),
                 wind_deg: String.t(),
+                wind_direction_flag: atom(),
                 main_temp: integer(),
                 main_humidity: integer()
               }
@@ -50,6 +51,8 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
         |> Enum.map(fn forecast_list ->
           weather_map = Enum.at(forecast_list["weather"], 0, %{})
 
+          wind_degree = forecast_list["wind"]["deg"]
+
           {
             forecast_list["dt"]
             |> DatetimeProcessor.convert_unix_to_datetime_string(),
@@ -64,9 +67,8 @@ defmodule WeatherCastAngle.Services.WeatherForecastHandler do
               wind_speed:
                 forecast_list["wind"]["speed"]
                 |> WeatherDataProcessor.round_wind_speed(),
-              wind_deg:
-                forecast_list["wind"]["deg"]
-                |> WeatherDataProcessor.wind_direction(),
+              wind_deg: wind_degree |> WeatherDataProcessor.wind_direction(),
+              wind_direction_flag: wind_degree |> WeatherDataProcessor.wind_direction_flag(),
               main_temp:
                 forecast_list["main"]["temp"]
                 |> WeatherDataProcessor.kelvin_to_celsius_temperature(),

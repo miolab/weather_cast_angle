@@ -1,6 +1,7 @@
 defmodule WeatherCastAngleWeb.PageController do
   use WeatherCastAngleWeb, :controller
 
+  alias WeatherCastAngleWeb.SvgIcons
   alias WeatherCastAngle.Utils
   alias WeatherCastAngle.Utils.DatetimeProcessor
   alias WeatherCastAngle.Services.TideDataHandler
@@ -32,6 +33,7 @@ defmodule WeatherCastAngleWeb.PageController do
       weather_description: forecast_map |> Map.get(:weather_description),
       weather_icon_uri: forecast_map |> Map.get(:weather_icon_uri),
       wind_deg: forecast_map |> Map.get(:wind_deg),
+      wind_direction_flag: forecast_map |> Map.get(:wind_direction_flag),
       wind_speed: forecast_map |> Map.get(:wind_speed),
       main_temp: forecast_map |> Map.get(:main_temp),
       main_humidity: forecast_map |> Map.get(:main_humidity),
@@ -42,6 +44,10 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      sunrise_icon: SvgIcons.sunrise_icon(%{}),
+      sunset_icon: SvgIcons.sunset_icon(%{}),
+      humidity_icon: SvgIcons.humidity_icon(%{}),
+      wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
   end
@@ -85,6 +91,7 @@ defmodule WeatherCastAngleWeb.PageController do
       weather_description: forecast_map |> Map.get(:weather_description),
       weather_icon_uri: forecast_map |> Map.get(:weather_icon_uri),
       wind_deg: forecast_map |> Map.get(:wind_deg),
+      wind_direction_flag: forecast_map |> Map.get(:wind_direction_flag),
       wind_speed: forecast_map |> Map.get(:wind_speed),
       main_temp: forecast_map |> Map.get(:main_temp),
       main_humidity: forecast_map |> Map.get(:main_humidity),
@@ -95,6 +102,10 @@ defmodule WeatherCastAngleWeb.PageController do
       sunset: forecast_map |> Map.get(:sunset),
       previous_days_sea_temperatures: _previous_days_sea_temperatures(target_location_name),
       recent_forecasts: _recent_forecasts(location_name),
+      sunrise_icon: SvgIcons.sunrise_icon(%{}),
+      sunset_icon: SvgIcons.sunset_icon(%{}),
+      humidity_icon: SvgIcons.humidity_icon(%{}),
+      wind_speed_icon: SvgIcons.wind_speed_icon(%{}),
       layout: false
     )
   end

@@ -11,9 +11,11 @@
     </div>
     <div class="flex justify-between items-center w-full">
       <div class="text-left flex-1">
+        <%!-- display date --%>
         <h2
-          class="js-format-japanese-date text-slate-700 font-semibold text-sm sm:text-base"
+          class="js-date js-format-japanese-date text-slate-700 font-semibold text-sm sm:text-base"
           data-date={@tide_response.target_date}
+          data-current-hour={@current_hour}
         >
         </h2>
         <span class="text-slate-900 font-medium text-sm sm:text-base">
@@ -28,6 +30,7 @@
           <%= WeatherCastAngle.Utils.Locations.get_place_name_by_location_name(@selected_location) %>
         </h1>
         <span class="text-sm sm:text-base inline-flex items-center">
+          <%!-- weather icon & description --%>
           <img
             src={@weather_icon_uri}
             alt={
@@ -42,20 +45,20 @@
       </div>
       <div class="text-right flex-1">
         <span class="inline-flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            fill="#94a3b8"
-            class="h-5 w-5 mr-1"
-            aria-label="wind speed"
-          >
-            <path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z" />
-          </svg>
+          <%!-- wind_speed --%>
+          <span class="h-5 w-5 mr-1"><%= @wind_speed_icon %></span>
           <%= @wind_speed %>
           <small class="ml-1">m/s</small>
         </span>
-        <h2 class="text-slate-700 text-sm sm:text-base -mt-1.5">
-          <small class="mr-1">風向:</small>
+        <br />
+        <h2 class="text-slate-700 text-sm sm:text-base -mt-1.5 inline-flex items-center">
+          <%!-- wind_direction --%>
+          <small class="mr-1">風向</small>
+          <span class="h-4 w-4 mx-1 block">
+            <%= WeatherCastAngleWeb.SvgIcons.wind_direction_icon(%{
+              direction: @wind_direction_flag
+            }) %>
+          </span>
           <%= @wind_deg %>
         </h2>
       </div>
@@ -99,46 +102,25 @@
       </div>
       <div class="text-left flex-0 mr-4">
         <div class="mt-0.5">
+          <%!-- sunrise --%>
           <span class="inline-flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              fill="#EA3323"
-              class="h-5 w-5 mr-1"
-              aria-label="sunrise"
-            >
-              <path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z" />
-            </svg>
+            <span class="h-5 w-5 mr-1"><%= @sunrise_icon %></span>
             <span class="text-slate-900 text-xs sm:text-sm items-center mr-2">日の出</span>
             <%= @sunrise %>
           </span>
         </div>
         <div>
+          <%!-- sunset --%>
           <span class="inline-flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              fill="#EAC452"
-              class="h-5 w-5 mr-1"
-              aria-label="sunset"
-            >
-              <path d="M504-425Zm20 385H420l20-12.5q20-12.5 43.5-28t43.5-28l20-12.5q81-6 149.5-49T805-285q-86-8-163-43.5T504-425q-61-61-97-138t-43-163q-77 43-120.5 118.5T200-444v12l-12 5.5q-12 5.5-26.5 11.5T135-403.5l-12 5.5q-2-11-2.5-23t-.5-23q0-146 93-257.5T450-840q-18 99 11 193.5T561-481q71 71 165.5 100T920-370q-26 144-138 237T524-40Zm-284-80h180q25 0 42.5-17.5T480-180q0-25-17-42.5T422-240h-52l-20-48q-14-33-44-52.5T240-360q-50 0-85 34.5T120-240q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T40-240q0-83 58.5-141.5T240-440q60 0 109.5 32.5T423-320q57 2 97 42.5t40 97.5q0 58-41 99t-99 41H240Z" />
-            </svg>
+            <span class="h-5 w-5 mr-1"><%= @sunset_icon %></span>
             <span class="text-slate-900 text-xs sm:text-sm items-center mr-2">日没</span>
             <%= @sunset %>
           </span>
         </div>
         <div>
+          <%!-- humidity --%>
           <span class="inline-flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 -960 960 960"
-              fill="#634FA2"
-              class="h-5 w-5 mr-1"
-              aria-label="humidity"
-            >
-              <path d="M580-240q25 0 42.5-17.5T640-300q0-25-17.5-42.5T580-360q-25 0-42.5 17.5T520-300q0 25 17.5 42.5T580-240Zm-202-2 260-260-56-56-260 260 56 56Zm2-198q25 0 42.5-17.5T440-500q0-25-17.5-42.5T380-560q-25 0-42.5 17.5T320-500q0 25 17.5 42.5T380-440ZM480-80q-137 0-228.5-94T160-408q0-100 79.5-217.5T480-880q161 137 240.5 254.5T800-408q0 140-91.5 234T480-80Zm0-80q104 0 172-70.5T720-408q0-73-60.5-165T480-774Q361-665 300.5-573T240-408q0 107 68 177.5T480-160Zm0-320Z" />
-            </svg>
+            <span class="h-5 w-5 mr-1"><%= @humidity_icon %></span>
             <span class="text-slate-900 text-xs sm:text-sm items-center mr-2">湿度</span>
             <%= @current_weather_map.main_humidity %>
             <small class="ml-0.5">%</small>
@@ -189,95 +171,23 @@
           <%!-- wind_speed --%>
           <div class="-mt-2 ml-0.5">
             <span class="inline-flex items-center text-xs sm:text-sm ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 -960 960 960"
-                fill="#94a3b8"
-                class="h-3.5 w-3.5 mr-0.5"
-                aria-label="wind speed"
-              >
-                <path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z" />
-              </svg>
+              <span class="h-3.5 w-3.5 mr-0.5"><%= @wind_speed_icon %></span>
               <%= recent_forecast.wind_speed %>
               <small class="ml-0.5">m/s</small>
             </span>
           </div>
           <%!-- wind_direction --%>
-          <div class="ml-0.5 items-center text-xs sm:text-sm">
-            <small class="">風向:</small>
+          <div class="ml-0.5 inline-flex items-center text-xs sm:text-sm">
+            <small class="mr-1">風向</small>
+            <span class="h-4 w-4 mr-1">
+              <%= WeatherCastAngleWeb.SvgIcons.wind_direction_icon(%{
+                direction: recent_forecast.wind_direction_flag
+              }) %>
+            </span>
             <%= recent_forecast.wind_deg %>
           </div>
         </div>
       <% end %>
-    </div>
-
-    <%!-- TODO: 移行後削除 --%>
-    <div class="hidden mb-2 w-full p-2 border rounded-lg shadow sm:p-6 bg-gray-800 border-gray-700">
-      <h2
-        class="js-date text-base font-semibold md:text-xl text-gray-100 -mt-2"
-        data-date={@tide_response.target_date}
-        data-current-hour={@current_hour}
-      >
-        <%= @current_weather_map.dt %>時現在の天気
-      </h2>
-
-      <div class="flex flex-wrap mt-2">
-        <div class="flex flex-1 flex-wrap items-stretch">
-          <span class="flex basis-1/2 items-center p-2 rounded-lg group bg-gray-600 border-4 border-gray-800 flex-wrap">
-            <img
-              src={@current_weather_map.weather_icon_uri}
-              alt={"current weather icon: " <> @current_weather_map.weather_main}
-              class="h-12"
-            />
-            <p class="text-sm font-bold text-white sm:text-base">
-              <%= @current_weather_map.weather_description %>
-            </p>
-          </span>
-          <div class="flex flex-1 md:basis-1/2 flex-wrap md:flex-col sm:my-1">
-            <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
-              <span class="whitespace-nowrap">
-                <small class="mr-1">風:</small> <%= @current_weather_map.wind_deg %> <%= @current_weather_map.wind_speed %>
-                <small class="ml-0.5">m/s</small>
-              </span>
-            </span>
-            <span class="flex flex-1 items-center p-2 text-xs font-bold rounded-lg group bg-gray-600 border-4 sm:border-2 border-gray-800 text-white sm:text-base">
-              <span class="whitespace-nowrap">
-                <small class="mr-1">気温:</small> <%= @current_weather_map.main_temp %><small class="ml-1">℃</small>
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="flex flex-wrap">
-        <span class="flex basis-1/2 items-center p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800 sm:text-sm">
-          月齢: <%= @moon_age %>
-          <%= if @moon_phase != "" do %>
-            (<%= @moon_phase %>)
-          <% end %>
-        </span>
-        <span class="flex basis-1/2 items-center p-2 text-xs font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800 sm:text-sm">
-          湿度: <%= @current_weather_map.main_humidity %><small class="ml-1">%</small>
-        </span>
-      </div>
-      <div class="flex flex-wrap">
-        <span class="flex-1 p-2 font-bold rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          <p class="mb-1 text-xs sm:text-sm">前日までの水温</p>
-          <ur class="list-inside text-xs">
-            <%= for {date, temperature} <- @previous_days_sea_temperatures do %>
-              <li>
-                <%= date %>: <%= temperature %><small class="ml-1">℃</small>
-              </li>
-            <% end %>
-          </ur>
-        </span>
-      </div>
-      <%!-- TODO: --%>
-      <div class="flex flex-wrap">
-        <span class="flex-1 p-2 font-bold text-sm rounded-lg group bg-gray-700 text-white border-4 border-gray-800">
-          <span class="mr-5">日の出: <%= @current_weather_map.sunrise %></span>
-          <span>日没: <%= @current_weather_map.sunset %></span>
-        </span>
-      </div>
     </div>
 
     <form
