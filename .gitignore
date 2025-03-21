@@ -44,3 +44,4 @@ __pycache__
 # Others
 .env
 .vscode/
+db_data_dev/
